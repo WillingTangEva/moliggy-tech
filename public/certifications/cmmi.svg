@@ -1,0 +1,8 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="60" height="60" fill="white" stroke="#C62F2F" stroke-width="2"/>
+  <rect x="25" y="25" width="50" height="10" fill="#C62F2F"/>
+  <rect x="25" y="40" width="50" height="10" fill="#C62F2F" fill-opacity="0.8"/>
+  <rect x="25" y="55" width="50" height="10" fill="#C62F2F" fill-opacity="0.6"/>
+  <rect x="25" y="70" width="50" height="5" fill="#C62F2F" fill-opacity="0.4"/>
+  <text x="50" y="85" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#C62F2F">CMMI 5</text>
+</svg> 

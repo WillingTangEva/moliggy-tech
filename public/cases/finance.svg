@@ -1,0 +1,26 @@
+<svg width="600" height="300" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="300" fill="#F8F9FA"/>
+  
+  <!-- 背景装饰 -->
+  <rect width="600" height="300" fill="#C62F2F" fill-opacity="0.05"/>
+  <path d="M0 0 L600 300" stroke="#C62F2F" stroke-width="1" stroke-opacity="0.1"/>
+  <path d="M600 0 L0 300" stroke="#C62F2F" stroke-width="1" stroke-opacity="0.1"/>
+  
+  <!-- 图表元素 -->
+  <rect x="150" y="170" width="50" height="80" fill="#C62F2F" fill-opacity="0.8"/>
+  <rect x="220" y="140" width="50" height="110" fill="#C62F2F" fill-opacity="0.6"/>
+  <rect x="290" y="110" width="50" height="140" fill="#C62F2F" fill-opacity="0.4"/>
+  <rect x="360" y="80" width="50" height="170" fill="#C62F2F" fill-opacity="0.2"/>
+  
+  <!-- 折线图 -->
+  <path d="M150 140 L220 100 L290 120 L360 80 L430 60" stroke="#FFD700" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="150" cy="140" r="5" fill="#FFD700"/>
+  <circle cx="220" cy="100" r="5" fill="#FFD700"/>
+  <circle cx="290" cy="120" r="5" fill="#FFD700"/>
+  <circle cx="360" cy="80" r="5" fill="#FFD700"/>
+  <circle cx="430" cy="60" r="5" fill="#FFD700"/>
+  
+  <!-- 标题 -->
+  <rect x="130" y="30" width="340" height="40" rx="5" fill="#C62F2F" fill-opacity="0.1"/>
+  <text x="300" y="55" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#C62F2F">智能风控系统案例</text>
+</svg> 

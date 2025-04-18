@@ -3,24 +3,78 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #C62F2F;
+  --primary-dark: #A81A1A;
+  --primary-gradient: linear-gradient(135deg, #C62F2F 0%, #A81A1A 100%);
+  --accent: #FFD700;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-noto-sans);
+  --font-serif: var(--font-noto-serif);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #C62F2F;
+    --primary-dark: #8A1616;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.bg-primary-gradient {
+  background: var(--primary-gradient);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.border-accent {
+  border-color: var(--accent);
+}
+
+.hover-accent:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.accent-shadow {
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.accent-glow {
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+
+.border-accent-dashed {
+  border: 2px dashed var(--accent);
+}
+
+.bg-accent-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, #FFA500 100%);
+}
+
+.bg-primary-accent-gradient {
+  background: linear-gradient(135deg, var(--primary) 30%, var(--accent) 100%);
 }
