@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    unoptimized: true,
+    domains: ['vercel.com'],
+  },
+  output: 'standalone',
 };
 
 export default nextConfig;
