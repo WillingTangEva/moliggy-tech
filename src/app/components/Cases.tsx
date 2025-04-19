@@ -1,6 +1,48 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Cases() {
+  const [activeFilter, setActiveFilter] = useState("全部案例");
+
+  const cases = [
+    {
+      title: "某国有银行智能风控系统",
+      description:
+        "为客户构建基于AI的实时风险评估系统，将风险识别准确率提升40%，处理速度提升300%",
+      industry: "金融行业",
+      image: "/cases/finance.jpg",
+    },
+    {
+      title: "医疗集团患者管理平台",
+      description:
+        "整合多家医院的患者数据，建立统一的管理平台，优化医疗资源调配效率，缩短患者等待时间53%",
+      industry: "医疗健康",
+      image: "/cases/healthcare.jpg",
+    },
+    {
+      title: "制造企业智能生产线改造",
+      description:
+        "引入IoT和边缘计算技术，实现生产线智能化改造，生产效率提升35%，能源消耗降低28%",
+      industry: "制造业",
+      image: "/cases/manufacturing.jpg",
+    },
+  ];
+
+  const filterButtons = [
+    "全部案例",
+    "金融行业",
+    "医疗健康",
+    "制造业",
+    "零售电商",
+  ];
+
+  const filteredCases =
+    activeFilter === "全部案例"
+      ? cases
+      : cases.filter((item) => item.industry === activeFilter);
+
   return (
     <section id="cases" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -12,49 +54,25 @@ export default function Cases() {
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <button className="px-4 py-2 rounded-full bg-primary text-white hover:bg-primary-dark transition">
-            全部案例
-          </button>
-          <button className="px-4 py-2 rounded-full border border-accent text-gray-700 hover:bg-gray-100 transition">
-            金融行业
-          </button>
-          <button className="px-4 py-2 rounded-full border border-accent text-gray-700 hover:bg-gray-100 transition">
-            医疗健康
-          </button>
-          <button className="px-4 py-2 rounded-full border border-accent text-gray-700 hover:bg-gray-100 transition">
-            制造业
-          </button>
-          <button className="px-4 py-2 rounded-full border border-accent text-gray-700 hover:bg-gray-100 transition">
-            零售电商
-          </button>
+          {filterButtons.map((filter) => (
+            <button
+              key={filter}
+              className={`px-4 py-2 rounded-full transition duration-300 ${
+                activeFilter === filter
+                  ? "bg-primary text-white hover:bg-primary-dark"
+                  : "border border-accent text-gray-700 hover:bg-gray-100"
+              }`}
+              onClick={() => setActiveFilter(filter)}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
-        <div className="grid md:grid-cols-3 gap-8 mt-12">
-          {[
-            {
-              title: "某国有银行智能风控系统",
-              description:
-                "为客户构建基于AI的实时风险评估系统，将风险识别准确率提升40%，处理速度提升300%",
-              industry: "金融行业",
-              image: "/cases/finance.jpg",
-            },
-            {
-              title: "医疗集团患者管理平台",
-              description:
-                "整合多家医院的患者数据，建立统一的管理平台，优化医疗资源调配效率，缩短患者等待时间53%",
-              industry: "医疗健康",
-              image: "/cases/healthcare.jpg",
-            },
-            {
-              title: "制造企业智能生产线改造",
-              description:
-                "引入IoT和边缘计算技术，实现生产线智能化改造，生产效率提升35%，能源消耗降低28%",
-              industry: "制造业",
-              image: "/cases/manufacturing.jpg",
-            },
-          ].map((item, index) => (
+        <div className="grid md:grid-cols-3 gap-8 mt-12 min-h-[500px]">
+          {filteredCases.map((item, index) => (
             <div
-              key={index}
-              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition group"
+              key={`${item.industry}-${index}`}
+              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition group transform transition-all duration-500 opacity-100"
             >
               <div className="h-48 relative overflow-hidden">
                 <div className="absolute inset-0 bg-primary bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -80,12 +98,7 @@ export default function Cases() {
             </div>
           ))}
         </div>
-        <div className="text-center mt-12">
-          <button className="px-8 py-3 border-2 border-accent rounded-full text-primary hover:bg-primary hover:text-white transition-all">
-            查看更多案例
-          </button>
-        </div>
       </div>
     </section>
   );
-} 
+}

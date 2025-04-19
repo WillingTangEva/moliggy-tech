@@ -58,12 +58,32 @@ npm run start
 
 ## 设计风格
 
-网站采用中国风科技红配色:
+网站采用两种配色方案:
 
+### 中国风科技红配色 (主页与其他部分)
 - 主红: #b72121 (故宫红演变色)
 - 辅助色:
   - 渐变红: 线性渐变(135deg, #b72121 0%, #901a1a 100%)
   - 点缀金: #f3c74f (用于图标、文字强调)
+
+### 蓝色配色方案 (联系我们部分)
+- 蓝采和: #005783 (主要强调色)
+  - CSS变量: `--blue-caie`
+  - 类名: `bg-blue-caie`, `text-blue-caie`, `border-blue-caie`
+  
+- 琅蓝: #14213d (背景色)
+  - CSS变量: `--blue-langlan`
+  - 类名: `bg-blue-langlan`
+
+- 深琅蓝: #0c172e (表单背景色)
+  - CSS变量: `--blue-langlan-dark`
+  - 类名: `bg-blue-langlan-dark`
+
+- 渐变蓝: 线性渐变(135deg, #005783 0%, #14213d 100%)
+  - CSS变量: `--blue-gradient`
+  - 类名: `bg-blue-gradient`
+
+所有颜色变量均定义在 `globals.css` 文件中，通过使用定义好的CSS类实现一致的样式。
 
 ## Learn More
 

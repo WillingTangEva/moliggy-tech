@@ -52,12 +52,12 @@ export default function Solutions() {
               key={index}
               className="bg-gray-50 rounded-lg p-8 hover:shadow-lg transition"
             >
-              <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6">
                 <div className="w-8 h-8 relative">
                   <Image
                     src={item.icon}
                     alt={item.title}
-                    className="object-contain"
+                    className="object-contain filter invert brightness-0 invert"
                     unoptimized={true}
                     layout="fill"
                   />

@@ -7,6 +7,13 @@
   --primary-dark: #901a1a;
   --primary-gradient: linear-gradient(135deg, #b72121 0%, #901a1a 100%);
   --accent: #f3c74f;
+  
+  /* 蓝采和和琅蓝颜色定义 */
+  --blue-caie: #005783;
+  --blue-caie-dark: #004b70;
+  --blue-langlan: #14213d;
+  --blue-langlan-dark: #0c172e;
+  --blue-gradient: linear-gradient(135deg, var(--blue-caie) 0%, var(--blue-langlan) 100%);
 }
 
 @theme inline {
@@ -17,6 +24,8 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-noto-sans);
   --font-serif: var(--font-noto-serif);
+  --color-blue-caie: var(--blue-caie);
+  --color-blue-langlan: var(--blue-langlan);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -78,4 +87,50 @@ body {
 
 .bg-primary-accent-gradient {
   background: linear-gradient(135deg, var(--primary) 30%, var(--accent) 100%);
+}
+
+/* 蓝色主题样式 */
+.bg-blue-caie {
+  background-color: var(--blue-caie);
+}
+
+.bg-blue-langlan {
+  background-color: var(--blue-langlan);
+}
+
+.bg-blue-langlan-dark {
+  background-color: var(--blue-langlan-dark);
+}
+
+.text-blue-caie {
+  color: var(--blue-caie);
+}
+
+.bg-blue-gradient {
+  background: var(--blue-gradient);
+}
+
+.border-blue-caie {
+  border-color: var(--blue-caie);
+}
+
+.border-blue-caie-30 {
+  border-color: rgba(0, 87, 131, 0.3);
+}
+
+.border-blue-caie-50 {
+  border-color: rgba(0, 87, 131, 0.5);
+}
+
+.bg-blue-caie-20 {
+  background-color: rgba(0, 87, 131, 0.2);
+}
+
+.hover-blue-caie:hover {
+  background-color: var(--blue-caie);
+  opacity: 0.3;
+}
+
+.focus-blue-caie:focus {
+  border-color: var(--blue-caie);
 }
