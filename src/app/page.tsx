@@ -19,17 +19,11 @@ export default function Home() {
             >
               解决方案
             </Link>
-            <Link
-              href="#technologies"
-              className="text-gray-700 hover:text-primary"
-            >
-              技术专区
-            </Link>
             <Link href="#cases" className="text-gray-700 hover:text-primary">
               客户案例
             </Link>
-            <Link href="#team" className="text-gray-700 hover:text-primary">
-              团队介绍
+            <Link href="#ceo" className="text-gray-700 hover:text-primary">
+              关于我们
             </Link>
             <Link href="#contact" className="text-gray-700 hover:text-primary">
               联系我们
@@ -47,7 +41,7 @@ export default function Home() {
         {/* 首屏部分 (Hero Section) */}
         <section className="relative h-screen flex items-center bg-gray-50 overflow-hidden pt-16">
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10"></div>
+            <div className="absolute inset-0 opacity-15"></div>
             <div className="absolute inset-0 bg-primary-gradient opacity-5"></div>
           </div>
           <div className="container mx-auto px-4 z-10">
@@ -201,164 +195,7 @@ export default function Home() {
         </section>
 
         {/* 技术专区 */}
-        <section id="technologies" className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold">产品技术专区</h2>
-              <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {[
-                "React",
-                "Vue",
-                "Angular",
-                "Next.js",
-                "Spring Cloud",
-                "Kubernetes",
-                "Docker",
-                "TensorFlow",
-                "PyTorch",
-                "AWS",
-                "Azure",
-                "Alibaba Cloud",
-                "Microservices",
-                "DevOps",
-              ].map((tech, index) => (
-                <span
-                  key={index}
-                  className="bg-white px-4 py-2 rounded-full text-sm border border-gray-200 hover:border-primary hover:text-primary cursor-pointer transition"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 mt-12">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-bold mb-4">智能开发平台</h3>
-                <div className="bg-gray-900 text-gray-300 p-4 rounded font-mono text-sm h-48 overflow-hidden">
-                  <pre>{`// 智能代码生成示例
-const generateAI = async (prompt) => {
-  const response = await api.models.generate({
-    model: "moliggy-gpt",
-    prompt: prompt,
-    parameters: {
-      temperature: 0.7,
-      max_tokens: 150
-    }
-  });
-  return response.data;
-}`}</pre>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-bold mb-4">敏捷开发流程</h3>
-                <div className="relative h-48">
-                  <Image
-                    src="/agile-process.svg"
-                    alt="敏捷开发流程"
-                    className="object-contain"
-                    unoptimized={true}
-                    layout="fill"
-                  />
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-bold mb-4">安全合规认证</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="border border-gray-200 rounded p-3 flex items-center justify-center">
-                    <div className="relative w-20 h-20">
-                      <Image
-                        src="/certifications/iso27001.svg"
-                        alt="ISO27001"
-                        className="object-contain"
-                        unoptimized={true}
-                        layout="fill"
-                      />
-                    </div>
-                  </div>
-                  <div className="border border-gray-200 rounded p-3 flex items-center justify-center">
-                    <div className="relative w-20 h-20">
-                      <Image
-                        src="/certifications/pci-dss.svg"
-                        alt="PCI DSS"
-                        className="object-contain"
-                        unoptimized={true}
-                        layout="fill"
-                      />
-                    </div>
-                  </div>
-                  <div className="border border-gray-200 rounded p-3 flex items-center justify-center">
-                    <div className="relative w-20 h-20">
-                      <Image
-                        src="/certifications/gdpr.svg"
-                        alt="GDPR"
-                        className="object-contain"
-                        unoptimized={true}
-                        layout="fill"
-                      />
-                    </div>
-                  </div>
-                  <div className="border border-gray-200 rounded p-3 flex items-center justify-center">
-                    <div className="relative w-20 h-20">
-                      <Image
-                        src="/certifications/cmmi.svg"
-                        alt="CMMI"
-                        className="object-contain"
-                        unoptimized={true}
-                        layout="fill"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CEO简介部分 */}
-        <section id="ceo" className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold">董事长致辞</h2>
-              <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="relative">
-                <div className="w-full max-w-md mx-auto aspect-square relative rounded-lg overflow-hidden border-4 border-accent shadow-xl">
-                  <Image
-                    src="/ceo.png"
-                    alt="茉莉给科技CEO"
-                    className="object-cover"
-                    unoptimized={true}
-                    layout="fill"
-                  />
-                </div>
-                <div className="absolute -bottom-6 -right-6 w-32 h-32 border-2 border-accent rounded-full opacity-20"></div>
-                <div className="absolute -top-6 -left-6 w-32 h-32 border-2 border-accent rounded-full opacity-20"></div>
-              </div>
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold">
-                  老莫宝{" "}
-                  <span className="text-primary">创始人 & 首席执行官</span>
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  "各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！"
-                </p>
-                <div className="pt-4">
-                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent mr-3">
-                    人工智能专家
-                  </span>
-                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent mr-3">
-                    数字化转型顾问
-                  </span>
-                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent">
-                    企业家
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* 技术专区部分已被删除 */}
 
         {/* 客户案例展示 */}
         <section id="cases" className="py-20 bg-gray-50">
@@ -447,87 +284,47 @@ const generateAI = async (prompt) => {
           </div>
         </section>
 
-        {/* 团队展示部分 */}
-        <section id="team" className="py-20 bg-white">
+        {/* CEO简介部分 */}
+        <section id="ceo" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold">核心团队</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">创始人致辞</h2>
               <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-              <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-                由行业资深专家组成的精英团队，拥有丰富的项目经验
-              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                {
-                  name: "李婷婷",
-                  position: "技术总监",
-                  description: "前阿里云架构师，15年云计算和大数据经验",
-                  image: "/team/tech-director.jpg",
-                },
-                {
-                  name: "王建国",
-                  position: "AI研发主管",
-                  description: "人工智能领域专家，发表多篇行业顶会论文",
-                  image: "/team/ai-lead.jpg",
-                },
-                {
-                  name: "赵明",
-                  position: "产品经理",
-                  description: "前腾讯产品经理，专注企业级SaaS产品设计",
-                  image: "/team/product-manager.jpg",
-                },
-                {
-                  name: "张丽",
-                  position: "设计总监",
-                  description: "拥有10年用户体验设计经验，多项设计大奖获得者",
-                  image: "/team/design-director.jpg",
-                },
-              ].map((member, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-50 rounded-lg p-6 text-center hover:shadow-lg transition relative group"
-                >
-                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-accent mb-6 relative">
-                    <div className="w-full h-full bg-gray-200"></div>
-                  </div>
-                  <h3 className="text-xl font-bold">{member.name}</h3>
-                  <p className="text-primary mb-3">{member.position}</p>
-                  <p className="text-gray-600">{member.description}</p>
-                  <div className="absolute top-0 left-0 w-full h-full bg-primary bg-opacity-90 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="text-white p-6">
-                      <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                      <p className="mb-4">{member.description}</p>
-                      <div className="flex justify-center space-x-3">
-                        <a
-                          href="#"
-                          className="w-8 h-8 rounded-full bg-white flex items-center justify-center"
-                        >
-                          <svg
-                            className="h-4 w-4 text-primary"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                          </svg>
-                        </a>
-                        <a
-                          href="#"
-                          className="w-8 h-8 rounded-full bg-white flex items-center justify-center"
-                        >
-                          <svg
-                            className="h-4 w-4 text-primary"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="w-full max-w-md mx-auto aspect-square relative rounded-lg overflow-hidden border-4 border-accent shadow-xl">
+                  <Image
+                    src="/ceo.png"
+                    alt="茉莉给科技CEO"
+                    className="object-cover"
+                    unoptimized={true}
+                    layout="fill"
+                  />
                 </div>
-              ))}
+                <div className="absolute -bottom-6 -right-6 w-32 h-32 border-2 border-accent rounded-full opacity-20"></div>
+                <div className="absolute -top-6 -left-6 w-32 h-32 border-2 border-accent rounded-full opacity-20"></div>
+              </div>
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold">
+                  老莫宝{" "}
+                  <span className="text-primary">创始人 & 首席执行官</span>
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  "各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！"
+                </p>
+                <div className="pt-4">
+                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent mr-3">
+                    人工智能专家
+                  </span>
+                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent mr-3">
+                    数字化转型顾问
+                  </span>
+                  <span className="inline-block px-4 py-1 bg-primary bg-opacity-10 text-primary rounded-full border border-accent">
+                    企业家
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

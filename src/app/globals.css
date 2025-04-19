@@ -3,10 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #C62F2F;
-  --primary-dark: #A81A1A;
-  --primary-gradient: linear-gradient(135deg, #C62F2F 0%, #A81A1A 100%);
-  --accent: #FFD700;
+  --primary: #b72121;
+  --primary-dark: #901a1a;
+  --primary-gradient: linear-gradient(135deg, #b72121 0%, #901a1a 100%);
+  --accent: #f3c74f;
 }
 
 @theme inline {
@@ -23,8 +23,8 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --primary: #C62F2F;
-    --primary-dark: #8A1616;
+    --primary: #b72121;
+    --primary-dark: #6e1616;
   }
 }
 
@@ -51,12 +51,13 @@ body {
 }
 
 .border-accent {
-  border-color: var(--accent);
+  border-color: transparent;
+  border: none;
 }
 
 .hover-accent:hover {
   color: var(--accent);
-  border-color: var(--accent);
+  border-color: transparent;
 }
 
 .accent-shadow {
@@ -68,11 +69,11 @@ body {
 }
 
 .border-accent-dashed {
-  border: 2px dashed var(--accent);
+  border: none;
 }
 
 .bg-accent-gradient {
-  background: linear-gradient(135deg, var(--accent) 0%, #FFA500 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #e5a82d 100%);
 }
 
 .bg-primary-accent-gradient {
