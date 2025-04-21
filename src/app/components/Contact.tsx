@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+
+// UI 组件导入
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -11,8 +13,35 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Checkbox } from './ui/checkbox';
 import { H2, H4, P, Muted, Small } from './ui/typography';
 
+type FormData = {
+  name: string;
+  phone: string;
+  email: string;
+  company: string;
+  type: string;
+  message: string;
+  privacy: boolean;
+};
+
+type FormFieldProps = {
+  label: string;
+  id: string;
+  required?: boolean;
+  children: React.ReactNode;
+};
+
+// 表单字段包装组件
+const FormField = ({ label, id, required = false, children }: FormFieldProps) => (
+  <div className="space-y-2">
+    <Label htmlFor={id}>
+      {label} {required && <span className="text-destructive">*</span>}
+    </Label>
+    {children}
+  </div>
+);
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
     email: '',
@@ -41,40 +70,35 @@ export default function Contact() {
     // 这里添加提交表单逻辑
   };
 
-  // 动画效果
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+  // 动画变量
+  const animations = {
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, delayChildren: 0.3 },
       },
+    },
+    item: {
+      hidden: { opacity: 0, y: 20 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, type: 'spring', stiffness: 300, damping: 24 },
+      },
+    },
+    formField: {
+      hidden: { opacity: 0, x: -10 },
+      visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        type: 'spring',
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  };
-
-  const formFieldVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.3 },
-    },
-  };
+  const contactInfo = [
+    { title: '公司地址', content: '上海市浦东新区' },
+    { title: '联系电话', content: '+86 021-1234 5678' },
+    { title: '电子邮箱', content: 'moliggy@163.com' },
+    { title: '服务时间', content: '周一至周五: 09:00 - 18:00' },
+  ];
 
   return (
     <section id="contact" className="py-20 bg-secondary">
@@ -93,23 +117,20 @@ export default function Contact() {
 
         <motion.div
           className="grid md:grid-cols-2 gap-12"
-          variants={containerVariants}
+          variants={animations.container}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          <motion.div variants={itemVariants}>
+          <motion.div variants={animations.item}>
             <Card className="shadow-lg">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">发送消息</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={formFieldVariants}>
-                    <div className="space-y-2">
-                      <Label htmlFor="name">
-                        姓名 <span className="text-destructive">*</span>
-                      </Label>
+                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={animations.formField}>
+                    <FormField label="姓名" id="name" required>
                       <Input
                         id="name"
                         name="name"
@@ -118,11 +139,8 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">
-                        电话 <span className="text-destructive">*</span>
-                      </Label>
+                    </FormField>
+                    <FormField label="电话" id="phone" required>
                       <Input
                         id="phone"
                         name="phone"
@@ -132,14 +150,11 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                       />
-                    </div>
+                    </FormField>
                   </motion.div>
 
-                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={formFieldVariants}>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">
-                        电子邮箱 <span className="text-destructive">*</span>
-                      </Label>
+                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={animations.formField}>
+                    <FormField label="电子邮箱" id="email" required>
                       <Input
                         id="email"
                         name="email"
@@ -149,9 +164,8 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="company">公司/组织</Label>
+                    </FormField>
+                    <FormField label="公司/组织" id="company">
                       <Input
                         id="company"
                         name="company"
@@ -159,40 +173,40 @@ export default function Contact() {
                         value={formData.company}
                         onChange={handleChange}
                       />
-                    </div>
+                    </FormField>
                   </motion.div>
 
-                  <motion.div className="space-y-2" variants={formFieldVariants}>
-                    <Label htmlFor="type">需求类型</Label>
-                    <Select value={formData.type} onValueChange={handleSelectChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="请选择您的需求类型" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="software">软件开发</SelectItem>
-                        <SelectItem value="consulting">技术咨询</SelectItem>
-                        <SelectItem value="integration">系统集成</SelectItem>
-                        <SelectItem value="other">其他服务</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <motion.div variants={animations.formField}>
+                    <FormField label="需求类型" id="type">
+                      <Select value={formData.type} onValueChange={handleSelectChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="请选择您的需求类型" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="software">软件开发</SelectItem>
+                          <SelectItem value="consulting">技术咨询</SelectItem>
+                          <SelectItem value="integration">系统集成</SelectItem>
+                          <SelectItem value="other">其他服务</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormField>
                   </motion.div>
 
-                  <motion.div className="space-y-2" variants={formFieldVariants}>
-                    <Label htmlFor="message">
-                      需求描述 <span className="text-destructive">*</span>
-                    </Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="请详细描述您的需求或问题"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="h-32"
-                    />
+                  <motion.div variants={animations.formField}>
+                    <FormField label="需求描述" id="message" required>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="请详细描述您的需求或问题"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        className="h-32"
+                      />
+                    </FormField>
                   </motion.div>
 
-                  <motion.div className="flex items-center space-x-2" variants={formFieldVariants}>
+                  <motion.div className="flex items-center space-x-2" variants={animations.formField}>
                     <Checkbox id="privacy" checked={formData.privacy} onCheckedChange={handleCheckboxChange} />
                     <Small className="text-muted-foreground cursor-pointer" asChild>
                       <label htmlFor="privacy">
@@ -205,7 +219,7 @@ export default function Contact() {
                     </Small>
                   </motion.div>
 
-                  <motion.div variants={formFieldVariants} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <motion.div variants={animations.formField} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button type="submit" className="rounded-full">
                       提交信息
                     </Button>
@@ -215,31 +229,18 @@ export default function Contact() {
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
+          <motion.div variants={animations.item}>
             <Card className="shadow-lg h-full">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">联系方式</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div>
-                  <H4 className="text-primary mb-2">公司地址</H4>
-                  <P className="text-muted-foreground">上海市浦东新区</P>
-                </div>
-
-                <div>
-                  <H4 className="text-primary mb-2">联系电话</H4>
-                  <P className="text-muted-foreground">+86 021-1234 5678</P>
-                </div>
-
-                <div>
-                  <H4 className="text-primary mb-2">电子邮箱</H4>
-                  <P className="text-muted-foreground">moliggy@163.com</P>
-                </div>
-
-                <div>
-                  <H4 className="text-primary mb-2">服务时间</H4>
-                  <P className="text-muted-foreground">周一至周五: 09:00 - 18:00</P>
-                </div>
+                {contactInfo.map((item, index) => (
+                  <div key={index}>
+                    <H4 className="text-primary mb-2">{item.title}</H4>
+                    <P className="text-muted-foreground">{item.content}</P>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </motion.div>

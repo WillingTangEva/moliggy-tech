@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import './globals.css';
 import { ThemeProvider } from './components/ui/theme-provider';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: '莫力给科技工作室 | MoliggyTech',
@@ -19,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body className="antialiased font-sans">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

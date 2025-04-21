@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import { motion } from 'framer-motion';
+
+// UI 组件导入
 import { Card, CardContent } from './ui/card';
-import { cn } from '../utils/cn';
 import { H2, H3, P, Muted } from './ui/typography';
+
+// 工具导入
+import { cn } from '../utils/cn';
 
 export default function Solutions() {
   const solutions = [
@@ -40,38 +44,25 @@ export default function Solutions() {
     },
   ];
 
-  // 标题动画
-  const titleVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
+  // 动画变量
+  const animations = {
+    title: {
+      hidden: { opacity: 0, y: -20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
     },
-  };
-
-  // 卡片容器动画
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, delayChildren: 0.3 },
       },
     },
-  };
-
-  // 卡片动画
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 20,
+    card: {
+      hidden: { opacity: 0, y: 30 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 20 },
       },
     },
   };
@@ -84,7 +75,7 @@ export default function Solutions() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
-          variants={titleVariants}
+          variants={animations.title}
         >
           <H2>我们的解决方案</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
@@ -93,7 +84,7 @@ export default function Solutions() {
 
         <motion.div
           className="grid md:grid-cols-3 gap-8"
-          variants={containerVariants}
+          variants={animations.container}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
@@ -101,11 +92,8 @@ export default function Solutions() {
           {solutions.map((item, index) => (
             <motion.div
               key={index}
-              variants={cardVariants}
-              whileHover={{
-                y: -10,
-                transition: { duration: 0.3 },
-              }}
+              variants={animations.card}
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
             >
               <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-8">
@@ -122,9 +110,9 @@ export default function Solutions() {
                         src={item.icon}
                         alt={item.title}
                         className="object-contain filter invert brightness-0 invert"
-                        unoptimized={true}
                         fill
-                        sizes="100vw" />
+                        sizes="(max-width: 768px) 100vw, 33vw" 
+                      />
                     </div>
                   </motion.div>
 

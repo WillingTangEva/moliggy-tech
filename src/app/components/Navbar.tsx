@@ -1,14 +1,18 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import QrCodeModal from './QrCodeModal';
-import { scrollToElement } from '../utils/scrollUtils';
-import { cn } from '../utils/cn';
+
+// UI 组件导入
 import { Button } from './ui/button';
 import { ThemeToggle } from './ui/theme-toggle';
 import { Menubar, MenubarMenu, MenubarTrigger } from './ui/menubar';
+
+// 自定义组件和工具导入
+import QrCodeModal from './QrCodeModal';
+import { scrollToElement } from '../utils/scrollUtils';
+import { cn } from '../utils/cn';
 
 export default function Navbar() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
@@ -18,11 +22,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
 
     const handleResize = () => {
@@ -54,9 +54,7 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={cn('fixed w-full z-50 transition-all duration-300 bg-background', isScrolled ? 'shadow-sm' : '')}
-    >
+    <header className={cn('fixed w-full z-50 transition-all duration-300 bg-background', isScrolled && 'shadow-sm')}>
       <div className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -72,57 +70,19 @@ export default function Navbar() {
         {/* 桌面端菜单栏 */}
         <div className="hidden md:block">
           <Menubar className="border-none bg-transparent">
-            <MenubarMenu>
-              <MenubarTrigger
-                className={cn(
-                  'font-medium transition-colors hover:text-primary',
-                  activeSection === 'solutions' ? 'text-primary' : 'text-foreground',
-                  'px-4 py-2 rounded-md hover:bg-accent/50'
-                )}
-                onClick={() => handleNavClick('solutions')}
-              >
-                解决方案
-              </MenubarTrigger>
-            </MenubarMenu>
-
-            <MenubarMenu>
-              <MenubarTrigger
-                className={cn(
-                  'font-medium transition-colors hover:text-primary',
-                  activeSection === 'cases' ? 'text-primary' : 'text-foreground',
-                  'px-4 py-2 rounded-md hover:bg-accent/50'
-                )}
-                onClick={() => handleNavClick('cases')}
-              >
-                客户案例
-              </MenubarTrigger>
-            </MenubarMenu>
-
-            <MenubarMenu>
-              <MenubarTrigger
-                className={cn(
-                  'font-medium transition-colors hover:text-primary',
-                  activeSection === 'ceo' ? 'text-primary' : 'text-foreground',
-                  'px-4 py-2 rounded-md hover:bg-accent/50'
-                )}
-                onClick={() => handleNavClick('ceo')}
-              >
-                关于我们
-              </MenubarTrigger>
-            </MenubarMenu>
-
-            <MenubarMenu>
-              <MenubarTrigger
-                className={cn(
-                  'font-medium transition-colors hover:text-primary',
-                  activeSection === 'contact' ? 'text-primary' : 'text-foreground',
-                  'px-4 py-2 rounded-md hover:bg-accent/50'
-                )}
-                onClick={() => handleNavClick('contact')}
-              >
-                联系我们
-              </MenubarTrigger>
-            </MenubarMenu>
+            {navItems.map((item) => (
+              <MenubarMenu key={item.id}>
+                <MenubarTrigger
+                  className={cn(
+                    'font-medium transition-colors hover:text-primary px-4 py-2 rounded-md hover:bg-accent/50',
+                    activeSection === item.id ? 'text-primary' : 'text-foreground'
+                  )}
+                  onClick={() => handleNavClick(item.id)}
+                >
+                  {item.name}
+                </MenubarTrigger>
+              </MenubarMenu>
+            ))}
           </Menubar>
         </div>
 
