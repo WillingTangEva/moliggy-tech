@@ -119,7 +119,7 @@
 }
 
 .text-primary {
-  color: var(--primary);
+  color: hsl(var(--primary));
 }
 
 .text-accent {

@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '../utils/cn';
 import { Badge } from './ui/badge';
@@ -55,7 +55,8 @@ export default function About() {
                     className="object-cover transition-transform hover:scale-105 duration-700"
                     unoptimized={true}
                     fill
-                    sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -107,24 +108,9 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              <Badge
-                variant="outline"
-                className="bg-primary/10 text-primary border-primary/30 px-4 py-1 text-sm rounded-full"
-              >
-                人工智能专家
-              </Badge>
-              <Badge
-                variant="outline"
-                className="bg-primary/10 text-primary border-primary/30 px-4 py-1 text-sm rounded-full"
-              >
-                数字化转型顾问
-              </Badge>
-              <Badge
-                variant="outline"
-                className="bg-primary/10 text-primary border-primary/30 px-4 py-1 text-sm rounded-full"
-              >
-                企业家
-              </Badge>
+              <Badge>人工智能专家</Badge>
+              <Badge>数字化转型顾问</Badge>
+              <Badge>企业家</Badge>
             </motion.div>
           </motion.div>
         </div>
