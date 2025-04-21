@@ -8,6 +8,7 @@ import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
 import { cn } from "../utils/cn";
 import { Button } from "./ui/button";
+import { ThemeToggle } from "./ui/theme-toggle";
 import { 
   Sheet, 
   SheetContent, 
@@ -62,8 +63,8 @@ export default function Navbar() {
     <header className={cn(
       "fixed w-full z-50 transition-all duration-300",
       isScrolled 
-        ? "bg-white shadow-sm" 
-        : "bg-white/60 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
+        ? "bg-background shadow-sm" 
+        : "bg-background/60 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
     )}>
       <nav className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
         <motion.div 
@@ -85,7 +86,7 @@ export default function Navbar() {
                 "font-medium transition-colors hover:text-primary relative",
                 activeSection === item.id 
                   ? "text-primary" 
-                  : isScrolled ? "text-gray-700" : "text-gray-800"
+                  : "text-foreground"
               )}
               onClick={() => handleNavClick(item.id)}
               initial={{ opacity: 0, y: -10 }}
@@ -107,6 +108,8 @@ export default function Navbar() {
         </div>
         
         <div className="flex items-center space-x-2 md:space-x-3">
+          <ThemeToggle />
+          
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -114,7 +117,7 @@ export default function Navbar() {
           >
             <Button 
               onClick={() => setIsQrCodeModalOpen(true)}
-              className="bg-primary text-white rounded-full hover:bg-primary-dark transition py-1 px-3 text-sm md:text-base md:py-2 md:px-6"
+              className="rounded-full py-1 px-3 text-sm md:text-base md:py-2 md:px-6"
             >
               立即咨询
             </Button>
@@ -123,7 +126,7 @@ export default function Navbar() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden p-0 h-8 w-8">
-                <Menu className="h-5 w-5 text-gray-800" />
+                <Menu className="h-5 w-5 text-foreground" />
                 <span className="sr-only">打开菜单</span>
               </Button>
             </SheetTrigger>
@@ -140,6 +143,10 @@ export default function Navbar() {
                     </Button>
                   </SheetClose>
                 ))}
+                <div className="flex items-center px-3 py-2">
+                  <span className="mr-2 text-sm text-muted-foreground">暗黑模式</span>
+                  <ThemeToggle />
+                </div>
               </div>
             </SheetContent>
           </Sheet>

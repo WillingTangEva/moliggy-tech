@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./ui/card";
+import { cn } from "../utils/cn";
 
 export default function Solutions() {
   const solutions = [
@@ -79,7 +80,7 @@ export default function Solutions() {
   };
 
   return (
-    <section id="solutions" className="py-20 bg-white">
+    <section id="solutions" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -88,9 +89,9 @@ export default function Solutions() {
           viewport={{ once: true, margin: "-100px" }}
           variants={titleVariants}
         >
-          <h2 className="text-3xl md:text-4xl font-bold">我们的解决方案</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">我们的解决方案</h2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             为企业提供从咨询到实施的全方位数字化转型服务
           </p>
         </motion.div>
@@ -133,8 +134,8 @@ export default function Solutions() {
                   </motion.div>
                   
                   <div className="text-center md:text-left">
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-gray-600">{item.description}</p>
+                    <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.description}</p>
                   </div>
                   
                   <motion.div 

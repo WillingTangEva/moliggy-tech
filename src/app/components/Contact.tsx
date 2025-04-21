@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
+import { cn } from "../utils/cn";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-background">
+    <section id="contact" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -80,7 +81,7 @@ export default function Contact() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold">联系我们</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">联系我们</h2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             无论您有任何问题或需求，我们的团队随时准备为您提供帮助
@@ -248,15 +249,15 @@ export default function Contact() {
                   transition={{ type: "spring", stiffness: 400 }}
                 >
                   <h4 className="text-lg font-medium text-primary mb-2">联系电话</h4>
-                  <p className="text-muted-foreground">010-12345678</p>
+                  <p className="text-muted-foreground">+86 xxx-xxxx-xxxx</p>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-primary mb-2">电子邮箱</h4>
-                  <p className="text-muted-foreground">moliggy@163.com</p>
+                  <h4 className="text-lg font-medium text-primary mb-2">邮箱</h4>
+                  <p className="text-muted-foreground">support@moliggy-tech.com</p>
                 </motion.div>
                 
                 <motion.div
@@ -264,7 +265,17 @@ export default function Contact() {
                   transition={{ type: "spring", stiffness: 400 }}
                 >
                   <h4 className="text-lg font-medium text-primary mb-2">工作时间</h4>
-                  <p className="text-muted-foreground">周一至周五：9:00 - 18:00</p>
+                  <p className="text-muted-foreground">周一至周五, 9:00 - 18:00</p>
+                </motion.div>
+
+                <motion.div className="mt-8">
+                  <div className="text-center p-4 rounded-xl bg-secondary/50">
+                    <h4 className="text-lg font-medium mb-2">扫描二维码咨询</h4>
+                    <div className="w-32 h-32 bg-white mx-auto"></div>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      扫描上方二维码联系客服
+                    </p>
+                  </div>
                 </motion.div>
               </CardContent>
             </Card>

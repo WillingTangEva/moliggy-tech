@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
+import { cn } from "../utils/cn";
 
 export default function Hero() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
@@ -68,7 +69,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-secondary">
       <motion.div 
         className="absolute inset-0 z-0"
         variants={backgroundVariants}
@@ -76,7 +77,7 @@ export default function Hero() {
         animate="visible"
       >
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="absolute inset-0 bg-primary-gradient opacity-5"></div>
+        <div className="absolute inset-0 bg-primary/5"></div>
       </motion.div>
       
       <div 
@@ -85,7 +86,7 @@ export default function Hero() {
       >
         <div className="text-center max-w-3xl mx-auto py-12 md:py-20">
           <motion.h1 
-            className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+            className="text-4xl md:text-6xl font-bold text-foreground mb-6"
             variants={titleVariants}
             initial="hidden"
             animate="visible"
@@ -94,7 +95,7 @@ export default function Hero() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-gray-700 mb-10"
+            className="text-xl text-muted-foreground mb-10"
             variants={descriptionVariants}
             initial="hidden"
             animate="visible"

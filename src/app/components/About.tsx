@@ -22,7 +22,7 @@ export default function About() {
   };
 
   return (
-    <section id="ceo" className="py-20 bg-white">
+    <section id="ceo" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -32,7 +32,7 @@ export default function About() {
           variants={fadeInUpVariants}
           custom={0}
         >
-          <h2 className="text-3xl md:text-4xl font-bold">创始人致辞</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">创始人致辞</h2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
         </motion.div>
         
@@ -84,12 +84,12 @@ export default function About() {
             variants={fadeInUpVariants}
             custom={2}
           >
-            <h3 className="text-2xl font-bold">
+            <h3 className="text-2xl font-bold text-foreground">
               老莫宝 <span className="text-primary">创始人 & 首席执行官</span>
             </h3>
             
             <motion.p 
-              className="text-gray-700 leading-relaxed"
+              className="text-muted-foreground leading-relaxed"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

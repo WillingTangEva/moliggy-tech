@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "./components/ui/theme-provider";
 
 export const metadata: Metadata = {
   title: "莫力给科技工作室 | MoliggyTech",
@@ -16,9 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className="antialiased font-sans">
-        {children}
+        <ThemeProvider defaultTheme="system" storageKey="moliggy-theme">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

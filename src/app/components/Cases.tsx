@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent, CardHeader, CardFooter } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { cn } from "../utils/cn";
 
 export default function Cases() {
   const [activeFilter, setActiveFilter] = useState("全部案例");
@@ -104,7 +105,7 @@ export default function Cases() {
   };
 
   return (
-    <section id="cases" className="py-20 bg-gray-50">
+    <section id="cases" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -113,9 +114,9 @@ export default function Cases() {
           viewport={{ once: true, margin: "-100px" }}
           variants={titleVariants}
         >
-          <h2 className="text-3xl md:text-4xl font-bold">客户案例</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">客户案例</h2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             我们为各行业领先企业提供专业的数字化解决方案
           </p>
         </motion.div>
@@ -131,9 +132,7 @@ export default function Cases() {
             <motion.div key={filter} variants={filterItemVariants}>
               <Button
                 variant={activeFilter === filter ? "default" : "outline"}
-                className={`rounded-full transition-all duration-300 ${
-                  activeFilter === filter ? "shadow-md" : ""
-                }`}
+                className="rounded-full transition-all duration-300"
                 onClick={() => setActiveFilter(filter)}
               >
                 {filter}
@@ -157,7 +156,7 @@ export default function Cases() {
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
                 <Card className="h-full overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="h-48 relative overflow-hidden bg-gray-200 group">
+                  <div className="h-48 relative overflow-hidden bg-muted group">
                     <motion.div 
                       className="absolute inset-0 bg-primary/30 flex items-center justify-center"
                       initial={{ opacity: 0 }}
@@ -174,12 +173,12 @@ export default function Cases() {
                     <Badge className="mb-3 bg-primary/10 text-primary hover:bg-primary/20 border-none">
                       {item.industry}
                     </Badge>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-gray-600 mb-4">{item.description}</p>
+                    <h3 className="text-xl font-bold mb-2 text-foreground">{item.title}</h3>
+                    <p className="text-muted-foreground mb-4">{item.description}</p>
                     
                     <motion.a
                       href="#"
-                      className="text-primary flex items-center hover:text-primary-dark transition-colors"
+                      className="text-primary flex items-center hover:text-primary/80 transition-colors"
                       whileHover={{ x: 5 }}
                       transition={{ type: "spring", stiffness: 400 }}
                     >
