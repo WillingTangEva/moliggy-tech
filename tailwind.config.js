@@ -16,6 +16,24 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
+          'Noto Color Emoji',
+        ],
+      },
       colors: {
         border: "#e2e8f0",
         input: "#e2e8f0",
@@ -51,6 +69,16 @@ module.exports = {
           DEFAULT: "#ffffff",
           foreground: "#1e293b",
         },
+        "blue-langlan": {
+          DEFAULT: "#1E3A8A",
+          dark: "#0F1F4C",
+        },
+        "blue-caie": {
+          DEFAULT: "#4A90E2",
+          dark: "#2B68BF",
+          "30": "rgba(74, 144, 226, 0.3)",
+          "50": "rgba(74, 144, 226, 0.5)",
+        }
       },
       borderRadius: {
         lg: "0.5rem",

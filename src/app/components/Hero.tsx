@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "./ui/button";
 import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
 
@@ -27,37 +28,103 @@ export default function Hero() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 标题动画变体
+  const titleVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
+  // 描述动画变体
+  const descriptionVariants = {
+    hidden: { opacity: 0, y: -15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: 0.2, ease: "easeOut" }
+    }
+  };
+
+  // 按钮动画变体
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, delay: 0.4, ease: "easeOut" }
+    }
+  };
+
+  // 背景动画效果
+  const backgroundVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1 }
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gray-50 overflow-hidden hero-gradient-overlay">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 opacity-15"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100">
+      <motion.div 
+        className="absolute inset-0 z-0"
+        variants={backgroundVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="absolute inset-0 bg-primary-gradient opacity-5"></div>
-      </div>
+      </motion.div>
+      
       <div 
         className="container mx-auto px-4 z-10"
         style={{ paddingTop: navbarHeight ? `${navbarHeight}px` : '50px' }}
       >
         <div className="text-center max-w-3xl mx-auto py-12 md:py-20">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+            variants={titleVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <span className="text-primary">让智能</span>驱动数字化转型
-          </h1>
-          <p className="text-xl text-gray-700 mb-10">
+          </motion.h1>
+          
+          <motion.p 
+            className="text-xl text-gray-700 mb-10"
+            variants={descriptionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             专业软件咨询与定制开发服务商
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              className="bg-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full hover:bg-primary-dark transition flex items-center"
+          </motion.p>
+          
+          <motion.div 
+            className="flex flex-wrap justify-center gap-4"
+            variants={buttonVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <Button 
               onClick={() => setIsQrCodeModalOpen(true)}
+              className="rounded-full text-base"
+              size="lg"
             >
               立即咨询 <span className="ml-2">→</span>
-            </button>
-            <button 
-              className="border border-gray-300 text-gray-700 px-6 py-2 md:px-8 md:py-3 rounded-full hover:bg-gray-100 transition flex items-center"
+            </Button>
+            
+            <Button 
               onClick={() => scrollToElement('cases')}
+              variant="outline"
+              className="rounded-full text-base"
+              size="lg"
             >
               查看客户案例 <span className="ml-2">→</span>
-            </button>
-          </div>
+            </Button>
+          </motion.div>
         </div>
       </div>
       

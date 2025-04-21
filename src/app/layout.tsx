@@ -1,13 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-// 使用 Inter 字体替代之前的中文字体，因为 Inter 缓存更好且加载更快
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "莫力给科技工作室 | MoliggyTech",
@@ -25,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased font-sans">
         {children}
       </body>
     </html>

@@ -1,7 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent, CardHeader, CardFooter } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 
 export default function Cases() {
   const [activeFilter, setActiveFilter] = useState("全部案例");
@@ -43,61 +46,151 @@ export default function Cases() {
       ? cases
       : cases.filter((item) => item.industry === activeFilter);
 
+  // 标题动画
+  const titleVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+  
+  // 筛选按钮动画
+  const filterVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+  
+  const filterItemVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 20 }
+    }
+  };
+  
+  // 卡片容器动画
+  const cardsContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1,
+        delayChildren: 0.5
+      }
+    }
+  };
+  
+  // 卡片动画
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 300, 
+        damping: 20 
+      }
+    }
+  };
+
   return (
     <section id="cases" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={titleVariants}
+        >
           <h2 className="text-3xl md:text-4xl font-bold">客户案例</h2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
             我们为各行业领先企业提供专业的数字化解决方案
           </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        </motion.div>
+        
+        <motion.div 
+          className="flex flex-wrap justify-center gap-4 mb-8"
+          variants={filterVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {filterButtons.map((filter) => (
-            <button
-              key={filter}
-              className={`px-4 py-2 rounded-full transition duration-300 ${
-                activeFilter === filter
-                  ? "bg-primary text-white hover:bg-primary-dark"
-                  : "border border-accent text-gray-700 hover:bg-gray-100"
-              }`}
-              onClick={() => setActiveFilter(filter)}
-            >
-              {filter}
-            </button>
+            <motion.div key={filter} variants={filterItemVariants}>
+              <Button
+                variant={activeFilter === filter ? "default" : "outline"}
+                className={`rounded-full transition-all duration-300 ${
+                  activeFilter === filter ? "shadow-md" : ""
+                }`}
+                onClick={() => setActiveFilter(filter)}
+              >
+                {filter}
+              </Button>
+            </motion.div>
           ))}
-        </div>
-        <div className="grid md:grid-cols-3 gap-8 mt-12 min-h-[500px]">
-          {filteredCases.map((item, index) => (
-            <div
-              key={`${item.industry}-${index}`}
-              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition group transform transition-all duration-500 opacity-100"
-            >
-              <div className="h-48 relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="px-4 py-2 bg-white text-primary rounded-full border border-accent hover:bg-gray-100 transition">
-                    查看详情
-                  </button>
-                </div>
-                <div className="h-48 w-full bg-gray-200"></div>
-              </div>
-              <div className="p-6">
-                <span className="inline-block px-3 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-xs mb-3">
-                  {item.industry}
-                </span>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-600 mb-4">{item.description}</p>
-                <a
-                  href="#"
-                  className="text-primary flex items-center hover:text-primary-dark transition"
-                >
-                  查看案例研究 <span className="ml-2">→</span>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+        </motion.div>
+        
+        <AnimatePresence mode="wait">
+          <motion.div 
+            className="grid md:grid-cols-3 gap-8 mt-12 min-h-[500px]"
+            key={activeFilter}
+            variants={cardsContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {filteredCases.map((item, index) => (
+              <motion.div
+                key={`${item.industry}-${index}`}
+                variants={cardVariants}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
+              >
+                <Card className="h-full overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="h-48 relative overflow-hidden bg-gray-200 group">
+                    <motion.div 
+                      className="absolute inset-0 bg-primary/30 flex items-center justify-center"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Button variant="secondary" className="rounded-full">
+                        查看详情
+                      </Button>
+                    </motion.div>
+                  </div>
+                  
+                  <CardContent className="p-6">
+                    <Badge className="mb-3 bg-primary/10 text-primary hover:bg-primary/20 border-none">
+                      {item.industry}
+                    </Badge>
+                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 mb-4">{item.description}</p>
+                    
+                    <motion.a
+                      href="#"
+                      className="text-primary flex items-center hover:text-primary-dark transition-colors"
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
+                      查看案例研究 <span className="ml-2">→</span>
+                    </motion.a>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
