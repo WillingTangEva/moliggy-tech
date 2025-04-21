@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { motion } from 'framer-motion';
 import { Card, CardContent } from './ui/card';
 import { cn } from '../utils/cn';
@@ -123,8 +123,8 @@ export default function Solutions() {
                         alt={item.title}
                         className="object-contain filter invert brightness-0 invert"
                         unoptimized={true}
-                        layout="fill"
-                      />
+                        fill
+                        sizes="100vw" />
                     </div>
                   </motion.div>
 

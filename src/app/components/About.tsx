@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { motion } from 'framer-motion';
 import { cn } from '../utils/cn';
 import { Badge } from './ui/badge';
@@ -54,8 +54,8 @@ export default function About() {
                     alt="莫力给科技CEO"
                     className="object-cover transition-transform hover:scale-105 duration-700"
                     unoptimized={true}
-                    layout="fill"
-                  />
+                    fill
+                    sizes="100vw" />
                 </div>
               </CardContent>
             </Card>
