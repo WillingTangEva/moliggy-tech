@@ -9,7 +9,6 @@ import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Checkbox } from './ui/checkbox';
-import { cn } from '../utils/cn';
 import { H2, H4, P, Muted, Small } from './ui/typography';
 
 export default function Contact() {
@@ -222,25 +221,25 @@ export default function Contact() {
                 <CardTitle className="text-2xl font-bold">联系方式</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
+                <div>
                   <H4 className="text-primary mb-2">公司地址</H4>
                   <P className="text-muted-foreground">上海市浦东新区</P>
-                </motion.div>
+                </div>
 
-                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
+                <div>
                   <H4 className="text-primary mb-2">联系电话</H4>
                   <P className="text-muted-foreground">+86 021-1234 5678</P>
-                </motion.div>
+                </div>
 
-                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
+                <div>
                   <H4 className="text-primary mb-2">电子邮箱</H4>
                   <P className="text-muted-foreground">info@moliggy-tech.com</P>
-                </motion.div>
+                </div>
 
-                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
+                <div>
                   <H4 className="text-primary mb-2">服务时间</H4>
                   <P className="text-muted-foreground">周一至周五: 09:00 - 18:00</P>
-                </motion.div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
