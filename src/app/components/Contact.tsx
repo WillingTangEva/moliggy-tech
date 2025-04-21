@@ -233,7 +233,7 @@ export default function Contact() {
 
                 <div>
                   <H4 className="text-primary mb-2">电子邮箱</H4>
-                  <P className="text-muted-foreground">info@moliggy-tech.com</P>
+                  <P className="text-muted-foreground">moliggy@163.com</P>
                 </div>
 
                 <div>
