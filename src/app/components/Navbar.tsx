@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Phone, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
 import { cn } from "../utils/cn";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { H4, Small } from "./ui/typography";
 import {
   Menubar,
   MenubarMenu,
@@ -61,10 +59,8 @@ export default function Navbar() {
 
   return (
     <header className={cn(
-      "fixed w-full z-50 transition-all duration-300",
-      isScrolled 
-        ? "bg-background shadow-sm" 
-        : "bg-background/60 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
+      "fixed w-full z-50 transition-all duration-300 bg-background",
+      isScrolled ? "shadow-sm" : ""
     )}>
       <div className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
         <motion.div 
@@ -80,10 +76,7 @@ export default function Navbar() {
         
         {/* 桌面端菜单栏 */}
         <div className="hidden md:block">
-          <Menubar className={cn(
-            "border-none bg-transparent",
-            isScrolled ? "bg-background" : "bg-transparent"
-          )}>
+          <Menubar className="border-none bg-transparent">
             <MenubarMenu>
               <MenubarTrigger 
                 className={cn(
