@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Copy, Check } from 'lucide-react';
 
 // UI 组件导入
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -10,9 +10,9 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Checkbox } from './ui/checkbox';
 import { H2, H4, P, Muted, Small } from './ui/typography';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 
 type FormData = {
   name: string;
@@ -54,6 +54,8 @@ export default function Contact() {
     needType: '',
   });
 
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -75,6 +77,17 @@ export default function Contact() {
     e.preventDefault();
     console.log(formData);
     // 这里添加提交表单逻辑
+  };
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setCopiedItem(text);
+        setTimeout(() => setCopiedItem(null), 2000);
+      })
+      .catch(err => {
+        console.error('无法复制内容: ', err);
+      });
   };
 
   // 动画变量
@@ -266,16 +279,39 @@ export default function Contact() {
                   {contactInfo.map((item, index) => (
                     <motion.div
                       key={index}
-                      className="flex items-start space-x-4 p-4 rounded-lg transition-colors hover:bg-accent"
+                      className="flex items-start space-x-4 p-4 rounded-lg transition-colors hover:bg-accent cursor-pointer group"
                       whileHover={{ scale: 1.02 }}
+                      onClick={() => handleCopy(item.content)}
                     >
                       <div className="bg-primary/10 p-3 rounded-full">
                         <item.icon className="h-6 w-6" />
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <H4 className="font-medium">{item.title}</H4>
                         <P className="text-muted-foreground mt-1">{item.content}</P>
                       </div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div 
+                              className={`h-8 w-8 flex items-center justify-center transition-all duration-200 ${copiedItem === item.content ? 'bg-green-100/20 rounded-full' : ''}`}
+                            >
+                              {copiedItem === item.content ? (
+                                <Check className="h-4 w-4 text-green-500" />
+                              ) : (
+                                <Copy className="h-4 w-4 opacity-60 group-hover:opacity-100" />
+                              )}
+                              <span className="sr-only">复制{item.title}</span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent 
+                            side="left" 
+                            className={`${copiedItem === item.content ? 'bg-green-50 text-green-700 border-green-200' : ''}`}
+                          >
+                            {copiedItem === item.content ? '已复制!' : '点击复制'}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </motion.div>
                   ))}
                 </div>
