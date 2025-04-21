@@ -1,8 +1,0 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="45" fill="white" stroke="#C62F2F" stroke-width="2"/>
-  <path d="M30 40H70V70H30V40Z" fill="none" stroke="#C62F2F" stroke-width="2"/>
-  <circle cx="50" cy="55" r="5" fill="#C62F2F"/>
-  <path d="M50 55V65" stroke="#C62F2F" stroke-width="2"/>
-  <path d="M30 40C30 40 35 25 50 25C65 25 70 40 70 40" stroke="#C62F2F" stroke-width="2"/>
-  <text x="50" y="85" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#C62F2F">ISO 27001</text>
-</svg> 
