@@ -3,18 +3,24 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, Phone, Mail } from "lucide-react";
 import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
 import { cn } from "../utils/cn";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { 
-  Sheet, 
-  SheetContent, 
+import { H4, Small } from "./ui/typography";
+import {
+  Sheet,
+  SheetContent,
   SheetTrigger,
   SheetClose
 } from "./ui/sheet";
+import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+} from "./ui/menubar";
 
 export default function Navbar() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
@@ -66,7 +72,7 @@ export default function Navbar() {
         ? "bg-background shadow-sm" 
         : "bg-background/60 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
     )}>
-      <nav className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -78,33 +84,64 @@ export default function Navbar() {
           </Link>
         </motion.div>
         
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item, index) => (
-            <motion.button
-              key={item.id}
-              className={cn(
-                "font-medium transition-colors hover:text-primary relative",
-                activeSection === item.id 
-                  ? "text-primary" 
-                  : "text-foreground"
-              )}
-              onClick={() => handleNavClick(item.id)}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              {item.name}
-              {activeSection === item.id && (
-                <motion.div
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                  layoutId="activeSection"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-            </motion.button>
-          ))}
+        {/* 桌面端菜单栏 */}
+        <div className="hidden md:block">
+          <Menubar className={cn(
+            "border-none bg-transparent",
+            isScrolled ? "bg-background" : "bg-transparent"
+          )}>
+            <MenubarMenu>
+              <MenubarTrigger 
+                className={cn(
+                  "font-medium transition-colors hover:text-primary",
+                  activeSection === "solutions" ? "text-primary" : "text-foreground",
+                  "px-4 py-2 rounded-md hover:bg-accent/50"
+                )}
+                onClick={() => handleNavClick("solutions")}
+              >
+                解决方案
+              </MenubarTrigger>
+            </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger 
+                className={cn(
+                  "font-medium transition-colors hover:text-primary",
+                  activeSection === "cases" ? "text-primary" : "text-foreground",
+                  "px-4 py-2 rounded-md hover:bg-accent/50"
+                )}
+                onClick={() => handleNavClick("cases")}
+              >
+                客户案例
+              </MenubarTrigger>
+            </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger 
+                className={cn(
+                  "font-medium transition-colors hover:text-primary",
+                  activeSection === "ceo" ? "text-primary" : "text-foreground",
+                  "px-4 py-2 rounded-md hover:bg-accent/50"
+                )}
+                onClick={() => handleNavClick("ceo")}
+              >
+                关于我们
+              </MenubarTrigger>
+            </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger 
+                className={cn(
+                  "font-medium transition-colors hover:text-primary",
+                  activeSection === "contact" ? "text-primary" : "text-foreground",
+                  "px-4 py-2 rounded-md hover:bg-accent/50"
+                )}
+                onClick={() => handleNavClick("contact")}
+              >
+                联系我们
+              </MenubarTrigger>
+            </MenubarMenu>
+          </Menubar>
         </div>
         
         <div className="flex items-center space-x-2 md:space-x-3">
@@ -123,6 +160,7 @@ export default function Navbar() {
             </Button>
           </motion.div>
 
+          {/* 移动端侧边栏菜单 */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden p-0 h-8 w-8">
@@ -132,17 +170,33 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="right" className="pt-12">
               <div className="flex flex-col space-y-4">
-                {navItems.map((item) => (
-                  <SheetClose asChild key={item.id}>
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-base"
-                      onClick={() => handleNavClick(item.id)}
-                    >
-                      {item.name}
-                    </Button>
-                  </SheetClose>
-                ))}
+                <div className="border-b pb-4">
+                  <H4 className="mb-4">菜单导航</H4>
+                  {navItems.map((item) => (
+                    <SheetClose asChild key={item.id}>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start text-base"
+                        onClick={() => handleNavClick(item.id)}
+                      >
+                        {item.name}
+                      </Button>
+                    </SheetClose>
+                  ))}
+                </div>
+
+                <div className="pt-4 flex flex-col space-y-4">
+                  <H4 className="mb-2">联系方式</H4>
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <Small>+86 021-1234 5678</Small>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <Small>info@moliggy-tech.com</Small>
+                  </div>
+                </div>
+
                 <div className="flex items-center px-3 py-2">
                   <span className="mr-2 text-sm text-muted-foreground">暗黑模式</span>
                   <ThemeToggle />
@@ -151,7 +205,7 @@ export default function Navbar() {
             </SheetContent>
           </Sheet>
         </div>
-      </nav>
+      </div>
       
       <QrCodeModal 
         isOpen={isQrCodeModalOpen} 
