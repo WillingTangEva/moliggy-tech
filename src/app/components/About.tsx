@@ -87,7 +87,7 @@ export default function About() {
             custom={2}
           >
             <H3>
-              老莫宝 <span className="text-primary">创始人 & 首席执行官</span>
+              老莫宝 <span className="text-red-600">创始人 & 首席执行官</span>
             </H3>
 
             <motion.div
@@ -96,9 +96,38 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              <P className="text-muted-foreground">
-                "各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！"
-              </P>
+              <div className="relative px-4 py-6">
+                {/* 左侧引号 */}
+                <div className="absolute -left-2 top-0 text-red-500 text-5xl font-serif opacity-90">
+                  "
+                </div>
+                
+                <P className="text-muted-foreground space-y-4 ml-4">
+                  <span className="block">各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。</span>
+                  
+                  <span className="block">我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。</span>
+                  
+                  <span className="block">记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。</span>
+                  
+                  <span className="block font-medium">让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！</span>
+                </P>
+                
+                {/* 右侧引号 */}
+                <div className="absolute -right-2 bottom-0 text-red-500 text-5xl font-serif opacity-90">
+                  "
+                </div>
+                
+                {/* 狗爪印子 */}
+                <div className="absolute bottom-0 right-0 w-14 h-14 transform translate-x-8 translate-y-8">
+                  <Image 
+                    src="/foot.png"
+                    alt="狗爪印"
+                    width={56}
+                    height={56}
+                    className="opacity-80"
+                  />
+                </div>
+              </div>
             </motion.div>
 
             <motion.div
@@ -108,9 +137,9 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              <Badge>人工智能专家</Badge>
-              <Badge>数字化转型顾问</Badge>
-              <Badge>企业家</Badge>
+              <Badge className="bg-red-600 hover:bg-red-700 text-white">人工智能专家</Badge>
+              <Badge className="bg-red-600 hover:bg-red-700 text-white">数字化转型顾问</Badge>
+              <Badge className="bg-red-600 hover:bg-red-700 text-white">企业家</Badge>
             </motion.div>
           </motion.div>
         </div>
