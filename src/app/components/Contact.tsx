@@ -80,12 +80,13 @@ export default function Contact() {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         setCopiedItem(text);
         setTimeout(() => setCopiedItem(null), 2000);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('无法复制内容: ', err);
       });
   };
@@ -293,7 +294,7 @@ export default function Contact() {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <div 
+                            <div
                               className={`h-8 w-8 flex items-center justify-center transition-all duration-200 ${copiedItem === item.content ? 'bg-green-100/20 rounded-full' : ''}`}
                             >
                               {copiedItem === item.content ? (
@@ -304,8 +305,8 @@ export default function Contact() {
                               <span className="sr-only">复制{item.title}</span>
                             </div>
                           </TooltipTrigger>
-                          <TooltipContent 
-                            side="left" 
+                          <TooltipContent
+                            side="left"
                             className={`${copiedItem === item.content ? 'bg-green-50 text-green-700 border-green-200' : ''}`}
                           >
                             {copiedItem === item.content ? '已复制!' : '点击复制'}

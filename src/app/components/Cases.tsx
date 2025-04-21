@@ -157,9 +157,7 @@ export default function Cases() {
                   </div>
 
                   <CardContent className="p-6">
-                    <Badge>
-                      {item.industry}
-                    </Badge>
+                    <Badge>{item.industry}</Badge>
                     <H3 className="mb-2">{item.title}</H3>
                     <P className="text-muted-foreground mb-4">{item.description}</P>
 

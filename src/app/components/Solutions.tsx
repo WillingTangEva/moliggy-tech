@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 // UI 组件导入
@@ -90,11 +90,7 @@ export default function Solutions() {
           viewport={{ once: true, margin: '-50px' }}
         >
           {solutions.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={animations.card}
-              whileHover={{ y: -10, transition: { duration: 0.3 } }}
-            >
+            <motion.div key={index} variants={animations.card} whileHover={{ y: -10, transition: { duration: 0.3 } }}>
               <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-8">
                   <motion.div
@@ -111,7 +107,7 @@ export default function Solutions() {
                         alt={item.title}
                         className="object-contain filter invert brightness-0 invert"
                         fill
-                        sizes="(max-width: 768px) 100vw, 33vw" 
+                        sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     </div>
                   </motion.div>
