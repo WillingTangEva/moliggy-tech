@@ -1,15 +1,9 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogFooter
-} from "./ui/dialog";
-import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
+import { Button } from './ui/button';
 
 interface QrCodeModalProps {
   isOpen: boolean;
@@ -20,59 +14,50 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
   // 容器动画
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
-        type: "spring", 
-        damping: 25, 
+      transition: {
+        type: 'spring',
+        damping: 25,
         stiffness: 300,
-        when: "beforeChildren",
-        staggerChildren: 0.1
-      }
+        when: 'beforeChildren',
+        staggerChildren: 0.1,
+      },
     },
-    exit: { 
-      opacity: 0, 
+    exit: {
+      opacity: 0,
       scale: 0.95,
-      transition: { 
+      transition: {
         duration: 0.2,
-        ease: "easeOut" 
-      }
-    }
+        ease: 'easeOut',
+      },
+    },
   };
 
   // 子元素动画
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.3
-      }
-    }
+      transition: {
+        duration: 0.3,
+      },
+    },
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-sm p-0 overflow-hidden rounded-xl">
-        <motion.div
-          className="p-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
+        <motion.div className="p-6" variants={containerVariants} initial="hidden" animate="visible" exit="exit">
           <DialogHeader>
             <motion.div variants={itemVariants}>
               <DialogTitle className="text-xl font-bold text-center">扫码咨询</DialogTitle>
             </motion.div>
           </DialogHeader>
-          
-          <motion.div 
-            className="flex justify-center my-4"
-            variants={itemVariants}
-          >
+
+          <motion.div className="flex justify-center my-4" variants={itemVariants}>
             <div className="relative w-56 h-56 border border-border rounded-lg p-2 bg-background">
               <div className="relative w-full h-full">
                 <motion.svg
@@ -93,18 +78,15 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
               </div>
             </div>
           </motion.div>
-          
+
           <motion.div variants={itemVariants} className="text-center">
             <p className="text-foreground mb-2">微信扫码，立即获取专业咨询</p>
             <p className="text-sm text-muted-foreground">或添加客服微信: moliggy-tech</p>
           </motion.div>
-          
+
           <DialogFooter className="mt-6 flex justify-center">
             <motion.div variants={itemVariants}>
-              <Button 
-                onClick={onClose}
-                className="px-6 rounded-full"
-              >
+              <Button onClick={onClose} className="px-6 rounded-full">
                 关闭
               </Button>
             </motion.div>
@@ -113,4 +95,4 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
       </DialogContent>
     </Dialog>
   );
-} 
+}

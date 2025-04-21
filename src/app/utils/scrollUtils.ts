@@ -7,4 +7,4 @@ export const scrollToElement = (elementId: string): void => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }
-}; 
+};

@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Checkbox } from "./ui/checkbox";
-import { cn } from "../utils/cn";
-import { H2, H4, P, Muted, Small } from "./ui/typography";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
+import { Label } from './ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Checkbox } from './ui/checkbox';
+import { cn } from '../utils/cn';
+import { H2, H4, P, Muted, Small } from './ui/typography';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    company: "",
-    type: "",
-    message: "",
-    privacy: false
+    name: '',
+    phone: '',
+    email: '',
+    company: '',
+    type: '',
+    message: '',
+    privacy: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSelectChange = (value: string) => {
-    setFormData(prev => ({ ...prev, type: value }));
+    setFormData((prev) => ({ ...prev, type: value }));
   };
 
   const handleCheckboxChange = (checked: boolean) => {
-    setFormData(prev => ({ ...prev, privacy: checked }));
+    setFormData((prev) => ({ ...prev, privacy: checked }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,8 +50,8 @@ export default function Contact() {
       transition: {
         staggerChildren: 0.1,
         delayChildren: 0.3,
-      }
-    }
+      },
+    },
   };
 
   const itemVariants = {
@@ -59,8 +59,13 @@ export default function Contact() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, type: "spring", stiffness: 300, damping: 24 }
-    }
+      transition: {
+        duration: 0.5,
+        type: 'spring',
+        stiffness: 300,
+        damping: 24,
+      },
+    },
   };
 
   const formFieldVariants = {
@@ -68,33 +73,31 @@ export default function Contact() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.3 }
-    }
+      transition: { duration: 0.3 },
+    },
   };
 
   return (
     <section id="contact" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
           <H2>联系我们</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <Muted className="mt-4 max-w-2xl mx-auto">
-            无论您有任何问题或需求，我们的团队随时准备为您提供帮助
-          </Muted>
+          <Muted className="mt-4 max-w-2xl mx-auto">无论您有任何问题或需求，我们的团队随时准备为您提供帮助</Muted>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="grid md:grid-cols-2 gap-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
         >
           <motion.div variants={itemVariants}>
             <Card className="shadow-lg">
@@ -103,10 +106,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <motion.div 
-                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                    variants={formFieldVariants}
-                  >
+                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={formFieldVariants}>
                     <div className="space-y-2">
                       <Label htmlFor="name">
                         姓名 <span className="text-destructive">*</span>
@@ -135,11 +135,8 @@ export default function Contact() {
                       />
                     </div>
                   </motion.div>
-                  
-                  <motion.div 
-                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                    variants={formFieldVariants}
-                  >
+
+                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={formFieldVariants}>
                     <div className="space-y-2">
                       <Label htmlFor="email">
                         电子邮箱 <span className="text-destructive">*</span>
@@ -155,9 +152,7 @@ export default function Contact() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company">
-                        公司/组织
-                      </Label>
+                      <Label htmlFor="company">公司/组织</Label>
                       <Input
                         id="company"
                         name="company"
@@ -167,11 +162,9 @@ export default function Contact() {
                       />
                     </div>
                   </motion.div>
-                  
+
                   <motion.div className="space-y-2" variants={formFieldVariants}>
-                    <Label htmlFor="type">
-                      需求类型
-                    </Label>
+                    <Label htmlFor="type">需求类型</Label>
                     <Select value={formData.type} onValueChange={handleSelectChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="请选择您的需求类型" />
@@ -184,7 +177,7 @@ export default function Contact() {
                       </SelectContent>
                     </Select>
                   </motion.div>
-                  
+
                   <motion.div className="space-y-2" variants={formFieldVariants}>
                     <Label htmlFor="message">
                       需求描述 <span className="text-destructive">*</span>
@@ -199,32 +192,22 @@ export default function Contact() {
                       className="h-32"
                     />
                   </motion.div>
-                  
+
                   <motion.div className="flex items-center space-x-2" variants={formFieldVariants}>
-                    <Checkbox 
-                      id="privacy" 
-                      checked={formData.privacy}
-                      onCheckedChange={handleCheckboxChange}
-                    />
-                    <Small 
-                      className="text-muted-foreground cursor-pointer"
-                      asChild
-                    >
+                    <Checkbox id="privacy" checked={formData.privacy} onCheckedChange={handleCheckboxChange} />
+                    <Small className="text-muted-foreground cursor-pointer" asChild>
                       <label htmlFor="privacy">
-                        我同意根据<a href="#" className="text-primary hover:underline">隐私政策</a>处理我的个人信息
+                        我同意根据
+                        <a href="#" className="text-primary hover:underline">
+                          隐私政策
+                        </a>
+                        处理我的个人信息
                       </label>
                     </Small>
                   </motion.div>
-                  
-                  <motion.div
-                    variants={formFieldVariants}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button 
-                      type="submit"
-                      className="rounded-full"
-                    >
+
+                  <motion.div variants={formFieldVariants} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button type="submit" className="rounded-full">
                       提交信息
                     </Button>
                   </motion.div>
@@ -232,53 +215,31 @@ export default function Contact() {
               </CardContent>
             </Card>
           </motion.div>
-          
+
           <motion.div variants={itemVariants}>
             <Card className="shadow-lg h-full">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">联系方式</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
+                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
                   <H4 className="text-primary mb-2">公司地址</H4>
                   <P className="text-muted-foreground">上海市浦东新区</P>
                 </motion.div>
-                
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
+
+                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
                   <H4 className="text-primary mb-2">联系电话</H4>
                   <P className="text-muted-foreground">+86 021-1234 5678</P>
                 </motion.div>
-                
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
+
+                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
                   <H4 className="text-primary mb-2">电子邮箱</H4>
                   <P className="text-muted-foreground">info@moliggy-tech.com</P>
                 </motion.div>
-                
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
+
+                <motion.div whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 400 }}>
                   <H4 className="text-primary mb-2">服务时间</H4>
                   <P className="text-muted-foreground">周一至周五: 09:00 - 18:00</P>
-                </motion.div>
-
-                <motion.div className="mt-8">
-                  <div className="text-center p-4 rounded-xl bg-secondary/50">
-                    <h4 className="text-lg font-medium mb-2">扫描二维码咨询</h4>
-                    <div className="w-32 h-32 bg-white mx-auto"></div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      扫描上方二维码联系客服
-                    </p>
-                  </div>
                 </motion.div>
               </CardContent>
             </Card>

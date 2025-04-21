@@ -21,19 +21,23 @@
 ## 步骤二：获取Vercel组织ID和项目ID
 
 1. 安装Vercel CLI（如果尚未安装）：
+
    ```
    npm install -g vercel
    ```
 
 2. 在终端中登录Vercel：
+
    ```
    vercel login
    ```
 
 3. 在项目目录中运行以下命令将项目链接到Vercel：
+
    ```
    vercel link
    ```
+
    - 按照提示选择你的Vercel组织和项目，或创建新项目
 
 4. 链接完成后，打开项目目录中的`.vercel/project.json`文件，你将在其中找到：
@@ -56,4 +60,4 @@
 - 当你推送代码到非`main`分支时，会创建预览部署
 - 当你推送代码到`main`分支时，会创建生产部署
 
-你可以在GitHub仓库的"Actions"标签页中查看工作流运行情况，在Vercel仪表板中查看部署结果。 
+你可以在GitHub仓库的"Actions"标签页中查看工作流运行情况，在Vercel仪表板中查看部署结果。
