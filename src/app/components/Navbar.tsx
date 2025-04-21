@@ -11,12 +11,6 @@ import { Button } from "./ui/button";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { H4, Small } from "./ui/typography";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose
-} from "./ui/sheet";
-import {
   Menubar,
   MenubarMenu,
   MenubarTrigger,
@@ -159,51 +153,6 @@ export default function Navbar() {
               立即咨询
             </Button>
           </motion.div>
-
-          {/* 移动端侧边栏菜单 */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden p-0 h-8 w-8">
-                <Menu className="h-5 w-5 text-foreground" />
-                <span className="sr-only">打开菜单</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="pt-12">
-              <div className="flex flex-col space-y-4">
-                <div className="border-b pb-4">
-                  <H4 className="mb-4">菜单导航</H4>
-                  {navItems.map((item) => (
-                    <SheetClose asChild key={item.id}>
-                      <Button 
-                        variant="ghost" 
-                        className="w-full justify-start text-base"
-                        onClick={() => handleNavClick(item.id)}
-                      >
-                        {item.name}
-                      </Button>
-                    </SheetClose>
-                  ))}
-                </div>
-
-                <div className="pt-4 flex flex-col space-y-4">
-                  <H4 className="mb-2">联系方式</H4>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <Small>+86 021-1234 5678</Small>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <Small>info@moliggy-tech.com</Small>
-                  </div>
-                </div>
-
-                <div className="flex items-center px-3 py-2">
-                  <span className="mr-2 text-sm text-muted-foreground">暗黑模式</span>
-                  <ThemeToggle />
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
       
