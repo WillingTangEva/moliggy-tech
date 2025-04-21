@@ -41,8 +41,8 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#B22222",
-          dark: "#8B0000",
+          DEFAULT: "#b72121",
+          dark: "#901a1a",
           foreground: "#ffffff",
         },
         secondary: {
@@ -58,7 +58,7 @@ module.exports = {
           foreground: "#64748b",
         },
         accent: {
-          DEFAULT: "#f1f5f9",
+          DEFAULT: "#f3c74f",
           foreground: "#1e293b",
         },
         popover: {
@@ -70,14 +70,14 @@ module.exports = {
           foreground: "#1e293b",
         },
         "blue-langlan": {
-          DEFAULT: "#1E3A8A",
-          dark: "#0F1F4C",
+          DEFAULT: "#14213d",
+          dark: "#0c172e",
         },
         "blue-caie": {
-          DEFAULT: "#4A90E2",
-          dark: "#2B68BF",
-          "30": "rgba(74, 144, 226, 0.3)",
-          "50": "rgba(74, 144, 226, 0.5)",
+          DEFAULT: "#005783",
+          dark: "#004b70",
+          "30": "rgba(0, 87, 131, 0.3)",
+          "50": "rgba(0, 87, 131, 0.5)",
         }
       },
       borderRadius: {

@@ -71,7 +71,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-blue-langlan text-white">
+    <section id="contact" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -81,8 +81,8 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold">联系我们</h2>
-          <div className="h-1 w-20 bg-blue-caie mx-auto mt-4"></div>
-          <p className="mt-4 text-gray-300 max-w-2xl mx-auto">
+          <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             无论您有任何问题或需求，我们的团队随时准备为您提供帮助
           </p>
         </motion.div>
@@ -95,9 +95,9 @@ export default function Contact() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <motion.div variants={itemVariants}>
-            <Card className="bg-blue-langlan-dark border-blue-caie-30 shadow-lg">
+            <Card className="shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-white">发送消息</CardTitle>
+                <CardTitle className="text-2xl font-bold">发送消息</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -106,8 +106,8 @@ export default function Contact() {
                     variants={formFieldVariants}
                   >
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-gray-300">
-                        姓名 <span className="text-red-400">*</span>
+                      <Label htmlFor="name">
+                        姓名 <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="name"
@@ -116,12 +116,11 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-gray-300">
-                        电话 <span className="text-red-400">*</span>
+                      <Label htmlFor="phone">
+                        电话 <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="phone"
@@ -131,7 +130,6 @@ export default function Contact() {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white"
                       />
                     </div>
                   </motion.div>
@@ -141,8 +139,8 @@ export default function Contact() {
                     variants={formFieldVariants}
                   >
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-gray-300">
-                        电子邮箱 <span className="text-red-400">*</span>
+                      <Label htmlFor="email">
+                        电子邮箱 <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -152,11 +150,10 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company" className="text-gray-300">
+                      <Label htmlFor="company">
                         公司/组织
                       </Label>
                       <Input
@@ -165,20 +162,19 @@ export default function Contact() {
                         placeholder="请输入您的公司或组织名称"
                         value={formData.company}
                         onChange={handleChange}
-                        className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white"
                       />
                     </div>
                   </motion.div>
                   
                   <motion.div className="space-y-2" variants={formFieldVariants}>
-                    <Label htmlFor="type" className="text-gray-300">
+                    <Label htmlFor="type">
                       需求类型
                     </Label>
                     <Select value={formData.type} onValueChange={handleSelectChange}>
-                      <SelectTrigger className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white">
+                      <SelectTrigger>
                         <SelectValue placeholder="请选择您的需求类型" />
                       </SelectTrigger>
-                      <SelectContent className="bg-blue-langlan-dark text-white">
+                      <SelectContent>
                         <SelectItem value="software">软件开发</SelectItem>
                         <SelectItem value="consulting">技术咨询</SelectItem>
                         <SelectItem value="integration">系统集成</SelectItem>
@@ -188,8 +184,8 @@ export default function Contact() {
                   </motion.div>
                   
                   <motion.div className="space-y-2" variants={formFieldVariants}>
-                    <Label htmlFor="message" className="text-gray-300">
-                      需求描述 <span className="text-red-400">*</span>
+                    <Label htmlFor="message">
+                      需求描述 <span className="text-destructive">*</span>
                     </Label>
                     <Textarea
                       id="message"
@@ -198,7 +194,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      className="bg-blue-langlan border-blue-caie-50 focus:border-blue-caie text-white h-32"
+                      className="h-32"
                     />
                   </motion.div>
                   
@@ -207,13 +203,12 @@ export default function Contact() {
                       id="privacy" 
                       checked={formData.privacy}
                       onCheckedChange={handleCheckboxChange}
-                      className="data-[state=checked]:bg-blue-caie"
                     />
                     <label 
                       htmlFor="privacy" 
-                      className="text-sm text-gray-300 cursor-pointer"
+                      className="text-sm text-muted-foreground cursor-pointer"
                     >
-                      我同意根据<a href="#" className="text-blue-caie hover:underline">隐私政策</a>处理我的个人信息
+                      我同意根据<a href="#" className="text-primary hover:underline">隐私政策</a>处理我的个人信息
                     </label>
                   </motion.div>
                   
@@ -224,7 +219,7 @@ export default function Contact() {
                   >
                     <Button 
                       type="submit"
-                      className="bg-blue-caie hover:bg-blue-caie-dark text-white rounded-full"
+                      className="rounded-full"
                     >
                       提交信息
                     </Button>
@@ -235,41 +230,41 @@ export default function Contact() {
           </motion.div>
           
           <motion.div variants={itemVariants}>
-            <Card className="bg-blue-langlan-dark border-blue-caie-30 shadow-lg h-full">
+            <Card className="shadow-lg h-full">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-white">联系方式</CardTitle>
+                <CardTitle className="text-2xl font-bold">联系方式</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-blue-caie mb-2">公司地址</h4>
-                  <p className="text-gray-300">上海市浦东新区</p>
+                  <h4 className="text-lg font-medium text-primary mb-2">公司地址</h4>
+                  <p className="text-muted-foreground">上海市浦东新区</p>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-blue-caie mb-2">联系电话</h4>
-                  <p className="text-gray-300">010-12345678</p>
+                  <h4 className="text-lg font-medium text-primary mb-2">联系电话</h4>
+                  <p className="text-muted-foreground">010-12345678</p>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-blue-caie mb-2">电子邮箱</h4>
-                  <p className="text-gray-300">moliggy@163.com</p>
+                  <h4 className="text-lg font-medium text-primary mb-2">电子邮箱</h4>
+                  <p className="text-muted-foreground">moliggy@163.com</p>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-blue-caie mb-2">工作时间</h4>
-                  <p className="text-gray-300">周一至周五：9:00 - 18:00</p>
+                  <h4 className="text-lg font-medium text-primary mb-2">工作时间</h4>
+                  <p className="text-muted-foreground">周一至周五：9:00 - 18:00</p>
                 </motion.div>
               </CardContent>
             </Card>
