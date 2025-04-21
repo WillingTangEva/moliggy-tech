@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { cn } from "../utils/cn";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
+import { H2, H3, P } from "./ui/typography";
 
 export default function About() {
   // 渐入动画配置
@@ -32,7 +33,7 @@ export default function About() {
           variants={fadeInUpVariants}
           custom={0}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">创始人致辞</h2>
+          <H2>创始人致辞</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
         </motion.div>
         
@@ -84,19 +85,20 @@ export default function About() {
             variants={fadeInUpVariants}
             custom={2}
           >
-            <h3 className="text-2xl font-bold text-foreground">
+            <H3>
               老莫宝 <span className="text-primary">创始人 & 首席执行官</span>
-            </h3>
+            </H3>
             
-            <motion.p 
-              className="text-muted-foreground leading-relaxed"
+            <motion.div 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              "各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！"
-            </motion.p>
+              <P className="text-muted-foreground">
+                "各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！"
+              </P>
+            </motion.div>
             
             <motion.div 
               className="pt-4 flex flex-wrap gap-2"

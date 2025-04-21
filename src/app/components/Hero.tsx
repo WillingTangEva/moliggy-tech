@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import QrCodeModal from "./QrCodeModal";
 import { scrollToElement } from "../utils/scrollUtils";
 import { cn } from "../utils/cn";
+import { H1, Lead } from "./ui/typography";
 
 export default function Hero() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
@@ -85,23 +86,25 @@ export default function Hero() {
         style={{ paddingTop: navbarHeight ? `${navbarHeight}px` : '50px' }}
       >
         <div className="text-center max-w-3xl mx-auto py-12 md:py-20">
-          <motion.h1 
-            className="text-4xl md:text-6xl font-bold text-foreground mb-6"
+          <motion.div 
             variants={titleVariants}
             initial="hidden"
             animate="visible"
           >
-            <span className="text-primary">让智能</span>驱动数字化转型
-          </motion.h1>
+            <H1 className="mb-6">
+              <span className="text-primary">让智能</span>驱动数字化转型
+            </H1>
+          </motion.div>
           
-          <motion.p 
-            className="text-xl text-muted-foreground mb-10"
+          <motion.div 
             variants={descriptionVariants}
             initial="hidden"
             animate="visible"
           >
-            专业软件咨询与定制开发服务商
-          </motion.p>
+            <Lead className="mb-10">
+              专业软件咨询与定制开发服务商
+            </Lead>
+          </motion.div>
           
           <motion.div 
             className="flex flex-wrap justify-center gap-4"

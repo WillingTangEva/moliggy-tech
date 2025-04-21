@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "../utils/cn";
+import { Large, Small, Muted } from "./ui/typography";
 
 export default function Footer() {
   const itemVariants = {
@@ -25,24 +26,28 @@ export default function Footer() {
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-            <span className="text-lg font-bold text-foreground">莫力给科技工作室</span>
-            <span className="text-sm text-muted-foreground">让智能驱动数字化转型</span>
+            <Large className="text-foreground">莫力给科技工作室</Large>
+            <Muted>让智能驱动数字化转型</Muted>
           </motion.div>
           
           <motion.div variants={itemVariants} className="flex flex-wrap justify-center items-center gap-4">
-            <Link 
-              href="/privacy" 
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              隐私政策
-            </Link>
-            <Link 
-              href="/terms" 
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              服务条款
-            </Link>
-            <span className="text-sm text-muted-foreground">© 2024 莫力给科技. 保留所有权利</span>
+            <Small asChild>
+              <Link 
+                href="/privacy" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                隐私政策
+              </Link>
+            </Small>
+            <Small asChild>
+              <Link 
+                href="/terms" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                服务条款
+              </Link>
+            </Small>
+            <Small className="text-muted-foreground">© 2024 莫力给科技. 保留所有权利</Small>
           </motion.div>
         </motion.div>
         

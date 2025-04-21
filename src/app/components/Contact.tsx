@@ -10,6 +10,7 @@ import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { cn } from "../utils/cn";
+import { H2, H4, P, Muted, Small } from "./ui/typography";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -81,11 +82,11 @@ export default function Contact() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">联系我们</h2>
+          <H2>联系我们</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <Muted className="mt-4 max-w-2xl mx-auto">
             无论您有任何问题或需求，我们的团队随时准备为您提供帮助
-          </p>
+          </Muted>
         </motion.div>
         
         <motion.div 
@@ -205,12 +206,14 @@ export default function Contact() {
                       checked={formData.privacy}
                       onCheckedChange={handleCheckboxChange}
                     />
-                    <label 
-                      htmlFor="privacy" 
-                      className="text-sm text-muted-foreground cursor-pointer"
+                    <Small 
+                      className="text-muted-foreground cursor-pointer"
+                      asChild
                     >
-                      我同意根据<a href="#" className="text-primary hover:underline">隐私政策</a>处理我的个人信息
-                    </label>
+                      <label htmlFor="privacy">
+                        我同意根据<a href="#" className="text-primary hover:underline">隐私政策</a>处理我的个人信息
+                      </label>
+                    </Small>
                   </motion.div>
                   
                   <motion.div
@@ -240,32 +243,32 @@ export default function Contact() {
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-primary mb-2">公司地址</h4>
-                  <p className="text-muted-foreground">上海市浦东新区</p>
+                  <H4 className="text-primary mb-2">公司地址</H4>
+                  <P className="text-muted-foreground">上海市浦东新区</P>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-primary mb-2">联系电话</h4>
-                  <p className="text-muted-foreground">+86 xxx-xxxx-xxxx</p>
+                  <H4 className="text-primary mb-2">联系电话</H4>
+                  <P className="text-muted-foreground">+86 021-1234 5678</P>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-primary mb-2">邮箱</h4>
-                  <p className="text-muted-foreground">support@moliggy-tech.com</p>
+                  <H4 className="text-primary mb-2">电子邮箱</H4>
+                  <P className="text-muted-foreground">info@moliggy-tech.com</P>
                 </motion.div>
                 
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <h4 className="text-lg font-medium text-primary mb-2">工作时间</h4>
-                  <p className="text-muted-foreground">周一至周五, 9:00 - 18:00</p>
+                  <H4 className="text-primary mb-2">服务时间</H4>
+                  <P className="text-muted-foreground">周一至周五: 09:00 - 18:00</P>
                 </motion.div>
 
                 <motion.div className="mt-8">

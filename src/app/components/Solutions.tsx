@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./ui/card";
 import { cn } from "../utils/cn";
+import { H2, H3, P, Muted } from "./ui/typography";
 
 export default function Solutions() {
   const solutions = [
@@ -89,11 +90,11 @@ export default function Solutions() {
           viewport={{ once: true, margin: "-100px" }}
           variants={titleVariants}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">我们的解决方案</h2>
+          <H2>我们的解决方案</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <Muted className="mt-4 max-w-2xl mx-auto">
             为企业提供从咨询到实施的全方位数字化转型服务
-          </p>
+          </Muted>
         </motion.div>
         
         <motion.div 
@@ -134,8 +135,8 @@ export default function Solutions() {
                   </motion.div>
                   
                   <div className="text-center md:text-left">
-                    <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
+                    <H3 className="mb-3 group-hover:text-primary transition-colors">{item.title}</H3>
+                    <P className="text-muted-foreground">{item.description}</P>
                   </div>
                   
                   <motion.div 

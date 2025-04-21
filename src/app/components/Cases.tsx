@@ -6,6 +6,7 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { cn } from "../utils/cn";
+import { H2, H3, P, Muted } from "./ui/typography";
 
 export default function Cases() {
   const [activeFilter, setActiveFilter] = useState("全部案例");
@@ -114,11 +115,11 @@ export default function Cases() {
           viewport={{ once: true, margin: "-100px" }}
           variants={titleVariants}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">客户案例</h2>
+          <H2>客户案例</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <Muted className="mt-4 max-w-2xl mx-auto">
             我们为各行业领先企业提供专业的数字化解决方案
-          </p>
+          </Muted>
         </motion.div>
         
         <motion.div 
@@ -173,8 +174,8 @@ export default function Cases() {
                     <Badge className="mb-3 bg-primary/10 text-primary hover:bg-primary/20 border-none">
                       {item.industry}
                     </Badge>
-                    <h3 className="text-xl font-bold mb-2 text-foreground">{item.title}</h3>
-                    <p className="text-muted-foreground mb-4">{item.description}</p>
+                    <H3 className="mb-2">{item.title}</H3>
+                    <P className="text-muted-foreground mb-4">{item.description}</P>
                     
                     <motion.a
                       href="#"
