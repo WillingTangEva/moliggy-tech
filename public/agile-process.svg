@@ -42,5 +42,5 @@
   
   <!-- 中心 -->
   <circle cx="300" cy="200" r="50" fill="#C62F2F" fill-opacity="0.1" stroke="#C62F2F" stroke-width="2"/>
-  <text x="300" y="200" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#C62F2F">茉莉给科技</text>
+  <text x="300" y="200" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#C62F2F">莫力给科技</text>
 </svg> 

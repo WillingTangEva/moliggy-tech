@@ -13,7 +13,7 @@ export default function About() {
             <div className="w-full max-w-md mx-auto aspect-square relative rounded-lg overflow-hidden border-4 border-accent shadow-xl">
               <Image
                 src="/ceo.png"
-                alt="茉莉给科技CEO"
+                alt="莫力给科技CEO"
                 className="object-cover"
                 unoptimized={true}
                 layout="fill"
