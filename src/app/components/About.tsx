@@ -79,7 +79,7 @@ export default function About() {
           </motion.div>
 
           <motion.div
-            className="space-y-6"
+            className="relative space-y-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
@@ -116,22 +116,22 @@ export default function About() {
                 <div className="absolute -right-2 bottom-0 text-red-500 text-5xl font-serif opacity-90">
                   "
                 </div>
-                
-                {/* 狗爪印子 */}
-                <div className="absolute bottom-0 right-0 w-14 h-14 transform translate-x-8 translate-y-8">
-                  <Image 
-                    src="/foot.png"
-                    alt="狗爪印"
-                    width={56}
-                    height={56}
-                    className="opacity-80"
-                  />
-                </div>
               </div>
             </motion.div>
 
+            {/* 狗爪印子 - 移动到徽章组上方并居中对齐 */}
+            <div className="absolute right-0 -bottom-20 w-24 h-24 flex items-center justify-center">
+              <Image 
+                src="/foot.png"
+                alt="狗爪印"
+                width={96}
+                height={96}
+                className="opacity-80"
+              />
+            </div>
+
             <motion.div
-              className="pt-4 flex flex-wrap gap-2"
+              className="pt-10 flex flex-wrap gap-2"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
