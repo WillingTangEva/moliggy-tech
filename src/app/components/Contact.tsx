@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 // UI 组件导入
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -21,6 +22,7 @@ type FormData = {
   type: string;
   message: string;
   privacy: boolean;
+  needType: string;
 };
 
 type FormFieldProps = {
@@ -49,6 +51,7 @@ export default function Contact() {
     type: '',
     message: '',
     privacy: false,
+    needType: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -62,6 +65,10 @@ export default function Contact() {
 
   const handleCheckboxChange = (checked: boolean) => {
     setFormData((prev) => ({ ...prev, privacy: checked }));
+  };
+
+  const handleNeedTypeChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, needType: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -94,10 +101,10 @@ export default function Contact() {
   };
 
   const contactInfo = [
-    { title: '公司地址', content: '上海市浦东新区' },
-    { title: '联系电话', content: '+86 021-1234 5678' },
-    { title: '电子邮箱', content: 'moliggy@163.com' },
-    { title: '服务时间', content: '周一至周五: 09:00 - 18:00' },
+    { title: '公司地址', content: '上海市浦东新区', icon: MapPin },
+    { title: '联系电话', content: '+86 021-1234 5678', icon: Phone },
+    { title: '电子邮箱', content: 'moliggy@163.com', icon: Mail },
+    { title: '服务时间', content: '周一至周五: 09:00 - 18:00', icon: Clock },
   ];
 
   return (
@@ -177,32 +184,52 @@ export default function Contact() {
                   </motion.div>
 
                   <motion.div variants={animations.formField}>
-                    <FormField label="需求类型" id="type">
-                      <Select value={formData.type} onValueChange={handleSelectChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="请选择您的需求类型" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="software">软件开发</SelectItem>
-                          <SelectItem value="consulting">技术咨询</SelectItem>
-                          <SelectItem value="integration">系统集成</SelectItem>
-                          <SelectItem value="other">其他服务</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormField>
-                  </motion.div>
-
-                  <motion.div variants={animations.formField}>
                     <FormField label="需求描述" id="message" required>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        placeholder="请详细描述您的需求或问题"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        className="h-32"
-                      />
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          <Button
+                            type="button"
+                            variant={formData.needType === '功能开发' ? 'default' : 'outline'}
+                            className="h-12"
+                            onClick={() => handleNeedTypeChange('功能开发')}
+                          >
+                            功能开发
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={formData.needType === '技术咨询' ? 'default' : 'outline'}
+                            className="h-12"
+                            onClick={() => handleNeedTypeChange('技术咨询')}
+                          >
+                            技术咨询
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={formData.needType === 'Bug修复' ? 'default' : 'outline'}
+                            className="h-12"
+                            onClick={() => handleNeedTypeChange('Bug修复')}
+                          >
+                            Bug修复
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={formData.needType === '其他问题' ? 'default' : 'outline'}
+                            className="h-12"
+                            onClick={() => handleNeedTypeChange('其他问题')}
+                          >
+                            其他问题
+                          </Button>
+                        </div>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          placeholder={`请描述您的${formData.needType || ''}需求或问题`}
+                          value={formData.message}
+                          onChange={handleChange}
+                          required
+                          className="h-32"
+                        />
+                      </div>
                     </FormField>
                   </motion.div>
 
@@ -230,17 +257,28 @@ export default function Contact() {
           </motion.div>
 
           <motion.div variants={animations.item}>
-            <Card className="shadow-lg h-full">
+            <Card className="shadow-lg h-full bg-card/50 backdrop-blur-sm border-primary/10">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold">联系方式</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">联系方式</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                {contactInfo.map((item, index) => (
-                  <div key={index}>
-                    <H4 className="text-primary mb-2">{item.title}</H4>
-                    <P className="text-muted-foreground">{item.content}</P>
-                  </div>
-                ))}
+              <CardContent>
+                <div className="grid gap-6">
+                  {contactInfo.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-start space-x-4 p-4 rounded-lg transition-colors hover:bg-accent"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <div className="bg-primary/10 p-3 rounded-full">
+                        <item.icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <H4 className="font-medium">{item.title}</H4>
+                        <P className="text-muted-foreground mt-1">{item.content}</P>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
