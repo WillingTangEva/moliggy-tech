@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from './components/ui/theme-provider';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import './globals.css';
 
 export const metadata: Metadata = {
