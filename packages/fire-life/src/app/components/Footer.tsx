@@ -1,114 +1,159 @@
 'use client'
 
-import Link from 'next/link'
+import Link from "next/link"
+import Image from "next/image"
+import { 
+  Twitter, 
+  Facebook, 
+  Instagram, 
+  Linkedin, 
+  Youtube,
+  ChevronDown
+} from "lucide-react"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion"
 
 const Footer = () => {
   return (
-    <footer className="bg-muted/50 border-t">
-      <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-3">
-            <h3 className="font-bold text-xl text-primary">FIRE.Life</h3>
-            <p className="text-muted-foreground">
-              帮助用户整合财务资源，预测退休财务状况，提供可视化的财富增长和支出模拟。
+    <footer className="border-t bg-muted/10">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="lg:col-span-2">
+            <Link href="/" className="mb-6 inline-block">
+              <Image 
+                src="/logo.svg" 
+                alt="FIRE.Life Logo" 
+                width={140} 
+                height={40} 
+                className="dark:invert" 
+              />
+            </Link>
+            <p className="text-muted-foreground mb-4 max-w-md">
+              FIRE.Life是领先的退休规划平台，帮助用户制定科学的财务自由计划，实现提前退休的目标。
             </p>
+            <div className="flex space-x-4">
+              <Link href="https://twitter.com" className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter className="h-5 w-5" />
+                <span className="sr-only">Twitter</span>
+              </Link>
+              <Link href="https://facebook.com" className="text-muted-foreground hover:text-primary transition-colors">
+                <Facebook className="h-5 w-5" />
+                <span className="sr-only">Facebook</span>
+              </Link>
+              <Link href="https://instagram.com" className="text-muted-foreground hover:text-primary transition-colors">
+                <Instagram className="h-5 w-5" />
+                <span className="sr-only">Instagram</span>
+              </Link>
+              <Link href="https://linkedin.com" className="text-muted-foreground hover:text-primary transition-colors">
+                <Linkedin className="h-5 w-5" />
+                <span className="sr-only">LinkedIn</span>
+              </Link>
+              <Link href="https://youtube.com" className="text-muted-foreground hover:text-primary transition-colors">
+                <Youtube className="h-5 w-5" />
+                <span className="sr-only">YouTube</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* 桌面版导航 */}
+          <div className="hidden lg:block">
+            <h3 className="font-medium text-lg mb-4">产品</h3>
+            <ul className="space-y-3">
+              <li><Link href="/features" className="text-muted-foreground hover:text-primary transition-colors">功能介绍</Link></li>
+              <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">价格</Link></li>
+              <li><Link href="/testimonials" className="text-muted-foreground hover:text-primary transition-colors">用户评价</Link></li>
+              <li><Link href="/integrations" className="text-muted-foreground hover:text-primary transition-colors">集成服务</Link></li>
+              <li><Link href="/enterprise" className="text-muted-foreground hover:text-primary transition-colors">企业解决方案</Link></li>
+            </ul>
           </div>
           
-          <div className="space-y-3">
-            <h4 className="font-medium">网站导航</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                  首页
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors">
-                  仪表盘
-                </Link>
-              </li>
-              <li>
-                <Link href="/plan" className="text-muted-foreground hover:text-primary transition-colors">
-                  规划工具
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="text-muted-foreground hover:text-primary transition-colors">
-                  资源中心
-                </Link>
-              </li>
+          <div className="hidden lg:block">
+            <h3 className="font-medium text-lg mb-4">资源</h3>
+            <ul className="space-y-3">
+              <li><Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">博客</Link></li>
+              <li><Link href="/academy" className="text-muted-foreground hover:text-primary transition-colors">FIRE学院</Link></li>
+              <li><Link href="/calculator" className="text-muted-foreground hover:text-primary transition-colors">退休计算器</Link></li>
+              <li><Link href="/guides" className="text-muted-foreground hover:text-primary transition-colors">指南</Link></li>
+              <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">常见问题</Link></li>
             </ul>
           </div>
-
-          <div className="space-y-3">
-            <h4 className="font-medium">资源</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
-                  博客
-                </Link>
-              </li>
-              <li>
-                <Link href="/guides" className="text-muted-foreground hover:text-primary transition-colors">
-                  教程指南
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">
-                  常见问题
-                </Link>
-              </li>
-              <li>
-                <Link href="/calculator" className="text-muted-foreground hover:text-primary transition-colors">
-                  计算器
-                </Link>
-              </li>
+          
+          <div className="hidden lg:block">
+            <h3 className="font-medium text-lg mb-4">公司</h3>
+            <ul className="space-y-3">
+              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">关于我们</Link></li>
+              <li><Link href="/careers" className="text-muted-foreground hover:text-primary transition-colors">加入我们</Link></li>
+              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">联系我们</Link></li>
+              <li><Link href="/press" className="text-muted-foreground hover:text-primary transition-colors">新闻中心</Link></li>
+              <li><Link href="/investors" className="text-muted-foreground hover:text-primary transition-colors">投资者关系</Link></li>
             </ul>
           </div>
-
-          <div className="space-y-3">
-            <h4 className="font-medium">联系我们</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                  关于我们
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  联系方式
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
-                  隐私政策
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
-                  服务条款
-                </Link>
-              </li>
-            </ul>
+          
+          {/* 移动版手风琴导航 */}
+          <div className="lg:hidden md:col-span-2">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="product">
+                <AccordionTrigger className="text-lg">产品</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-3 py-2">
+                    <li><Link href="/features" className="text-muted-foreground hover:text-primary transition-colors">功能介绍</Link></li>
+                    <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">价格</Link></li>
+                    <li><Link href="/testimonials" className="text-muted-foreground hover:text-primary transition-colors">用户评价</Link></li>
+                    <li><Link href="/integrations" className="text-muted-foreground hover:text-primary transition-colors">集成服务</Link></li>
+                    <li><Link href="/enterprise" className="text-muted-foreground hover:text-primary transition-colors">企业解决方案</Link></li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+              
+              <AccordionItem value="resources">
+                <AccordionTrigger className="text-lg">资源</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-3 py-2">
+                    <li><Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">博客</Link></li>
+                    <li><Link href="/academy" className="text-muted-foreground hover:text-primary transition-colors">FIRE学院</Link></li>
+                    <li><Link href="/calculator" className="text-muted-foreground hover:text-primary transition-colors">退休计算器</Link></li>
+                    <li><Link href="/guides" className="text-muted-foreground hover:text-primary transition-colors">指南</Link></li>
+                    <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">常见问题</Link></li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+              
+              <AccordionItem value="company">
+                <AccordionTrigger className="text-lg">公司</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-3 py-2">
+                    <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">关于我们</Link></li>
+                    <li><Link href="/careers" className="text-muted-foreground hover:text-primary transition-colors">加入我们</Link></li>
+                    <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">联系我们</Link></li>
+                    <li><Link href="/press" className="text-muted-foreground hover:text-primary transition-colors">新闻中心</Link></li>
+                    <li><Link href="/investors" className="text-muted-foreground hover:text-primary transition-colors">投资者关系</Link></li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
-
-        <div className="mt-8 pt-8 border-t flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} FIRE.Life. 保留所有权利。
-          </p>
-          <div className="mt-4 md:mt-0 flex space-x-4">
-            <Link href="#" className="text-muted-foreground hover:text-primary">
-              <span className="sr-only">微信</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                <path d="M9.195 21.435 7.91 17.76a6.86 6.86 0 0 1-1.65.214c-3.666 0-6.628-2.754-6.628-6.15 0-3.396 2.962-6.15 6.628-6.15 3.666 0 6.628 2.754 6.628 6.15a5.97 5.97 0 0 1-1.403 3.865l1.148 3.747-3.438-.001Zm2.619-13.762c-4.42 0-8 3.318-8 7.413 0 4.094 3.58 7.413 8 7.413.865 0 1.69-.135 2.457-.374l.533-.16 1.585 4.498 3.937-2.908.147-.135a7.39 7.39 0 0 0 2.341-4.334 7.65 7.65 0 0 0-2.338-5.494 8.215 8.215 0 0 0-5.715-2.485 8.408 8.408 0 0 0-2.947.517" />
-              </svg>
+        
+        <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center">
+          <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+            © {new Date().getFullYear()} FIRE.Life 保留所有权利
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              服务条款
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-primary">
-              <span className="sr-only">微博</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                <path d="M9.703 15.615a.85.85 0 0 1-.894.795H6.083a.85.85 0 0 1-.894-.795v-7.23c0-.438.4-.795.894-.795h2.726c.493 0 .894.357.894.795v7.23zm4.042 0a.85.85 0 0 1-.894.795H10.12a.85.85 0 0 1-.894-.795V4.795c0-.438.4-.795.894-.795h2.731c.493 0 .894.357.894.795v10.82zm4.536 0a.85.85 0 0 1-.893.795h-2.726a.85.85 0 0 1-.894-.795v-4.436c0-.438.4-.795.894-.795h2.726c.494 0 .893.357.893.795v4.436z" />
-              </svg>
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              隐私政策
+            </Link>
+            <Link href="/cookies" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              Cookie 政策
+            </Link>
+            <Link href="/accessibility" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              可访问性
             </Link>
           </div>
         </div>
