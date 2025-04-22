@@ -7,6 +7,7 @@
 本仓库包含以下项目：
 
 - **packages/official-website** - 莫力给科技官方网站
+- **packages/fire-life** - FIRE.Life 退休规划平台
 - 未来可能会添加更多项目...
 
 ## 技术栈
@@ -35,10 +36,21 @@ pnpm install
 
 ```bash
 # 在根目录运行
-pnpm dev
+pnpm dev:website
 
 # 或直接在项目目录运行
 cd packages/official-website
+pnpm dev
+```
+
+### 开发退休规划平台
+
+```bash
+# 在根目录运行
+pnpm dev:fire
+
+# 或直接在项目目录运行
+cd packages/fire-life
 pnpm dev
 ```
 
@@ -46,10 +58,13 @@ pnpm dev
 
 ```bash
 # 构建所有项目
-pnpm -r build
+pnpm build
 
 # 只构建官方网站
-pnpm --filter @moliggy-tech/official-website build
+pnpm build:website
+
+# 只构建退休规划平台
+pnpm build:fire
 ```
 
 ### 清理项目

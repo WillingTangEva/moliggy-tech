@@ -1,5 +1,5 @@
 {
-  "name": "@moliggy-tech/official-website",
+  "name": "@moliggy-tech/fire-life",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -17,5 +17,9 @@
     "clean:modules": "rimraf node_modules",
     "clean:next": "rimraf .next",
     "clean:build": "rimraf out"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.3",
+    "react-chartjs-2": "^5.2.0"
   }
 } 
