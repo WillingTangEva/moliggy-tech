@@ -22,19 +22,23 @@
 
 1. 安装Vercel CLI（如果尚未安装）：
 
-   ```
+   ```bash
+   # 使用npm
    npm install -g vercel
+   
+   # 或使用pnpm
+   pnpm add -g vercel
    ```
 
 2. 在终端中登录Vercel：
 
-   ```
+   ```bash
    vercel login
    ```
 
 3. 在项目目录中运行以下命令将项目链接到Vercel：
 
-   ```
+   ```bash
    vercel link
    ```
 
@@ -53,6 +57,64 @@
    - `VERCEL_ORG_ID`：来自步骤二的组织ID
    - `VERCEL_PROJECT_ID`：来自步骤二的项目ID
 
+## 步骤四：配置GitHub Actions工作流
+
+在你的仓库中创建一个新文件`.github/workflows/vercel-deploy.yml`，内容如下：
+
+```yaml
+name: Vercel部署
+
+on:
+  push:
+    branches: ['*']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: 安装Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: 安装pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+          run_install: false
+      
+      - name: 获取pnpm缓存目录
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: 设置pnpm缓存
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: 安装依赖
+        run: pnpm install
+      
+      - name: 部署到Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          working-directory: ./
+          vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
+```
+
 ## 完成
 
 设置完成后，GitHub Actions将在以下情况下自动部署你的项目：
@@ -61,3 +123,9 @@
 - 当你推送代码到`main`分支时，会创建生产部署
 
 你可以在GitHub仓库的"Actions"标签页中查看工作流运行情况，在Vercel仪表板中查看部署结果。
+
+## 使用pnpm的注意事项
+
+- 确保Vercel项目设置中的构建命令使用pnpm（例如`pnpm build`）
+- 可以在Vercel项目设置中添加环境变量`NPM_FLAGS="--shamefully-hoist=true"`以确保兼容性
+- 在Vercel项目设置中的"Build & Development Settings"部分，选择"Framework Preset"为"Next.js"，并将包管理器设置为"pnpm"
