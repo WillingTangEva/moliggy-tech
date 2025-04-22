@@ -17,5 +17,10 @@
     "clean:modules": "rimraf node_modules",
     "clean:next": "rimraf .next",
     "clean:build": "rimraf out"
+  },
+  "dependencies": {
+    "next": "15.3.1"
+  },
+  "devDependencies": {
   }
 } 
