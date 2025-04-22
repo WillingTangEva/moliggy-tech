@@ -135,12 +135,20 @@ importers:
       react-chartjs-2:
         specifier: ^5.2.0
         version: 5.3.0(chart.js@4.4.9)(react@19.1.0)
+    devDependencies:
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   packages/official-website:
     dependencies:
       next:
         specifier: 15.3.1
         version: 15.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+    devDependencies:
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
 
 packages:
 
