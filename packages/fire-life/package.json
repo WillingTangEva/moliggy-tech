@@ -19,12 +19,7 @@
     "clean:build": "rimraf out"
   },
   "dependencies": {
-    "chart.js": "^4.4.3",
-    "lucide-react": "^0.501.0",
-    "next": "15.3.1",
-    "react-chartjs-2": "^5.2.0"
   },
   "devDependencies": {
-    "rimraf": "^6.0.1"
   }
 }
