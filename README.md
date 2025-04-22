@@ -1,106 +1,79 @@
-# 莫力给科技工作室官网
+# 莫力给科技 Monorepo
 
-这是莫力给科技工作室官方网站的源代码仓库。网站使用Next.js框架开发，采用现代化的设计风格。
+这是莫力给科技的代码仓库，采用 monorepo 结构管理多个项目。
+
+## 项目结构
+
+本仓库包含以下项目：
+
+- **packages/official-website** - 莫力给科技官方网站
+- 未来可能会添加更多项目...
 
 ## 技术栈
 
-- **Next.js 15.3.1** - React框架，使用App Router
-- **React 19** - 用户界面库
-- **TailwindCSS 4** - 样式系统
+- **pnpm** - 包管理工具与工作区管理
 - **TypeScript** - 类型系统
-- **pnpm** - 包管理工具
-- **Radix UI** - 无样式UI组件库
-- **Shadcn/ui** - 基于Radix UI的组件集合
+- **Next.js** - React应用框架
+- **React** - 用户界面库
 
-## 主要功能
+## 开发指南
 
-- 响应式设计
-- 企业服务展示
-- 技术能力展示
-- 客户案例与合作伙伴
-- 团队介绍
+### 前提条件
 
-## 本地开发
+- Node.js >= 18.0.0
+- pnpm >= 10.0.0
 
-首先，确保已安装 pnpm（需要 pnpm 10.0.0 或更高版本）：
+### 安装
 
-```bash
-npm install -g pnpm
-```
-
-然后，安装依赖:
+首先，安装依赖：
 
 ```bash
 pnpm install
 ```
 
-启动开发服务器:
+### 开发官方网站
 
 ```bash
+# 在根目录运行
+pnpm dev
+
+# 或直接在项目目录运行
+cd packages/official-website
 pnpm dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000) 在浏览器中查看网站。
-
-## 构建生产版本
+### 构建项目
 
 ```bash
-pnpm build
+# 构建所有项目
+pnpm -r build
+
+# 只构建官方网站
+pnpm --filter @moliggy-tech/official-website build
 ```
 
-构建完成后，可以通过以下命令启动生产服务器:
+### 清理项目
 
 ```bash
-pnpm start
+# 清理所有项目
+pnpm clean
+
+# 清理pnpm缓存
+pnpm clean:cache
 ```
 
-## 项目结构
+## Monorepo 优势
 
-- `src/app` - 主应用目录（Next.js App Router）
-  - `page.tsx` - 首页组件
-  - `layout.tsx` - 应用布局
-  - `globals.css` - 全局样式
-  - `components/` - 页面组件
-    - `Hero.tsx` - 主页英雄区
-    - `Navbar.tsx` - 导航栏
-    - `About.tsx` - 关于我们
-    - `Solutions.tsx` - 解决方案
-    - `Cases.tsx` - 案例展示
-    - `Contact.tsx` - 联系方式
-    - `Footer.tsx` - 页脚
-    - `QrCodeModal.tsx` - 二维码模态框
-    - `ui/` - UI组件（基于shadcn/ui）
-- `public` - 静态资源目录
-  - `icons` - UI图标
-  - `partners` - 合作伙伴图标
-  - `certifications` - 认证标识
+1. **代码共享** - 在多个项目间共享组件、工具和配置
+2. **统一版本控制** - 所有项目在同一个仓库中，确保依赖版本一致
+3. **简化工作流** - 一次性克隆所有相关项目
+4. **原子提交** - 支持跨项目的原子级更改
+5. **集中管理依赖** - 避免重复安装相同的依赖
 
-## pnpm 使用指南
+## 贡献指南
 
-项目使用 pnpm 作为包管理工具，详细使用方法请参考 [PNPM_GUIDE.md](./PNPM_GUIDE.md)。
-
-## 设计风格
-
-网站采用两种配色方案:
-
-### 中国风科技红配色 (主页与其他部分)
-
-- 主红: #b72121 (故宫红演变色)
-- 辅助色:
-  - 渐变红: 线性渐变(135deg, #b72121 0%, #901a1a 100%)
-  - 点缀金: #f3c74f (用于图标、文字强调)
-
-## 了解更多
-
-要了解更多关于 Next.js 的信息，请查看以下资源：
-
-- [Next.js 文档](https://nextjs.org/docs) - 了解 Next.js 特性和 API
-- [学习 Next.js](https://nextjs.org/learn) - 交互式 Next.js 教程
-
-您可以查看 [Next.js GitHub 仓库](https://github.com/vercel/next.js) - 欢迎您的反馈和贡献！
-
-## 部署到 Vercel
-
-部署 Next.js 应用的最简单方法是使用 [Vercel 平台](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)，该平台由 Next.js 的创建者提供。
-
-查看我们的 [Next.js 部署文档](https://nextjs.org/docs/app/building-your-application/deploying) 了解更多详情。
+1. Fork 仓库
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 提交 Pull Request
