@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { Check } from "lucide-react"
-import { Button } from "./ui/button"
-import { Switch } from "./ui/switch"
+import { Button } from "@workspace/ui/components/button"
+import { Switch } from "@workspace/ui/components/switch"
 import { 
   Card, 
   CardContent, 
@@ -11,8 +11,8 @@ import {
   CardFooter, 
   CardHeader, 
   CardTitle 
-} from "./ui/card"
-import { Badge } from "./ui/badge"
+} from "@workspace/ui/components/card"
+import { Badge } from "@workspace/ui/components/badge"
 
 const pricingPlans = [
   {

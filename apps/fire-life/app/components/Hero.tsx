@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from './ui/button'
+import { Button } from '@workspace/ui/components/button'
 import Link from 'next/link'
 import { ArrowRight, LineChart, Wallet, Calendar } from 'lucide-react'
 
@@ -20,7 +20,7 @@ const Hero = () => {
               Fire Life 帮助您整合各类财务资源，预测退休生活，让提前退休不再是梦想。
             </p>
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
+              <Button size="lg" asChild>
                 <Link href="/signup">
                   开始免费使用 <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

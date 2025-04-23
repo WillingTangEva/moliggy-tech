@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardContent } from "./ui/card"
+import { Card, CardContent } from "@workspace/ui/components/card"
 import { CalculatorIcon, PiggyBank, TrendingUp, ShieldCheck } from "lucide-react"
 
 const Benefits = () => {

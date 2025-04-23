@@ -1,15 +1,14 @@
 'use client'
 
-import Image from "next/image"
-import { Card, CardContent } from "./ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Card, CardContent } from "@workspace/ui/components/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
 import { 
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/carousel"
+} from "@workspace/ui/components/carousel"
 import { Star } from "lucide-react"
 
 const testimonials = [

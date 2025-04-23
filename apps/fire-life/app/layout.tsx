@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { ThemeProvider } from './components/ui/theme-provider'
+import { ThemeProvider } from '@workspace/ui/components/theme-provider'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import { SpeedInsights } from '@vercel/speed-insights/next'

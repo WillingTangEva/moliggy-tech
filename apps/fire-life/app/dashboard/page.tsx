@@ -1,7 +1,7 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Button } from "../components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@workspace/ui/components/button"
 import { PlusCircle, TrendingUp, Calendar, Wallet, CreditCard, PieChart } from "lucide-react"
 import Link from "next/link"
 

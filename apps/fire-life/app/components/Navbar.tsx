@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ThemeToggle } from './ui/theme-toggle'
-import { Button } from './ui/button'
+import { ThemeToggle } from '@workspace/ui/components/theme-toggle'
+import { Button } from '@workspace/ui/components/button'
 import { Menu, X } from 'lucide-react'
 
 const Navbar = () => {

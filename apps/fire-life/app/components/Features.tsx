@@ -1,8 +1,8 @@
 'use client'
 
 import Image from "next/image"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { BarChart2, LineChart, PieChart, TrendingUp } from "lucide-react"
 
 const Features = () => {
