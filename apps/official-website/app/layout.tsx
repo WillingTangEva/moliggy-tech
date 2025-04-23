@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { ThemeProvider } from './components/ui/theme-provider';
+import { ThemeProvider } from '@workspace/ui/components/theme-provider';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import './globals.css';
+
+import './globals.css'
 
 export const metadata: Metadata = {
   title: '莫力给科技工作室 | MoliggyTech',
