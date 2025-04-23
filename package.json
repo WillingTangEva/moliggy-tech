@@ -1,70 +1,20 @@
 {
-  "name": "moliggy-tech-monorepo",
-  "version": "0.1.0",
+  "name": "moliggy-tech",
   "private": true,
-  "packageManager": "pnpm@10.7.0",
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=10.0.0"
-  },
   "scripts": {
-    "dev:website": "pnpm --filter @moliggy-tech/official-website dev",
-    "dev:fire": "pnpm --filter @moliggy-tech/fire-life dev",
-    "dev": "pnpm --filter @moliggy-tech/official-website dev",
-    "build:website": "pnpm --filter @moliggy-tech/official-website build",
-    "build:fire": "pnpm --filter @moliggy-tech/fire-life build",
-    "build": "pnpm -r build",
-    "start:website": "pnpm --filter @moliggy-tech/official-website start",
-    "start:fire": "pnpm --filter @moliggy-tech/fire-life start",
-    "lint": "pnpm -r lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "clean": "pnpm -r clean && pnpm clean:root",
-    "clean:root": "rimraf node_modules || echo '根目录 node_modules 不存在或已被清理'",
-    "clean:cache": "pnpm store prune"
-  },
-  "dependencies": {
-    "@radix-ui/react-accordion": "^1.2.7",
-    "@radix-ui/react-avatar": "^1.1.6",
-    "@radix-ui/react-checkbox": "^1.2.2",
-    "@radix-ui/react-dialog": "^1.1.10",
-    "@radix-ui/react-label": "^2.1.4",
-    "@radix-ui/react-menubar": "^1.1.11",
-    "@radix-ui/react-navigation-menu": "^1.2.9",
-    "@radix-ui/react-select": "^2.2.2",
-    "@radix-ui/react-slot": "^1.2.0",
-    "@radix-ui/react-switch": "^1.2.2",
-    "@radix-ui/react-tabs": "^1.1.8",
-    "@radix-ui/react-tooltip": "^1.2.3",
-    "@vercel/speed-insights": "^1.2.0",
-    "chart.js": "^4.4.3",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^12.7.4",
-    "lucide-react": "^0.501.0",
-    "motion": "^12.7.4",
-    "next": "15.3.1",
-    "next-themes": "^0.4.6",
-    "postcss": "^8.5.3",
-    "react": "^19.0.0",
-    "react-chartjs-2": "^5.2.0",
-    "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4.1.4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.1",
-    "eslint-config-prettier": "^10.1.2",
     "prettier": "^3.5.3",
-    "rimraf": "^6.0.1",
-    "tailwindcss": "^4.1.4",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5"
+    "turbo": "^2.5.0",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@10.7.0",
+  "engines": {
+    "node": ">=18"
   }
 }
