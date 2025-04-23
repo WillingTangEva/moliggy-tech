@@ -97,36 +97,34 @@ export default function About() {
             >
               <div className="relative px-4 py-6">
                 {/* 左侧引号 */}
-                <div className="absolute -left-2 top-0 text-red-500 text-5xl font-serif opacity-90">
-                  "
-                </div>
-                
+                <div className="absolute -left-2 top-0 text-red-500 text-5xl font-serif opacity-90">"</div>
+
                 <P className="text-muted-foreground space-y-4 ml-4">
-                  <span className="block">各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。</span>
-                  
-                  <span className="block">我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。</span>
-                  
-                  <span className="block">记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。</span>
-                  
-                  <span className="block font-medium">让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！</span>
+                  <span className="block">
+                    各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。
+                  </span>
+
+                  <span className="block">
+                    我们用尾巴摇动代码，用鼻子嗅出创新方向，让这家公司成为技术汪星人的理想国。
+                  </span>
+
+                  <span className="block">
+                    记住，这里没有骨头难题，只有待啃的挑战；没有不可逾越的栅栏，只有等待解锁的数字化未来。
+                  </span>
+
+                  <span className="block font-medium">
+                    让我们以代码为肉垫，用算法作牵引绳，在科技的草坪上共同追逐属于这个时代的星辰大海！
+                  </span>
                 </P>
-                
+
                 {/* 右侧引号 */}
-                <div className="absolute -right-2 bottom-0 text-red-500 text-5xl font-serif opacity-90">
-                  "
-                </div>
+                <div className="absolute -right-2 bottom-0 text-red-500 text-5xl font-serif opacity-90">"</div>
               </div>
             </motion.div>
 
             {/* 狗爪印子 - 移动到徽章组上方并居中对齐 */}
             <div className="absolute right-0 -bottom-20 w-24 h-24 flex items-center justify-center">
-              <Image 
-                src="/foot.png"
-                alt="狗爪印"
-                width={96}
-                height={96}
-                className="opacity-80"
-              />
+              <Image src="/foot.png" alt="狗爪印" width={96} height={96} className="opacity-80" />
             </div>
 
             <motion.div

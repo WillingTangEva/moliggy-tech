@@ -1,1 +1,37 @@
 @import '@workspace/ui/globals.css';
+
+:root {
+  /* 官网的配色方案 */
+  --moliggy-red: #b72121;
+  --moliggy-blue-gray: #1e293b;
+  --moliggy-light-gray: #f8fafc;
+  --moliggy-yellow: #f59e0b;
+}
+
+/* 使用自定义CSS变量 */
+.bg-moliggy-red { background-color: var(--moliggy-red); }
+.text-moliggy-red { color: var(--moliggy-red); }
+.border-moliggy-red { border-color: var(--moliggy-red); }
+
+.bg-moliggy-blue-gray { background-color: var(--moliggy-blue-gray); }
+.text-moliggy-blue-gray { color: var(--moliggy-blue-gray); }
+.border-moliggy-blue-gray { border-color: var(--moliggy-blue-gray); }
+
+.bg-moliggy-light-gray { background-color: var(--moliggy-light-gray); }
+.text-moliggy-light-gray { color: var(--moliggy-light-gray); }
+.border-moliggy-light-gray { border-color: var(--moliggy-light-gray); }
+
+.bg-moliggy-yellow { background-color: var(--moliggy-yellow); }
+.text-moliggy-yellow { color: var(--moliggy-yellow); }
+.border-moliggy-yellow { border-color: var(--moliggy-yellow); }
+
+.bg-moliggy-gradient {
+  background: linear-gradient(135deg, var(--moliggy-red), var(--moliggy-yellow));
+}
+
+.text-moliggy-gradient {
+  background: linear-gradient(135deg, var(--moliggy-red), var(--moliggy-yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
