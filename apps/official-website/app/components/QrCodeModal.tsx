@@ -47,7 +47,7 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open: boolean) => !open && onClose()}>
       <DialogContent className="max-w-sm p-0 overflow-hidden rounded-xl">
         <motion.div className="p-6" variants={containerVariants} initial="hidden" animate="visible" exit="exit">
           <DialogHeader>
