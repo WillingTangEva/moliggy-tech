@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Badge } from '@workspace/ui/components/badge';
 import { Card, CardContent } from '@workspace/ui/components/card';
 import { H2, H3, P } from '@workspace/ui/components/typography';

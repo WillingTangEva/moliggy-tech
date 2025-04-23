@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 // UI 组件导入
 import { Card, CardContent } from '@workspace/ui/components/card';

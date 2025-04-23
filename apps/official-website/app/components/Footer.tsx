@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Large, Small, Muted } from '@workspace/ui/components/typography';
 
 export default function Footer() {

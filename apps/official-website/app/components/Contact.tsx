@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Clock, Copy, Check } from 'lucide-react';
 
 // UI 组件导入
@@ -12,7 +12,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Label } from '@workspace/ui/components/label';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { H2, H4, P, Muted, Small } from '@workspace/ui/components/typography';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
 
 type FormData = {
   name: string;
