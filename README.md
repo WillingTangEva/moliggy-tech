@@ -6,23 +6,28 @@
 
 本仓库包含以下项目：
 
-- **packages/official-website** - 莫力给科技官方网站
-- **packages/fire-life** - FIRE.Life 退休规划平台
-- 未来可能会添加更多项目...
+- **apps/official-website** - 莫力给科技官方网站
+- **apps/fire-life** - FIRE.Life 退休规划平台
+- **packages/ui** - 共享UI组件库
+- **packages/eslint-config** - 统一的ESLint配置
+- **packages/typescript-config** - 共享TypeScript配置
 
 ## 技术栈
 
-- **pnpm** - 包管理工具与工作区管理
-- **TypeScript** - 类型系统
-- **Next.js** - React应用框架
-- **React** - 用户界面库
+- **pnpm** - 包管理工具与工作区管理 (v10+)
+- **Turborepo** - 高性能构建系统
+- **TypeScript** - 类型系统 (v5.7+)
+- **Next.js** - React应用框架 (v15.2+)
+- **React** - 用户界面库 (v19+)
+- **Radix UI** - 无样式、可访问的UI组件库
+- **Tailwind CSS** - 原子化CSS框架 (v4+)
 
 ## 开发指南
 
 ### 前提条件
 
-- Node.js >= 18.0.0
-- pnpm >= 10.0.0
+- Node.js >= 20.0.0
+- pnpm >= 10.4.1
 
 ### 安装
 
@@ -32,25 +37,18 @@
 pnpm install
 ```
 
-### 开发官方网站
+### 开发应用
 
 ```bash
-# 在根目录运行
-pnpm dev:website
-
-# 或直接在项目目录运行
-cd packages/official-website
+# 开发所有应用
 pnpm dev
-```
 
-### 开发退休规划平台
+# 只开发官方网站
+cd apps/official-website
+pnpm dev
 
-```bash
-# 在根目录运行
-pnpm dev:fire
-
-# 或直接在项目目录运行
-cd packages/fire-life
+# 只开发退休规划平台
+cd apps/fire-life
 pnpm dev
 ```
 
@@ -60,22 +58,29 @@ pnpm dev
 # 构建所有项目
 pnpm build
 
-# 只构建官方网站
-pnpm build:website
-
-# 只构建退休规划平台
-pnpm build:fire
+# 只构建特定项目
+cd apps/official-website
+pnpm build
 ```
 
-### 清理项目
+### 代码检查
 
 ```bash
-# 清理所有项目
-pnpm clean
+# 检查所有项目
+pnpm lint
 
-# 清理pnpm缓存
-pnpm clean:cache
+# 修复代码风格问题
+pnpm format
 ```
+
+## 技术特性
+
+1. **React 19** - 使用最新的React特性和服务器组件
+2. **Next.js 15** - 利用App Router和服务器组件架构
+3. **Radix UI** - 无障碍访问的UI基础组件
+4. **共享UI库** - 跨应用复用的组件系统
+5. **Tailwind CSS 4** - 最新版原子化CSS
+6. **TypeScript 5.7** - 严格类型检查与类型安全
 
 ## Monorepo 优势
 
