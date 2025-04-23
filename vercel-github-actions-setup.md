@@ -25,7 +25,7 @@
    ```bash
    # 使用npm
    npm install -g vercel
-   
+
    # 或使用pnpm
    pnpm add -g vercel
    ```
@@ -66,27 +66,27 @@ name: Vercel部署
 
 on:
   push:
-    branches: ['*']
+    branches: ["*"]
   pull_request:
-    branches: ['main']
+    branches: ["main"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: 安装Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      
+          node-version: "18"
+
       - name: 安装pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 10
           run_install: false
-      
+
       - name: 获取pnpm缓存目录
         id: pnpm-cache
         shell: bash
@@ -100,10 +100,10 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: 安装依赖
         run: pnpm install
-      
+
       - name: 部署到Vercel
         uses: amondnet/vercel-action@v20
         with:

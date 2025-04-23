@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Button } from "@workspace/ui/components/button"
-import { PlusCircle, TrendingUp, Calendar, Wallet, CreditCard, PieChart } from "lucide-react"
-import Link from "next/link"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Button } from '@workspace/ui/components/button';
+import { PlusCircle, TrendingUp, Calendar, Wallet, CreditCard, PieChart } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Dashboard() {
   return (
@@ -145,9 +145,7 @@ export default function Dashboard() {
                     <div className="font-medium">保险续费提醒</div>
                     <div className="text-sm text-muted-foreground">您的年金保险将在30天后需要续费</div>
                   </div>
-                  <div className="ml-auto text-sm text-muted-foreground">
-                    2023-05-15
-                  </div>
+                  <div className="ml-auto text-sm text-muted-foreground">2023-05-15</div>
                 </div>
                 <div className="flex items-start">
                   <div className="h-8 w-8 flex items-center justify-center rounded-full bg-secondary/10 text-secondary mr-3">
@@ -157,9 +155,7 @@ export default function Dashboard() {
                     <div className="font-medium">定期存款到期</div>
                     <div className="text-sm text-muted-foreground">您的¥50,000定期存款将在15天后到期</div>
                   </div>
-                  <div className="ml-auto text-sm text-muted-foreground">
-                    2023-05-30
-                  </div>
+                  <div className="ml-auto text-sm text-muted-foreground">2023-05-30</div>
                 </div>
               </div>
             </CardContent>
@@ -167,5 +163,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}

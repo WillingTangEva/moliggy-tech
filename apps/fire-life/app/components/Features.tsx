@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import Image from "next/image"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
-import { BarChart2, LineChart, PieChart, TrendingUp } from "lucide-react"
+import Image from 'next/image';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
+import { BarChart2, LineChart, PieChart, TrendingUp } from 'lucide-react';
 
 const Features = () => {
   return (
@@ -11,16 +11,14 @@ const Features = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl font-bold mb-4">强大的退休规划工具</h2>
-          <p className="text-muted-foreground text-lg">
-            FIRE.Life 提供全面的工具集，帮助您规划和优化退休生活
-          </p>
+          <p className="text-muted-foreground text-lg">FIRE.Life 提供全面的工具集，帮助您规划和优化退休生活</p>
         </div>
 
         <Tabs defaultValue="dashboard" className="w-full">
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
             <TabsList className="flex flex-col h-auto p-1 bg-muted/50 md:w-64 space-y-1">
-              <TabsTrigger 
-                value="dashboard" 
+              <TabsTrigger
+                value="dashboard"
                 className="w-full justify-start text-left px-4 py-3 h-auto data-[state=active]:shadow-sm gap-2"
               >
                 <BarChart2 className="h-5 w-5" />
@@ -29,8 +27,8 @@ const Features = () => {
                   <div className="text-xs text-muted-foreground">一目了然的财务概览</div>
                 </div>
               </TabsTrigger>
-              <TabsTrigger 
-                value="planner" 
+              <TabsTrigger
+                value="planner"
                 className="w-full justify-start text-left px-4 py-3 h-auto data-[state=active]:shadow-sm gap-2"
               >
                 <LineChart className="h-5 w-5" />
@@ -39,8 +37,8 @@ const Features = () => {
                   <div className="text-xs text-muted-foreground">定制专属计划</div>
                 </div>
               </TabsTrigger>
-              <TabsTrigger 
-                value="projection" 
+              <TabsTrigger
+                value="projection"
                 className="w-full justify-start text-left px-4 py-3 h-auto data-[state=active]:shadow-sm gap-2"
               >
                 <TrendingUp className="h-5 w-5" />
@@ -49,8 +47,8 @@ const Features = () => {
                   <div className="text-xs text-muted-foreground">动态模拟未来财务</div>
                 </div>
               </TabsTrigger>
-              <TabsTrigger 
-                value="recommendations" 
+              <TabsTrigger
+                value="recommendations"
                 className="w-full justify-start text-left px-4 py-3 h-auto data-[state=active]:shadow-sm gap-2"
               >
                 <PieChart className="h-5 w-5" />
@@ -66,18 +64,11 @@ const Features = () => {
                 <Card className="border-none shadow-lg overflow-hidden">
                   <CardHeader className="pb-0">
                     <CardTitle>个性化仪表盘</CardTitle>
-                    <CardDescription>
-                      一目了然查看您的财务健康状况与退休进展
-                    </CardDescription>
+                    <CardDescription>一目了然查看您的财务健康状况与退休进展</CardDescription>
                   </CardHeader>
                   <CardContent className="py-6">
                     <div className="aspect-video relative rounded-lg overflow-hidden border bg-muted/20">
-                      <Image 
-                        src="/images/dashboard-preview.jpg" 
-                        alt="仪表盘预览" 
-                        fill 
-                        className="object-cover"
-                      />
+                      <Image src="/images/dashboard-preview.jpg" alt="仪表盘预览" fill className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/20 flex items-end p-6">
                         <div className="text-white">
                           <p className="font-medium text-lg">财务一览无余</p>
@@ -103,18 +94,11 @@ const Features = () => {
                 <Card className="border-none shadow-lg overflow-hidden">
                   <CardHeader className="pb-0">
                     <CardTitle>退休规划创建</CardTitle>
-                    <CardDescription>
-                      定制专属于您的退休计划，考虑各种因素
-                    </CardDescription>
+                    <CardDescription>定制专属于您的退休计划，考虑各种因素</CardDescription>
                   </CardHeader>
                   <CardContent className="py-6">
                     <div className="aspect-video relative rounded-lg overflow-hidden border bg-muted/20">
-                      <Image 
-                        src="/images/planner-preview.jpg" 
-                        alt="规划创建器预览" 
-                        fill 
-                        className="object-cover"
-                      />
+                      <Image src="/images/planner-preview.jpg" alt="规划创建器预览" fill className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/20 flex items-end p-6">
                         <div className="text-white">
                           <p className="font-medium text-lg">全面规划工具</p>
@@ -140,18 +124,11 @@ const Features = () => {
                 <Card className="border-none shadow-lg overflow-hidden">
                   <CardHeader className="pb-0">
                     <CardTitle>财务预测</CardTitle>
-                    <CardDescription>
-                      动态模拟您的财务未来，助您做出明智决策
-                    </CardDescription>
+                    <CardDescription>动态模拟您的财务未来，助您做出明智决策</CardDescription>
                   </CardHeader>
                   <CardContent className="py-6">
                     <div className="aspect-video relative rounded-lg overflow-hidden border bg-muted/20">
-                      <Image 
-                        src="/images/projection-preview.jpg" 
-                        alt="财务预测预览" 
-                        fill 
-                        className="object-cover"
-                      />
+                      <Image src="/images/projection-preview.jpg" alt="财务预测预览" fill className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/20 flex items-end p-6">
                         <div className="text-white">
                           <p className="font-medium text-lg">预见财务未来</p>
@@ -177,16 +154,14 @@ const Features = () => {
                 <Card className="border-none shadow-lg overflow-hidden">
                   <CardHeader className="pb-0">
                     <CardTitle>智能建议</CardTitle>
-                    <CardDescription>
-                      基于您的情况提供个性化财务优化建议
-                    </CardDescription>
+                    <CardDescription>基于您的情况提供个性化财务优化建议</CardDescription>
                   </CardHeader>
                   <CardContent className="py-6">
                     <div className="aspect-video relative rounded-lg overflow-hidden border bg-muted/20">
-                      <Image 
-                        src="/images/recommendations-preview.jpg" 
-                        alt="智能建议预览" 
-                        fill 
+                      <Image
+                        src="/images/recommendations-preview.jpg"
+                        alt="智能建议预览"
+                        fill
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/20 flex items-end p-6">
@@ -214,7 +189,7 @@ const Features = () => {
         </Tabs>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Features 
+export default Features;

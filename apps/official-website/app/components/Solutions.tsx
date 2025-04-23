@@ -70,7 +70,7 @@ export default function Solutions() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5 z-0"></div>
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl z-0"></div>
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/5 rounded-full blur-3xl z-0"></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-16"
@@ -81,7 +81,9 @@ export default function Solutions() {
         >
           <H2 className="text-3xl md:text-4xl font-bold">我们的解决方案</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
-          <Muted className="mt-6 max-w-2xl mx-auto text-foreground/70">为企业提供从咨询到实施的全方位数字化转型服务</Muted>
+          <Muted className="mt-6 max-w-2xl mx-auto text-foreground/70">
+            为企业提供从咨询到实施的全方位数字化转型服务
+          </Muted>
         </motion.div>
 
         <motion.div
@@ -116,7 +118,9 @@ export default function Solutions() {
                   </motion.div>
 
                   <div className="text-center md:text-left">
-                    <H3 className="mb-3 text-xl font-semibold group-hover:text-primary transition-colors">{item.title}</H3>
+                    <H3 className="mb-3 text-xl font-semibold group-hover:text-primary transition-colors">
+                      {item.title}
+                    </H3>
                     <P className="text-muted-foreground text-sm">{item.description}</P>
                   </div>
 

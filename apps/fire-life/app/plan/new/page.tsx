@@ -1,34 +1,34 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Label } from "@workspace/ui/components/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select"
-import { ArrowLeft, ArrowRight, Save } from "lucide-react"
+import { useState } from 'react';
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Label } from '@workspace/ui/components/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { ArrowLeft, ArrowRight, Save } from 'lucide-react';
 
 const steps = [
   { id: 1, name: '基本信息' },
   { id: 2, name: '资产录入' },
   { id: 3, name: '保险设置' },
-  { id: 4, name: '支出设置' }
-]
+  { id: 4, name: '支出设置' },
+];
 
 export default function NewPlan() {
-  const [currentStep, setCurrentStep] = useState(1)
+  const [currentStep, setCurrentStep] = useState(1);
 
   const nextStep = () => {
     if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-24 md:py-28">
@@ -44,24 +44,30 @@ export default function NewPlan() {
               <div
                 key={step.id}
                 className={`flex-1 text-center ${
-                  currentStep === step.id ? 'text-primary' : 
-                  currentStep > step.id ? 'text-muted-foreground' : 'text-muted-foreground/50'
+                  currentStep === step.id
+                    ? 'text-primary'
+                    : currentStep > step.id
+                      ? 'text-muted-foreground'
+                      : 'text-muted-foreground/50'
                 }`}
               >
                 <div className="relative">
-                  <div 
+                  <div
                     className={`h-2 absolute top-1/2 transform -translate-y-1/2 left-0 right-0 ${
                       currentStep > step.id ? 'bg-primary' : 'bg-muted'
                     }`}
                     style={{
                       left: step.id === 1 ? '50%' : '0',
-                      right: step.id === steps.length ? '50%' : '0'
+                      right: step.id === steps.length ? '50%' : '0',
                     }}
                   />
-                  <div 
+                  <div
                     className={`h-8 w-8 rounded-full flex items-center justify-center mx-auto relative z-10 ${
-                      currentStep === step.id ? 'bg-primary text-white' : 
-                      currentStep > step.id ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'
+                      currentStep === step.id
+                        ? 'bg-primary text-white'
+                        : currentStep > step.id
+                          ? 'bg-primary text-white'
+                          : 'bg-muted text-muted-foreground'
                     }`}
                   >
                     {currentStep > step.id ? '✓' : step.id}
@@ -297,5 +303,5 @@ export default function NewPlan() {
         )}
       </div>
     </div>
-  )
-} 
+  );
+}

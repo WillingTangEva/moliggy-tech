@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Button } from '@workspace/ui/components/button'
-import Link from 'next/link'
-import { ArrowRight, LineChart, Wallet, Calendar } from 'lucide-react'
+import { Button } from '@workspace/ui/components/button';
+import Link from 'next/link';
+import { ArrowRight, LineChart, Wallet, Calendar } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -26,13 +26,11 @@ const Hero = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="#how-it-works">
-                  了解工作原理
-                </Link>
+                <Link href="#how-it-works">了解工作原理</Link>
               </Button>
             </div>
           </div>
-          
+
           <div className="relative fade-in">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl transform rotate-3"></div>
             <div className="relative bg-muted/50 backdrop-blur-sm rounded-xl p-6 border shadow-lg">
@@ -80,7 +78,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero 
+export default Hero;

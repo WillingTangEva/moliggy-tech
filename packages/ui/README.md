@@ -40,9 +40,9 @@ import { Theme } from "@workspace/ui/components/theme";
     <Input placeholder="请输入用户名" />
     <Button>提交</Button>
   </div>
-</Theme>
+</Theme>;
 ```
 
 ## 开发
 
-组件库使用最新的React 19特性和TypeScript 5.7+开发，确保类型安全和最佳性能。 
+组件库使用最新的React 19特性和TypeScript 5.7+开发，确保类型安全和最佳性能。

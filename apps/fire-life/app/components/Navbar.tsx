@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { ThemeToggle } from '@workspace/ui/components/theme-toggle'
-import { Button } from '@workspace/ui/components/button'
-import { Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { ThemeToggle } from '@workspace/ui/components/theme-toggle';
+import { Button } from '@workspace/ui/components/button';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className="fixed w-full bg-background/80 backdrop-blur-md z-50 border-b">
@@ -55,29 +55,29 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="py-2 text-foreground/80 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               首页
             </Link>
-            <Link 
-              href="/dashboard" 
+            <Link
+              href="/dashboard"
               className="py-2 text-foreground/80 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               仪表盘
             </Link>
-            <Link 
-              href="/plan" 
+            <Link
+              href="/plan"
               className="py-2 text-foreground/80 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               规划工具
             </Link>
-            <Link 
-              href="/resources" 
+            <Link
+              href="/resources"
               className="py-2 text-foreground/80 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -95,7 +95,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar 
+export default Navbar;

@@ -95,7 +95,11 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
           >
-            <Button onClick={() => setIsQrCodeModalOpen(true)} className="rounded-full text-base shadow-md hover:shadow-lg transition-shadow" size="lg">
+            <Button
+              onClick={() => setIsQrCodeModalOpen(true)}
+              className="rounded-full text-base shadow-md hover:shadow-lg transition-shadow"
+              size="lg"
+            >
               立即咨询 <span className="ml-2">→</span>
             </Button>
 

@@ -54,12 +54,12 @@ export default function Navbar() {
   };
 
   return (
-    <header className={cn(
-      'fixed w-full z-50 transition-all duration-300', 
-      isScrolled 
-        ? 'bg-background/90 backdrop-blur-md shadow-sm' 
-        : 'bg-transparent'
-    )}>
+    <header
+      className={cn(
+        'fixed w-full z-50 transition-all duration-300',
+        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      )}
+    >
       <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
         <motion.div
           initial={{ opacity: 0, x: -20 }}

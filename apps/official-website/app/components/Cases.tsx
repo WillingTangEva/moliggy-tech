@@ -99,7 +99,7 @@ export default function Cases() {
       <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background to-transparent z-0"></div>
       <div className="absolute -top-60 -right-60 w-96 h-96 bg-accent/5 rounded-full blur-3xl z-0"></div>
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl z-0"></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-16"
@@ -110,7 +110,9 @@ export default function Cases() {
         >
           <H2 className="text-3xl md:text-4xl font-bold">客户案例</H2>
           <div className="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
-          <Muted className="mt-6 max-w-2xl mx-auto text-foreground/70">我们为各行业领先企业提供专业的数字化解决方案</Muted>
+          <Muted className="mt-6 max-w-2xl mx-auto text-foreground/70">
+            我们为各行业领先企业提供专业的数字化解决方案
+          </Muted>
         </motion.div>
 
         <motion.div
@@ -125,9 +127,7 @@ export default function Cases() {
               <Button
                 variant={activeFilter === filter ? 'default' : 'outline'}
                 className={`rounded-full text-sm md:text-base px-4 py-2 transition-all duration-300 ${
-                  activeFilter === filter 
-                    ? 'shadow-md' 
-                    : 'border-primary/20 hover:border-primary/50 hover:bg-primary/5'
+                  activeFilter === filter ? 'shadow-md' : 'border-primary/20 hover:border-primary/50 hover:bg-primary/5'
                 }`}
                 onClick={() => setActiveFilter(filter)}
               >
@@ -167,7 +167,10 @@ export default function Cases() {
                   </div>
 
                   <CardContent className="p-6">
-                    <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-colors">
+                    <Badge
+                      variant="outline"
+                      className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+                    >
                       {item.industry}
                     </Badge>
                     <H3 className="mt-3 mb-2 text-xl font-semibold">{item.title}</H3>

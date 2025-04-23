@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { Card, CardContent } from "@workspace/ui/components/card"
-import { CalculatorIcon, PiggyBank, TrendingUp, ShieldCheck } from "lucide-react"
+import { Card, CardContent } from '@workspace/ui/components/card';
+import { CalculatorIcon, PiggyBank, TrendingUp, ShieldCheck } from 'lucide-react';
 
 const Benefits = () => {
   return (
@@ -21,9 +21,7 @@ const Benefits = () => {
                 <CalculatorIcon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">精准预测</h3>
-              <p className="text-muted-foreground">
-                基于您的财务数据和市场趋势，提供精准的退休财务预测
-              </p>
+              <p className="text-muted-foreground">基于您的财务数据和市场趋势，提供精准的退休财务预测</p>
             </CardContent>
           </Card>
 
@@ -33,9 +31,7 @@ const Benefits = () => {
                 <TrendingUp className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">动态调整</h3>
-              <p className="text-muted-foreground">
-                根据实际情况实时调整规划，应对市场变化和人生转折
-              </p>
+              <p className="text-muted-foreground">根据实际情况实时调整规划，应对市场变化和人生转折</p>
             </CardContent>
           </Card>
 
@@ -45,9 +41,7 @@ const Benefits = () => {
                 <PiggyBank className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">全面规划</h3>
-              <p className="text-muted-foreground">
-                整合各类资产、保险和投资，全方位规划退休生活
-              </p>
+              <p className="text-muted-foreground">整合各类资产、保险和投资，全方位规划退休生活</p>
             </CardContent>
           </Card>
 
@@ -57,15 +51,13 @@ const Benefits = () => {
                 <ShieldCheck className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">安全可靠</h3>
-              <p className="text-muted-foreground">
-                严格保护您的财务数据，提供安全可靠的规划服务
-              </p>
+              <p className="text-muted-foreground">严格保护您的财务数据，提供安全可靠的规划服务</p>
             </CardContent>
           </Card>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Benefits 
+export default Benefits;
