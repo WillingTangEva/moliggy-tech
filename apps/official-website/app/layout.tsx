@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-import '@workspace/ui/globals.css';
+import './globals.css';
 import { Providers } from './components/providers';
 
 export const metadata: Metadata = {
