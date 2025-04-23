@@ -12,7 +12,7 @@ import { Menubar, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/m
 // 自定义组件和工具导入
 import QrCodeModal from './QrCodeModal';
 import { scrollToElement } from '../../lib/scrollUtils';
-import { cn } from 'lib/utils';
+import { cn } from '@workspace/ui/lib/utils';
 
 export default function Navbar() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
