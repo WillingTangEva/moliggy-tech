@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardContent } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { cn } from '../utils/cn';
-import { H2, H3, P, Muted } from './ui/typography';
+import { Card, CardContent } from '@workspace/ui/components/card';
+import { Badge } from '@workspace/ui/components/badge';
+import { Button } from '@workspace/ui/components/button';
+import { H2, H3, P, Muted } from '@workspace/ui/components/typography';
 
 export default function Cases() {
   const [activeFilter, setActiveFilter] = useState('全部案例');

@@ -5,13 +5,13 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Copy, Check } from 'lucide-react';
 
 // UI 组件导入
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { Label } from './ui/label';
-import { Checkbox } from './ui/checkbox';
-import { H2, H4, P, Muted, Small } from './ui/typography';
+import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Input } from '@workspace/ui/components/input';
+import { Textarea } from '@workspace/ui/components/textarea';
+import { Button } from '@workspace/ui/components/button';
+import { Label } from '@workspace/ui/components/label';
+import { Checkbox } from '@workspace/ui/components/checkbox';
+import { H2, H4, P, Muted, Small } from '@workspace/ui/components/typography';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 
 type FormData = {

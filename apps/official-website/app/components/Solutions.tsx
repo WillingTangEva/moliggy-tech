@@ -4,11 +4,8 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 // UI 组件导入
-import { Card, CardContent } from './ui/card';
-import { H2, H3, P, Muted } from './ui/typography';
-
-// 工具导入
-import { cn } from '../utils/cn';
+import { Card, CardContent } from '@workspace/ui/components/card';
+import { H2, H3, P, Muted } from '@workspace/ui/components/typography';
 
 export default function Solutions() {
   const solutions = [

@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 // UI 组件导入
-import { Button } from './ui/button';
-import { ThemeToggle } from './ui/theme-toggle';
-import { Menubar, MenubarMenu, MenubarTrigger } from './ui/menubar';
+import { Button } from '@workspace/ui/components/button';
+import { ThemeToggle } from '@workspace/ui/components/theme-toggle';
+import { Menubar, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar';
 
 // 自定义组件和工具导入
 import QrCodeModal from './QrCodeModal';
 import { scrollToElement } from '../../lib/scrollUtils';
-import { cn } from '../utils/cn';
+import { cn } from 'lib/utils';
 
 export default function Navbar() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);

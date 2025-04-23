@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from './ui/button';
+import { Button } from '@workspace/ui/components/button';
 import QrCodeModal from './QrCodeModal';
 import { scrollToElement } from '../../lib/scrollUtils';
-import { cn } from '../utils/cn';
-import { H1, Lead } from './ui/typography';
+import { H1, Lead } from '@workspace/ui/components/typography';
 
 export default function Hero() {
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);

@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { cn } from '../utils/cn';
-import { Large, Small, Muted } from './ui/typography';
+import { Large, Small, Muted } from '@workspace/ui/components/typography';
 
 export default function Footer() {
   const itemVariants = {

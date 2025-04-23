@@ -2,10 +2,9 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { cn } from '../utils/cn';
-import { Badge } from './ui/badge';
-import { Card, CardContent } from './ui/card';
-import { H2, H3, P } from './ui/typography';
+import { Badge } from '@workspace/ui/components/badge';
+import { Card, CardContent } from '@workspace/ui/components/card';
+import { H2, H3, P } from '@workspace/ui/components/typography';
 
 export default function About() {
   // 渐入动画配置
