@@ -54,15 +54,20 @@ export default function Navbar() {
   };
 
   return (
-    <header className={cn('fixed w-full z-50 transition-all duration-300 bg-background', isScrolled && 'shadow-sm')}>
-      <div className="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
+    <header className={cn(
+      'fixed w-full z-50 transition-all duration-300', 
+      isScrolled 
+        ? 'bg-background/90 backdrop-blur-md shadow-sm' 
+        : 'bg-transparent'
+    )}>
+      <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="flex items-center"
         >
-          <Link href="/" className="font-bold text-xl md:text-2xl text-primary">
+          <Link href="/" className="font-bold text-xl md:text-2xl text-primary tracking-tight">
             MoliggyTech
           </Link>
         </motion.div>
@@ -74,7 +79,7 @@ export default function Navbar() {
               <MenubarMenu key={item.id}>
                 <MenubarTrigger
                   className={cn(
-                    'font-medium transition-colors hover:text-primary px-4 py-2 rounded-md hover:bg-accent/50',
+                    'font-medium transition-colors hover:text-primary px-4 py-2 rounded-full hover:bg-primary/5',
                     activeSection === item.id ? 'text-primary' : 'text-foreground'
                   )}
                   onClick={() => handleNavClick(item.id)}
@@ -96,7 +101,7 @@ export default function Navbar() {
           >
             <Button
               onClick={() => setIsQrCodeModalOpen(true)}
-              className="rounded-full py-1 px-3 text-sm md:text-base md:py-2 md:px-6"
+              className="rounded-full py-1 px-3 text-sm md:text-base md:py-2 md:px-6 shadow-md hover:shadow-lg transition-shadow"
             >
               立即咨询
             </Button>

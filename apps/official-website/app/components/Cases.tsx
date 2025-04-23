@@ -93,8 +93,14 @@ export default function Cases() {
   };
 
   return (
-    <section id="cases" className="py-20 bg-secondary">
-      <div className="container mx-auto px-4">
+    <section id="cases" className="py-20 bg-secondary relative overflow-hidden">
+      {/* 背景装饰 */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5 z-0"></div>
+      <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background to-transparent z-0"></div>
+      <div className="absolute -top-60 -right-60 w-96 h-96 bg-accent/5 rounded-full blur-3xl z-0"></div>
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl z-0"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-16"
           initial="hidden"
@@ -102,13 +108,13 @@ export default function Cases() {
           viewport={{ once: true, margin: '-100px' }}
           variants={titleVariants}
         >
-          <H2>客户案例</H2>
-          <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <Muted className="mt-4 max-w-2xl mx-auto">我们为各行业领先企业提供专业的数字化解决方案</Muted>
+          <H2 className="text-3xl md:text-4xl font-bold">客户案例</H2>
+          <div className="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+          <Muted className="mt-6 max-w-2xl mx-auto text-foreground/70">我们为各行业领先企业提供专业的数字化解决方案</Muted>
         </motion.div>
 
         <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-8"
+          className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8"
           variants={filterVariants}
           initial="hidden"
           whileInView="visible"
@@ -118,7 +124,11 @@ export default function Cases() {
             <motion.div key={filter} variants={filterItemVariants}>
               <Button
                 variant={activeFilter === filter ? 'default' : 'outline'}
-                className="rounded-full transition-all duration-300"
+                className={`rounded-full text-sm md:text-base px-4 py-2 transition-all duration-300 ${
+                  activeFilter === filter 
+                    ? 'shadow-md' 
+                    : 'border-primary/20 hover:border-primary/50 hover:bg-primary/5'
+                }`}
                 onClick={() => setActiveFilter(filter)}
               >
                 {filter}
@@ -129,7 +139,7 @@ export default function Cases() {
 
         <AnimatePresence mode="wait">
           <motion.div
-            className="grid md:grid-cols-3 gap-8 mt-12 min-h-[500px]"
+            className="grid md:grid-cols-3 gap-6 md:gap-8 mt-12 min-h-[500px]"
             key={activeFilter}
             variants={cardsContainerVariants}
             initial="hidden"
@@ -141,28 +151,31 @@ export default function Cases() {
                 variants={cardVariants}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <Card className="h-full overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="h-48 relative overflow-hidden bg-muted group">
+                <Card className="h-full overflow-hidden border border-border/40 hover:border-primary/30 hover:shadow-md transition-all duration-300">
+                  <div className="h-48 relative overflow-hidden bg-muted/30 group">
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-60"></div>
                     <motion.div
-                      className="absolute inset-0 bg-primary/30 flex items-center justify-center"
+                      className="absolute inset-0 bg-primary/50 flex items-center justify-center"
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Button variant="secondary" className="rounded-full">
+                      <Button variant="secondary" className="rounded-full shadow-lg hover:shadow-xl transition-shadow">
                         查看详情
                       </Button>
                     </motion.div>
                   </div>
 
                   <CardContent className="p-6">
-                    <Badge>{item.industry}</Badge>
-                    <H3 className="mb-2">{item.title}</H3>
-                    <P className="text-muted-foreground mb-4">{item.description}</P>
+                    <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-colors">
+                      {item.industry}
+                    </Badge>
+                    <H3 className="mt-3 mb-2 text-xl font-semibold">{item.title}</H3>
+                    <P className="text-muted-foreground text-sm mb-4">{item.description}</P>
 
                     <motion.a
                       href="#"
-                      className="text-primary flex items-center hover:text-primary/80 transition-colors"
+                      className="text-primary flex items-center hover:text-primary/80 transition-colors text-sm font-medium"
                       whileHover={{ x: 5 }}
                       transition={{ type: 'spring', stiffness: 400 }}
                     >
