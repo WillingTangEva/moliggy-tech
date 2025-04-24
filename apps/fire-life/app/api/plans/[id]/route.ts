@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { planService } from '../../../lib/services/plan-service';
+import { getPlanById, updatePlan, deletePlan } from '../../../lib/services/plan-service';
 import { createClient } from '../../../utils/supabase/server';
 
 // GET /api/plans/:id - 获取单个财务计划
@@ -18,7 +18,7 @@ export async function GET(
       );
     }
 
-    const plan = await planService.getPlanById(params.id);
+    const plan = await getPlanById(params.id);
 
     if (!plan) {
       return NextResponse.json(
@@ -62,7 +62,7 @@ export async function PUT(
     }
 
     // 验证计划存在并属于当前用户
-    const existingPlan = await planService.getPlanById(params.id);
+    const existingPlan = await getPlanById(params.id);
     if (!existingPlan) {
       return NextResponse.json(
         { error: '财务计划不存在' },
@@ -78,7 +78,7 @@ export async function PUT(
     }
 
     const updateData = await request.json();
-    const updatedPlan = await planService.updatePlan(params.id, updateData);
+    const updatedPlan = await updatePlan(params.id, updateData);
 
     if (!updatedPlan) {
       return NextResponse.json(
@@ -114,7 +114,7 @@ export async function DELETE(
     }
 
     // 验证计划存在并属于当前用户
-    const existingPlan = await planService.getPlanById(params.id);
+    const existingPlan = await getPlanById(params.id);
     if (!existingPlan) {
       return NextResponse.json(
         { error: '财务计划不存在' },
@@ -129,7 +129,7 @@ export async function DELETE(
       );
     }
 
-    const success = await planService.deletePlan(params.id);
+    const success = await deletePlan(params.id);
 
     if (!success) {
       return NextResponse.json(

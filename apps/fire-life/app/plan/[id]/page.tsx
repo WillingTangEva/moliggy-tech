@@ -157,7 +157,7 @@ export default function PlanDetail({ params }: { params: { id: string } }) {
                         </Button>
                         <Button 
                             className="bg-primary hover:bg-primary/90"
-                            onClick={() => router.push(`/forecast/create?planId=${plan.id}`)}
+                            onClick={() => router.push(`/forecast?planId=${plan.id}`)}
                         >
                             生成预测报告
                         </Button>

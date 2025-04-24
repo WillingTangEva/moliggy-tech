@@ -229,7 +229,7 @@ export default function NewPlan() {
                 
                 // 转换为FinancialPlan类型
                 const planData = {
-                    user_id: '',  // 这里应该从用户会话中获取，留空让后端处理
+                    user_id: 'temporary-user-id',  // 临时用户ID，将由后端替换
                     name: `退休计划 ${new Date().toLocaleDateString('zh-CN')}`,
                     description: `目标退休年龄: ${formData.target_retirement_age}岁`,
                     
@@ -250,6 +250,8 @@ export default function NewPlan() {
                     inflation_rate: 0.03, // 假设通胀率为3%
                     risk_tolerance: riskToleranceMap[formData.risk_profile] || 5,
                 };
+                
+                console.log('发送计划数据:', planData);
                 
                 // 调用API保存计划
                 const result = await planAPI.createPlan(planData);

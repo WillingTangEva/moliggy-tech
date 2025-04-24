@@ -76,8 +76,16 @@ export default function ForecastPage() {
                 setPlans(plansData);
                 setForecasts(forecastsData);
 
-                // 如果有计划，选择第一个
-                if (plansData.length > 0 && plansData[0]?.id) {
+                // 检查URL中是否有planId参数
+                const searchParams = new URLSearchParams(window.location.search);
+                const planIdFromUrl = searchParams.get('planId');
+                
+                if (planIdFromUrl && plansData.some(p => p.id === planIdFromUrl)) {
+                    // 如果URL中有planId并且该计划存在，则选择它
+                    setSelectedPlanId(planIdFromUrl);
+                    console.log('从URL设置计划ID:', planIdFromUrl);
+                } else if (plansData.length > 0 && plansData[0]?.id) {
+                    // 否则选择第一个计划
                     setSelectedPlanId(plansData[0].id);
                 }
 
