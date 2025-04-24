@@ -135,3 +135,47 @@ pnpm start
 - `@workspace/ui` - 共享UI组件库
 - `@workspace/eslint-config` - 统一的ESLint配置
 - `@workspace/typescript-config` - 共享TypeScript配置
+
+## 架构变更说明
+
+### 数据存储
+
+本项目使用Supabase作为后端数据存储解决方案。所有数据库操作都通过Supabase客户端进行，相关配置在 `app/lib/supabase.ts` 中。
+
+### API交互
+
+所有与后端的交互都通过 `app/lib/api-client.ts` 中定义的API客户端进行，它封装了与以下资源的交互：
+
+- 资产管理 (`assetAPI`)
+- 财务计划管理 (`planAPI`)
+- 退休预测管理 (`forecastAPI`)
+
+### 测试API
+
+为了便于测试API连接，我们提供了一个简单的测试页面：
+
+```
+/test/api
+```
+
+这个页面允许你测试各种API端点的连接，查看返回的数据格式。
+
+### 开发指南
+
+1. 确保已设置Supabase项目并更新环境变量
+2. 在 `.env.local` 文件中添加以下变量：
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key (可选，仅用于管理员功能)
+```
+
+3. 安装依赖并启动开发服务器：
+
+```bash
+npm install
+npm run dev
+```
+
+4. 访问 http://localhost:3000/test/api 测试API连接

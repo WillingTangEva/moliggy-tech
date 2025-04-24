@@ -9,7 +9,15 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'your-supabase-url';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-supabase-anon-key';
 
 // 创建Supabase客户端
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true, // 默认为true，但明确设置以确保会话持久化
+    storageKey: 'fire-life-auth', // 自定义存储键名，避免与其他项目冲突
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+    autoRefreshToken: true, // 自动刷新令牌
+    detectSessionInUrl: true, // 检测URL中的会话信息，用于第三方OAuth
+  },
+});
 
 // 创建带有服务角色密钥的管理员客户端（仅在服务器端使用）
 export const createAdminClient = () => {

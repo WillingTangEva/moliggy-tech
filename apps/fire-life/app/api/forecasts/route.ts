@@ -1,12 +1,40 @@
-import { createForecast, getForecastsByUser } from '@/lib/services/forecast.service';
-import { auth } from '@clerk/nextjs';
+import { createForecast, getForecastsByUser } from '@/app/lib/services/forecast.service';
+import { supabase } from '@/app/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+
+// 获取当前登录用户
+async function getAuthUser() {
+  try {
+    // 从请求中获取cookie
+    const cookieStore = cookies();
+    
+    // 创建新的supabase客户端实例
+    const authSupabase = supabase;
+    
+    // 获取会话
+    const { data: { session }, error } = await authSupabase.auth.getSession();
+    
+    if (error || !session) {
+      console.error('获取会话失败:', error);
+      return null;
+    }
+    
+    return session.user;
+  } catch (err) {
+    console.error('认证错误:', err);
+    return null;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = auth();
+    // 获取当前用户
+    const user = await getAuthUser();
+    const userId = user?.id;
+    
     if (!userId) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 });
+      return NextResponse.json({ error: '未授权', code: 'auth/unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -33,9 +61,12 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const { userId } = auth();
+    // 获取当前用户
+    const user = await getAuthUser();
+    const userId = user?.id;
+    
     if (!userId) {
-      return NextResponse.json({ error: '未授权' }, { status: 401 });
+      return NextResponse.json({ error: '未授权', code: 'auth/unauthorized' }, { status: 401 });
     }
 
     const forecasts = await getForecastsByUser(userId);

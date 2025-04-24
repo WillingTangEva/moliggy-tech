@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -15,12 +16,96 @@ import {
   Wallet,
   CreditCard,
   PieChart,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
+import { assetAPI, planAPI, forecastAPI } from '../lib/api-client';
+import { Asset, FinancialPlan, Forecast } from '../lib/types';
 
 export default function Dashboard() {
+  const [assets, setAssets] = useState<Asset[]>([]);
+  const [plans, setPlans] = useState<FinancialPlan[]>([]);
+  const [forecasts, setForecasts] = useState<Forecast[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // 获取用户数据
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const [assetsData, plansData, forecastsData] = await Promise.all([
+          assetAPI.getAssets(),
+          planAPI.getPlans(),
+          forecastAPI.getForecasts(),
+        ]);
+
+        setAssets(assetsData);
+        setPlans(plansData);
+        setForecasts(forecastsData);
+        setError(null);
+      } catch (err) {
+        console.error('获取数据失败:', err);
+        setError('获取数据失败，请刷新页面重试');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // 计算总资产价值
+  const totalAssetValue = assets.reduce((sum, asset) => sum + asset.value, 0);
+
+  // 获取最新的预测（如果有）
+  const latestForecast = forecasts.length > 0 ? forecasts[0] : null;
+
+  // 计算财务自由进度
+  const financialFreedomProgress = latestForecast
+    ? Math.min(100, Math.round((totalAssetValue / latestForecast.retirement_assets) * 100))
+    : 0;
+
+  // 计算资产分布
+  type AssetDistributionType = 'cash' | 'stock' | 'bond' | 'real_estate' | 'crypto' | 'other';
+  const assetDistribution: Record<AssetDistributionType, number> = {
+    cash: 0,
+    stock: 0,
+    bond: 0,
+    real_estate: 0,
+    crypto: 0,
+    other: 0,
+  };
+
+  assets.forEach(asset => {
+    // 如果资产类型是有效的分布类型，则添加到相应类别，否则添加到"其他"
+    const type = asset.type as AssetDistributionType;
+    if (type in assetDistribution) {
+      assetDistribution[type] += asset.value;
+    } else {
+      assetDistribution.other += asset.value;
+    }
+  });
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-24 md:px-6 md:py-28 flex justify-center items-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
+          <p>加载数据中...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-24 md:px-6 md:py-28">
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-md border border-red-200">
+          {error}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-6">
         <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
           <div>
@@ -42,17 +127,22 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-medium">68%</span>
+                <span className="text-lg font-medium">{financialFreedomProgress}%</span>
                 <span className="text-muted-foreground text-sm">
                   目标: 100%
                 </span>
               </div>
               <div className="bg-muted mt-2 h-3 w-full rounded-full">
-                <div className="bg-primary h-3 w-[68%] rounded-full"></div>
+                <div 
+                  className="bg-primary h-3 rounded-full" 
+                  style={{ width: `${financialFreedomProgress}%` }}
+                ></div>
               </div>
               <div className="mt-2 flex justify-between text-sm">
-                <span>当前: ¥1.6M</span>
-                <span>目标: ¥2.5M</span>
+                <span>当前: ¥{(totalAssetValue / 10000).toFixed(1)}万</span>
+                {latestForecast && (
+                  <span>目标: ¥{(latestForecast.retirement_assets / 10000).toFixed(1)}万</span>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -65,10 +155,19 @@ export default function Dashboard() {
             <CardContent className="flex items-center">
               <Calendar className="text-primary mr-4 h-10 w-10" />
               <div>
-                <div className="text-2xl font-bold">2036年</div>
-                <div className="text-muted-foreground text-sm">
-                  距今还有12年
-                </div>
+                {latestForecast ? (
+                  <>
+                    <div className="text-2xl font-bold">
+                      {new Date().getFullYear() + 
+                        (latestForecast.retirement_age - (plans[0]?.current_age || 30))}年
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      {latestForecast.retirement_age}岁
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-muted-foreground">尚无预测数据</div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -81,10 +180,18 @@ export default function Dashboard() {
             <CardContent className="flex items-center">
               <Wallet className="text-primary mr-4 h-10 w-10" />
               <div>
-                <div className="text-2xl font-bold">¥12,500</div>
-                <div className="text-muted-foreground text-sm">
-                  已达到目标的78%
-                </div>
+                {latestForecast ? (
+                  <>
+                    <div className="text-2xl font-bold">
+                      ¥{latestForecast.monthly_income.toLocaleString()}
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      已达到目标的{latestForecast.readiness_score}%
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-muted-foreground">尚无预测数据</div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -97,96 +204,100 @@ export default function Dashboard() {
               <CardDescription>您当前的资产分布</CardDescription>
             </CardHeader>
             <CardContent className="flex min-h-[220px] items-center justify-center">
-              <div className="flex flex-col items-center">
-                <PieChart className="text-muted-foreground/50 h-40 w-40" />
-                <div className="mt-4 grid grid-cols-2 gap-4">
-                  <div className="flex items-center">
-                    <div className="bg-primary mr-2 h-3 w-3 rounded-full"></div>
-                    <span className="text-sm">股票 (45%)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="bg-secondary mr-2 h-3 w-3 rounded-full"></div>
-                    <span className="text-sm">债券 (25%)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="bg-destructive mr-2 h-3 w-3 rounded-full"></div>
-                    <span className="text-sm">现金 (15%)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="bg-muted-foreground mr-2 h-3 w-3 rounded-full"></div>
-                    <span className="text-sm">其他 (15%)</span>
+              {assets.length > 0 ? (
+                <div className="flex flex-col items-center">
+                  <PieChart className="text-muted-foreground/50 h-40 w-40" />
+                  <div className="mt-4 grid grid-cols-2 gap-4">
+                    {assetDistribution.stock > 0 && (
+                      <div className="flex items-center">
+                        <div className="bg-primary mr-2 h-3 w-3 rounded-full"></div>
+                        <span className="text-sm">
+                          股票 ({Math.round((assetDistribution.stock / totalAssetValue) * 100)}%)
+                        </span>
+                      </div>
+                    )}
+                    {assetDistribution.bond > 0 && (
+                      <div className="flex items-center">
+                        <div className="bg-secondary mr-2 h-3 w-3 rounded-full"></div>
+                        <span className="text-sm">
+                          债券 ({Math.round((assetDistribution.bond / totalAssetValue) * 100)}%)
+                        </span>
+                      </div>
+                    )}
+                    {assetDistribution.cash > 0 && (
+                      <div className="flex items-center">
+                        <div className="bg-destructive mr-2 h-3 w-3 rounded-full"></div>
+                        <span className="text-sm">
+                          现金 ({Math.round((assetDistribution.cash / totalAssetValue) * 100)}%)
+                        </span>
+                      </div>
+                    )}
+                    {assetDistribution.real_estate > 0 && (
+                      <div className="flex items-center">
+                        <div className="bg-green-500 mr-2 h-3 w-3 rounded-full"></div>
+                        <span className="text-sm">
+                          房产 ({Math.round((assetDistribution.real_estate / totalAssetValue) * 100)}%)
+                        </span>
+                      </div>
+                    )}
+                    {assetDistribution.other > 0 && (
+                      <div className="flex items-center">
+                        <div className="bg-muted-foreground mr-2 h-3 w-3 rounded-full"></div>
+                        <span className="text-sm">
+                          其他 ({Math.round((assetDistribution.other / totalAssetValue) * 100)}%)
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-muted-foreground mb-4">尚未添加资产数据</p>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/assets/new">添加资产</Link>
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>财富增长趋势</CardTitle>
-              <CardDescription>过去12个月</CardDescription>
-            </CardHeader>
-            <CardContent className="flex min-h-[220px] items-center justify-center">
-              <div className="flex flex-col items-center">
-                <TrendingUp className="text-muted-foreground/50 h-40 w-40" />
-                <div className="mt-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm">起始</span>
-                    <span className="text-sm font-medium">¥1,380,000</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">当前</span>
-                    <span className="text-sm font-medium">¥1,650,000</span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-sm">增长</span>
-                    <span className="text-primary text-sm font-medium">
-                      +19.6%
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>近期提醒</CardTitle>
-              <CardDescription>重要财务事件提醒</CardDescription>
+              <CardTitle>财务计划</CardTitle>
+              <CardDescription>您的退休规划</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="bg-primary/10 text-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full">
-                    <CreditCard className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="font-medium">保险续费提醒</div>
-                    <div className="text-muted-foreground text-sm">
-                      您的年金保险将在30天后需要续费
+              {plans.length > 0 ? (
+                <div className="space-y-4">
+                  {plans.slice(0, 3).map(plan => (
+                    <div key={plan.id} className="flex items-start justify-between">
+                      <div>
+                        <div className="font-medium">{plan.name || '未命名计划'}</div>
+                        <div className="text-muted-foreground text-sm">
+                          目标退休年龄: {plan.target_retirement_age}岁
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href={`/plan/${plan.id}`}>查看</Link>
+                      </Button>
                     </div>
-                  </div>
-                  <div className="text-muted-foreground ml-auto text-sm">
-                    2023-05-15
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="bg-secondary/10 text-secondary mr-3 flex h-8 w-8 items-center justify-center rounded-full">
-                    <Wallet className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="font-medium">定期存款到期</div>
-                    <div className="text-muted-foreground text-sm">
-                      您的¥50,000定期存款将在15天后到期
+                  ))}
+                  {plans.length > 3 && (
+                    <div className="text-center mt-2">
+                      <Button asChild variant="link" size="sm">
+                        <Link href="/plans">查看所有计划</Link>
+                      </Button>
                     </div>
-                  </div>
-                  <div className="text-muted-foreground ml-auto text-sm">
-                    2023-05-30
-                  </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-muted-foreground mb-4">尚未创建财务计划</p>
+                  <Button asChild size="sm">
+                    <Link href="/plan/new">创建计划</Link>
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
