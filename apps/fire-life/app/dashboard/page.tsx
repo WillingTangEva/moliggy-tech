@@ -21,6 +21,17 @@ import {
 import Link from 'next/link';
 import { assetAPI, planAPI, forecastAPI } from '../lib/api-client';
 import { Asset, FinancialPlan, Forecast } from '../lib/types';
+import { supabase } from '../lib/supabase';
+import { useRouter } from 'next/navigation';
+import { fetchAPI } from '../lib/api-client';
+
+// API会话状态接口
+interface ApiSessionStatus {
+  status: string;
+  userId: string;
+  email: string;
+  lastUpdated: number;
+}
 
 export default function Dashboard() {
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -28,6 +39,9 @@ export default function Dashboard() {
   const [forecasts, setForecasts] = useState<Forecast[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [sessionStatus, setSessionStatus] = useState<string>('检查中...');
+  const router = useRouter();
 
   // 获取用户数据
   useEffect(() => {
@@ -54,6 +68,49 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('获取会话出错:', error.message);
+          setSessionStatus(`会话错误: ${error.message}`);
+          setTimeout(() => router.push('/login'), 2000);
+          return;
+        }
+        
+        if (!data.session) {
+          console.log('仪表盘: 未登录');
+          setSessionStatus('未登录，正在跳转到登录页面...');
+          setTimeout(() => router.push('/login'), 2000);
+          return;
+        }
+        
+        // 获取用户信息
+        setUser(data.session.user);
+        setSessionStatus('已登录');
+        
+        // 检查API会话状态
+        try {
+          const apiSessionStatus = await fetchAPI<ApiSessionStatus>('/auth/session');
+          console.log('API会话状态:', apiSessionStatus);
+          setSessionStatus(`已登录 (API会话有效: ${apiSessionStatus.userId})`);
+        } catch (apiError) {
+          console.error('API会话检查失败:', apiError);
+          setSessionStatus(`已登录 (API会话检查失败)`);
+        }
+      } catch (err) {
+        console.error('认证检查失败:', err);
+        setSessionStatus(`认证检查失败: ${err instanceof Error ? err.message : '未知错误'}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, [router]);
 
   // 计算总资产价值
   const totalAssetValue = assets.reduce((sum, asset) => sum + asset.value, 0);
@@ -94,6 +151,14 @@ export default function Dashboard() {
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
           <p>加载数据中...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="container mx-auto mt-10 px-4">
+        <h1 className="text-2xl font-bold mb-6">认证状态: {sessionStatus}</h1>
       </div>
     );
   }

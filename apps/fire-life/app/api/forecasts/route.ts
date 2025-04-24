@@ -1,22 +1,23 @@
 import { createForecast, getForecastsByUser } from '@/app/lib/services/forecast.service';
-import { supabase } from '@/app/lib/supabase';
+import { getServerSupabase } from '@/app/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 // 获取当前登录用户
 async function getAuthUser() {
   try {
-    // 从请求中获取cookie
-    const cookieStore = cookies();
-    
-    // 创建新的supabase客户端实例
-    const authSupabase = supabase;
+    // 获取服务器端supabase客户端
+    const serverSupabase = getServerSupabase();
     
     // 获取会话
-    const { data: { session }, error } = await authSupabase.auth.getSession();
+    const { data: { session }, error } = await serverSupabase.auth.getSession();
     
-    if (error || !session) {
+    if (error) {
       console.error('获取会话失败:', error);
+      return null;
+    }
+    
+    if (!session) {
+      console.log('获取会话失败: 没有有效会话');
       return null;
     }
     

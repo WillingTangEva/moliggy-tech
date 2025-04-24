@@ -11,7 +11,7 @@ import {
   RetirementResult
 } from './types';
 import { redirect } from 'next/navigation';
-import { supabase } from './supabase';
+import { supabase, getSession, refreshSession } from './supabase';
 
 /**
  * 检查用户会话状态
@@ -19,12 +19,7 @@ import { supabase } from './supabase';
  */
 export async function checkSession() {
   try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
-    if (error) {
-      console.error('获取会话出错:', error.message);
-      return null;
-    }
+    const session = await getSession();
     
     if (!session) {
       console.log('没有有效会话');
@@ -67,9 +62,9 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
       
       if (userId) {
         // 用户已登录但会话可能需要刷新，尝试刷新会话
-        const { data, error } = await supabase.auth.refreshSession();
+        const session = await refreshSession();
         
-        if (!error && data.session) {
+        if (session) {
           console.log('会话已刷新，重试请求');
           // 重试请求
           return fetchAPI<T>(endpoint, options);

@@ -1,4 +1,4 @@
-import { supabase } from '../supabase';
+import { getServerSupabase } from '../supabase';
 import { Forecast, ForecastDetail, RetirementResult, Tables } from '../types';
 import { calculateForecast } from '../calculations';
 import { generateId } from '../utils';
@@ -12,6 +12,8 @@ export async function createForecast(
   currentAssets: number
 ): Promise<{ forecast: Forecast; details: ForecastDetail[] }> {
   try {
+    const supabase = getServerSupabase();
+    
     // 获取财务计划
     const { data: plan, error: planError } = await supabase
       .from(Tables.FinancialPlans)
@@ -120,6 +122,8 @@ export async function createForecast(
  */
 export async function getForecastsByUser(userId: string): Promise<Forecast[]> {
   try {
+    const supabase = getServerSupabase();
+    
     const { data, error } = await supabase
       .from(Tables.Forecasts)
       .select('*, plan:plan_id(*)')
@@ -152,6 +156,8 @@ export async function getForecastById(
   userId: string
 ): Promise<{ forecast: Forecast; details: ForecastDetail[] } | null> {
   try {
+    const supabase = getServerSupabase();
+    
     // 获取预测记录
     const { data: forecast, error: forecastError } = await supabase
       .from(Tables.Forecasts)
@@ -195,6 +201,8 @@ export async function getRetirementResult(
   currentAssets: number
 ): Promise<RetirementResult> {
   try {
+    const supabase = getServerSupabase();
+    
     // 获取财务计划
     const { data: plan, error: planError } = await supabase
       .from(Tables.FinancialPlans)
