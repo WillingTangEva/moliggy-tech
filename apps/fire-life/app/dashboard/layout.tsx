@@ -1,6 +1,5 @@
 'use client';
 
-import { AuthCheck } from './_auth';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
@@ -76,11 +75,8 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <AuthCheck>
-            <div className="bg-background flex min-h-screen">
-                <Sidebar />
-                <main className="ml-64 min-h-screen flex-1">{children}</main>
-            </div>
-        </AuthCheck>
+        <div className="bg-background flex min-h-screen">
+            <main className="ml-64 min-h-screen flex-1">{children}</main>
+        </div>
     );
 }

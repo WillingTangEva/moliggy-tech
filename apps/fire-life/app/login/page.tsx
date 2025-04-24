@@ -161,8 +161,8 @@ export default function LoginPage() {
                                     ? '登录中...'
                                     : '注册中...'
                                 : isLogin
-                                  ? '登录'
-                                  : '注册'}
+                                    ? '登录'
+                                    : '注册'}
                         </Button>
                         <div className="text-center text-sm">
                             {isLogin ? (
