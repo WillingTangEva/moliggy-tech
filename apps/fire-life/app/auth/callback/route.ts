@@ -1,13 +1,13 @@
-import { createServerSupabase } from '@/app/utils/supabase/server';
+import { createClient } from '@/app/utils/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
-  const next = requestUrl.searchParams.get('next') || '/dashboard';
+  const next = requestUrl.searchParams.get('next') ?? '/dashboard';
 
   if (code) {
-    const supabase = await createServerSupabase();
+    const supabase = await createClient();
     
     // 处理OAuth登录回调
     await supabase.auth.exchangeCodeForSession(code);

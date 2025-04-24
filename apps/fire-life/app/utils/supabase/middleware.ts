@@ -1,49 +1,63 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'your-supabase-url';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-supabase-anon-key';
-
 export async function updateSession(request: NextRequest) {
-  try {
-    // 从请求中重新创建响应，以保留原始URL
-    const response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-      },
-      global: {
-        headers: {
-          cookie: request.headers.get('cookie') || '',
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value;
+        },
+        set(name: string, value: string, options: any) {
+          // 同时设置请求和响应的cookie
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+        },
+        remove(name: string, options: any) {
+          // 从请求和响应中删除cookie
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          });
         },
       },
-    });
-
-    // 刷新会话 - 这会检查cookie中的会话是否有效，如果有效则刷新
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session) {
-      // 将会话信息设置到响应头中，以便传递给浏览器
-      response.cookies.set('supabase-auth-token', JSON.stringify(session), {
-        path: '/',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: session.expires_in,
-      });
     }
+  );
 
-    return response;
-  } catch (e) {
-    console.error('中间件更新会话失败:', e);
-    // 错误时，允许请求继续，但不更新会话
-    return NextResponse.next();
-  }
+  // 这个操作会刷新会话并将新的会话cookie设置到响应中
+  await supabase.auth.getSession();
+
+  return response;
 } 

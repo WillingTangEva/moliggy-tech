@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { createServerSupabase } from '../utils/supabase/server';
+import { createClient } from '../utils/supabase/server';
 
 // 定义返回值类型
 export type ActionResult = 
@@ -13,7 +13,6 @@ export type ActionResult =
 export async function login(formData: FormData): Promise<ActionResult> {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  const cookieStore = cookies();
   
   if (!email || !password) {
     return {
@@ -21,7 +20,7 @@ export async function login(formData: FormData): Promise<ActionResult> {
     };
   }
 
-  const supabase = await createServerSupabase();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -56,7 +55,7 @@ export async function signup(formData: FormData): Promise<ActionResult> {
     };
   }
 
-  const supabase = await createServerSupabase();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -78,7 +77,7 @@ export async function signup(formData: FormData): Promise<ActionResult> {
 }
 
 export async function logout() {
-  const supabase = await createServerSupabase();
+  const supabase = await createClient();
   
   await supabase.auth.signOut();
   
