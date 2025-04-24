@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -19,7 +19,7 @@ import { Alert, AlertDescription } from '@workspace/ui/components/alert';
 import { supabase } from '../utils/supabase/client';
 import { triggerAuthStateChange } from '../utils/events';
 
-export default function LoginPage() {
+function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -208,5 +208,13 @@ export default function LoginPage() {
                 </form>
             </Card>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center w-full py-24">加载中...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }

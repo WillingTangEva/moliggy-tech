@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
@@ -78,7 +78,7 @@ interface FormErrorsType {
     [key: string]: string | undefined;
 }
 
-export default function NewPlan() {
+function PlanForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get('editId');
@@ -812,5 +812,13 @@ export default function NewPlan() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function NewPlan() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center w-full py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}>
+            <PlanForm />
+        </Suspense>
     );
 }
