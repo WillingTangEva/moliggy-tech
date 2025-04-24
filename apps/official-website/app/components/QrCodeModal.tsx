@@ -1,7 +1,13 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@workspace/ui/components/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@workspace/ui/components/dialog';
 import { Button } from '@workspace/ui/components/button';
 
 interface QrCodeModalProps {
@@ -48,19 +54,30 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open: boolean) => !open && onClose()}>
-      <DialogContent className="max-w-sm p-0 overflow-hidden rounded-xl">
-        <motion.div className="p-6" variants={containerVariants} initial="hidden" animate="visible" exit="exit">
+      <DialogContent className="max-w-sm overflow-hidden rounded-xl p-0">
+        <motion.div
+          className="p-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           <DialogHeader>
             <motion.div variants={itemVariants}>
-              <DialogTitle className="text-xl font-bold text-center">扫码咨询</DialogTitle>
+              <DialogTitle className="text-center text-xl font-bold">
+                扫码咨询
+              </DialogTitle>
             </motion.div>
           </DialogHeader>
 
-          <motion.div className="flex justify-center my-4" variants={itemVariants}>
-            <div className="relative w-56 h-56 border border-border rounded-lg p-2 bg-background">
-              <div className="relative w-full h-full">
+          <motion.div
+            className="my-4 flex justify-center"
+            variants={itemVariants}
+          >
+            <div className="border-border bg-background relative h-56 w-56 rounded-lg border p-2">
+              <div className="relative h-full w-full">
                 <motion.svg
-                  className="w-full h-full"
+                  className="h-full w-full"
                   viewBox="0 0 200 200"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -80,12 +97,14 @@ export default function QrCodeModal({ isOpen, onClose }: QrCodeModalProps) {
 
           <motion.div variants={itemVariants} className="text-center">
             <p className="text-foreground mb-2">微信扫码，立即获取专业咨询</p>
-            <p className="text-sm text-muted-foreground">或添加客服微信: moliggy-tech</p>
+            <p className="text-muted-foreground text-sm">
+              或添加客服微信: moliggy-tech
+            </p>
           </motion.div>
 
           <DialogFooter className="mt-6 flex justify-center">
             <motion.div variants={itemVariants}>
-              <Button onClick={onClose} className="px-6 rounded-full">
+              <Button onClick={onClose} className="rounded-full px-6">
                 关闭
               </Button>
             </motion.div>

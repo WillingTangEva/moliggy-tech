@@ -7,7 +7,11 @@ import { motion } from 'motion/react';
 // UI 组件导入
 import { Button } from '@workspace/ui/components/button';
 import { ThemeToggle } from '@workspace/ui/components/theme-toggle';
-import { Menubar, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar';
+import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+} from '@workspace/ui/components/menubar';
 
 // 自定义组件和工具导入
 import QrCodeModal from './QrCodeModal';
@@ -56,18 +60,23 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        'fixed w-full z-50 transition-all duration-300',
-        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        'fixed z-50 w-full transition-all duration-300',
+        isScrolled
+          ? 'bg-background/90 shadow-sm backdrop-blur-md'
+          : 'bg-transparent'
       )}
     >
-      <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="flex items-center"
         >
-          <Link href="/" className="font-bold text-xl md:text-2xl text-primary tracking-tight">
+          <Link
+            href="/"
+            className="text-primary text-xl font-bold tracking-tight md:text-2xl"
+          >
             MoliggyTech
           </Link>
         </motion.div>
@@ -79,8 +88,10 @@ export default function Navbar() {
               <MenubarMenu key={item.id}>
                 <MenubarTrigger
                   className={cn(
-                    'font-medium transition-colors hover:text-primary px-4 py-2 rounded-full hover:bg-primary/5',
-                    activeSection === item.id ? 'text-primary' : 'text-foreground'
+                    'hover:text-primary hover:bg-primary/5 rounded-full px-4 py-2 font-medium transition-colors',
+                    activeSection === item.id
+                      ? 'text-primary'
+                      : 'text-foreground'
                   )}
                   onClick={() => handleNavClick(item.id)}
                 >
@@ -101,7 +112,7 @@ export default function Navbar() {
           >
             <Button
               onClick={() => setIsQrCodeModalOpen(true)}
-              className="rounded-full py-1 px-3 text-sm md:text-base md:py-2 md:px-6 shadow-md hover:shadow-lg transition-shadow"
+              className="rounded-full px-3 py-1 text-sm shadow-md transition-shadow hover:shadow-lg md:px-6 md:py-2 md:text-base"
             >
               立即咨询
             </Button>
@@ -109,7 +120,10 @@ export default function Navbar() {
         </div>
       </div>
 
-      <QrCodeModal isOpen={isQrCodeModalOpen} onClose={() => setIsQrCodeModalOpen(false)} />
+      <QrCodeModal
+        isOpen={isQrCodeModalOpen}
+        onClose={() => setIsQrCodeModalOpen(false)}
+      />
     </header>
   );
 }

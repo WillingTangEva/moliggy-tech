@@ -3,9 +3,22 @@
 import { useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card';
 import { Label } from '@workspace/ui/components/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@workspace/ui/components/select';
 import { ArrowLeft, ArrowRight, Save } from 'lucide-react';
 
 const steps = [
@@ -31,15 +44,17 @@ export default function NewPlan() {
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-24 md:py-28">
-      <div className="max-w-3xl mx-auto">
+    <div className="container mx-auto px-4 py-24 md:px-6 md:py-28">
+      <div className="mx-auto max-w-3xl">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">创建退休规划</h1>
-          <p className="text-muted-foreground mt-1">填写必要信息，获取您的退休财务分析</p>
+          <p className="text-muted-foreground mt-1">
+            填写必要信息，获取您的退休财务分析
+          </p>
         </div>
 
         <div className="mb-8">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             {steps.map((step) => (
               <div
                 key={step.id}
@@ -53,7 +68,7 @@ export default function NewPlan() {
               >
                 <div className="relative">
                   <div
-                    className={`h-2 absolute top-1/2 transform -translate-y-1/2 left-0 right-0 ${
+                    className={`absolute left-0 right-0 top-1/2 h-2 -translate-y-1/2 transform ${
                       currentStep > step.id ? 'bg-primary' : 'bg-muted'
                     }`}
                     style={{
@@ -62,7 +77,7 @@ export default function NewPlan() {
                     }}
                   />
                   <div
-                    className={`h-8 w-8 rounded-full flex items-center justify-center mx-auto relative z-10 ${
+                    className={`relative z-10 mx-auto flex h-8 w-8 items-center justify-center rounded-full ${
                       currentStep === step.id
                         ? 'bg-primary text-white'
                         : currentStep > step.id
@@ -86,7 +101,7 @@ export default function NewPlan() {
               <CardDescription>填写您的基本信息和目标</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="current-age">当前年龄</Label>
                   <Input id="current-age" type="number" placeholder="35" />
@@ -96,7 +111,7 @@ export default function NewPlan() {
                   <Input id="retirement-age" type="number" placeholder="55" />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="life-expectancy">预期寿命</Label>
                   <Input id="life-expectancy" type="number" placeholder="85" />
@@ -113,9 +128,15 @@ export default function NewPlan() {
                     <SelectValue placeholder="选择风险承受能力" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="conservative">保守型 - 低风险低回报</SelectItem>
-                    <SelectItem value="moderate">稳健型 - 中等风险中等回报</SelectItem>
-                    <SelectItem value="aggressive">进取型 - 高风险高回报</SelectItem>
+                    <SelectItem value="conservative">
+                      保守型 - 低风险低回报
+                    </SelectItem>
+                    <SelectItem value="moderate">
+                      稳健型 - 中等风险中等回报
+                    </SelectItem>
+                    <SelectItem value="aggressive">
+                      进取型 - 高风险高回报
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -180,51 +201,91 @@ export default function NewPlan() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>社会保险</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="social-insurance-base">缴费基数 (¥/月)</Label>
-                    <Input id="social-insurance-base" type="number" placeholder="10000" />
+                    <Label htmlFor="social-insurance-base">
+                      缴费基数 (¥/月)
+                    </Label>
+                    <Input
+                      id="social-insurance-base"
+                      type="number"
+                      placeholder="10000"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="social-insurance-years">已缴费年限</Label>
-                    <Input id="social-insurance-years" type="number" placeholder="10" />
+                    <Input
+                      id="social-insurance-years"
+                      type="number"
+                      placeholder="10"
+                    />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label>年金保险</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="annuity-premium">年保费 (¥)</Label>
-                    <Input id="annuity-premium" type="number" placeholder="20000" />
+                    <Input
+                      id="annuity-premium"
+                      type="number"
+                      placeholder="20000"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="annuity-payout-age">领取年龄</Label>
-                    <Input id="annuity-payout-age" type="number" placeholder="60" />
+                    <Input
+                      id="annuity-payout-age"
+                      type="number"
+                      placeholder="60"
+                    />
                   </div>
                 </div>
-                <div className="space-y-2 mt-2">
-                  <Label htmlFor="annuity-monthly-payment">估计月领取金额 (¥)</Label>
-                  <Input id="annuity-monthly-payment" type="number" placeholder="3000" />
+                <div className="mt-2 space-y-2">
+                  <Label htmlFor="annuity-monthly-payment">
+                    估计月领取金额 (¥)
+                  </Label>
+                  <Input
+                    id="annuity-monthly-payment"
+                    type="number"
+                    placeholder="3000"
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label>商业养老保险</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="commercial-pension-premium">年保费 (¥)</Label>
-                    <Input id="commercial-pension-premium" type="number" placeholder="12000" />
+                    <Label htmlFor="commercial-pension-premium">
+                      年保费 (¥)
+                    </Label>
+                    <Input
+                      id="commercial-pension-premium"
+                      type="number"
+                      placeholder="12000"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="commercial-pension-years">缴费年限</Label>
-                    <Input id="commercial-pension-years" type="number" placeholder="15" />
+                    <Input
+                      id="commercial-pension-years"
+                      type="number"
+                      placeholder="15"
+                    />
                   </div>
                 </div>
-                <div className="space-y-2 mt-2">
-                  <Label htmlFor="commercial-pension-monthly">估计月领取金额 (¥)</Label>
-                  <Input id="commercial-pension-monthly" type="number" placeholder="2500" />
+                <div className="mt-2 space-y-2">
+                  <Label htmlFor="commercial-pension-monthly">
+                    估计月领取金额 (¥)
+                  </Label>
+                  <Input
+                    id="commercial-pension-monthly"
+                    type="number"
+                    placeholder="2500"
+                  />
                 </div>
               </div>
             </CardContent>
@@ -247,12 +308,24 @@ export default function NewPlan() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="current-monthly-expenses">当前月度支出 (¥)</Label>
-                <Input id="current-monthly-expenses" type="number" placeholder="15000" />
+                <Label htmlFor="current-monthly-expenses">
+                  当前月度支出 (¥)
+                </Label>
+                <Input
+                  id="current-monthly-expenses"
+                  type="number"
+                  placeholder="15000"
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="retirement-monthly-expenses">预期退休后月度支出 (¥)</Label>
-                <Input id="retirement-monthly-expenses" type="number" placeholder="12000" />
+                <Label htmlFor="retirement-monthly-expenses">
+                  预期退休后月度支出 (¥)
+                </Label>
+                <Input
+                  id="retirement-monthly-expenses"
+                  type="number"
+                  placeholder="12000"
+                />
               </div>
               <div className="space-y-2">
                 <Label>大额支出计划</Label>
@@ -264,11 +337,19 @@ export default function NewPlan() {
                     </div>
                     <div>
                       <Label htmlFor="major-expense-1-amount">金额 (¥)</Label>
-                      <Input id="major-expense-1-amount" type="number" placeholder="500000" />
+                      <Input
+                        id="major-expense-1-amount"
+                        type="number"
+                        placeholder="500000"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="major-expense-1-year">预计年份</Label>
-                      <Input id="major-expense-1-year" type="number" placeholder="2030" />
+                      <Input
+                        id="major-expense-1-year"
+                        type="number"
+                        placeholder="2030"
+                      />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
@@ -278,11 +359,19 @@ export default function NewPlan() {
                     </div>
                     <div>
                       <Label htmlFor="major-expense-2-amount">金额 (¥)</Label>
-                      <Input id="major-expense-2-amount" type="number" placeholder="200000" />
+                      <Input
+                        id="major-expense-2-amount"
+                        type="number"
+                        placeholder="200000"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="major-expense-2-year">预计年份</Label>
-                      <Input id="major-expense-2-year" type="number" placeholder="2035" />
+                      <Input
+                        id="major-expense-2-year"
+                        type="number"
+                        placeholder="2035"
+                      />
                     </div>
                   </div>
                   <Button variant="outline" className="w-full">

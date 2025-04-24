@@ -5,14 +5,24 @@ import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Clock, Copy, Check } from 'lucide-react';
 
 // UI 组件导入
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card';
 import { Input } from '@workspace/ui/components/input';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { Button } from '@workspace/ui/components/button';
 import { Label } from '@workspace/ui/components/label';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { H2, H4, P, Muted, Small } from '@workspace/ui/components/typography';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@workspace/ui/components/tooltip';
 
 type FormData = {
   name: string;
@@ -33,7 +43,12 @@ type FormFieldProps = {
 };
 
 // 表单字段包装组件
-const FormField = ({ label, id, required = false, children }: FormFieldProps) => (
+const FormField = ({
+  label,
+  id,
+  required = false,
+  children,
+}: FormFieldProps) => (
   <div className="space-y-2">
     <Label htmlFor={id}>
       {label} {required && <span className="text-destructive">*</span>}
@@ -56,7 +71,9 @@ export default function Contact() {
 
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -105,7 +122,12 @@ export default function Contact() {
       visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, type: 'spring', stiffness: 300, damping: 24 },
+        transition: {
+          duration: 0.5,
+          type: 'spring',
+          stiffness: 300,
+          damping: 24,
+        },
       },
     },
     formField: {
@@ -122,22 +144,24 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-secondary">
+    <section id="contact" className="bg-secondary py-20">
       <div className="container mx-auto px-4">
         <motion.div
-          className="text-center mb-16"
+          className="mb-16 text-center"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
           <H2>联系我们</H2>
-          <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
-          <Muted className="mt-4 max-w-2xl mx-auto">无论您有任何问题或需求，我们的团队随时准备为您提供帮助</Muted>
+          <div className="bg-primary mx-auto mt-4 h-1 w-20"></div>
+          <Muted className="mx-auto mt-4 max-w-2xl">
+            无论您有任何问题或需求，我们的团队随时准备为您提供帮助
+          </Muted>
         </motion.div>
 
         <motion.div
-          className="grid md:grid-cols-2 gap-12"
+          className="grid gap-12 md:grid-cols-2"
           variants={animations.container}
           initial="hidden"
           whileInView="visible"
@@ -150,7 +174,10 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={animations.formField}>
+                  <motion.div
+                    className="grid grid-cols-1 gap-6 md:grid-cols-2"
+                    variants={animations.formField}
+                  >
                     <FormField label="姓名" id="name" required>
                       <Input
                         id="name"
@@ -174,7 +201,10 @@ export default function Contact() {
                     </FormField>
                   </motion.div>
 
-                  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={animations.formField}>
+                  <motion.div
+                    className="grid grid-cols-1 gap-6 md:grid-cols-2"
+                    variants={animations.formField}
+                  >
                     <FormField label="电子邮箱" id="email" required>
                       <Input
                         id="email"
@@ -203,7 +233,11 @@ export default function Contact() {
                         <div className="grid grid-cols-2 gap-3">
                           <Button
                             type="button"
-                            variant={formData.needType === '功能开发' ? 'default' : 'outline'}
+                            variant={
+                              formData.needType === '功能开发'
+                                ? 'default'
+                                : 'outline'
+                            }
                             className="h-12"
                             onClick={() => handleNeedTypeChange('功能开发')}
                           >
@@ -211,7 +245,11 @@ export default function Contact() {
                           </Button>
                           <Button
                             type="button"
-                            variant={formData.needType === '技术咨询' ? 'default' : 'outline'}
+                            variant={
+                              formData.needType === '技术咨询'
+                                ? 'default'
+                                : 'outline'
+                            }
                             className="h-12"
                             onClick={() => handleNeedTypeChange('技术咨询')}
                           >
@@ -219,7 +257,11 @@ export default function Contact() {
                           </Button>
                           <Button
                             type="button"
-                            variant={formData.needType === 'Bug修复' ? 'default' : 'outline'}
+                            variant={
+                              formData.needType === 'Bug修复'
+                                ? 'default'
+                                : 'outline'
+                            }
                             className="h-12"
                             onClick={() => handleNeedTypeChange('Bug修复')}
                           >
@@ -227,7 +269,11 @@ export default function Contact() {
                           </Button>
                           <Button
                             type="button"
-                            variant={formData.needType === '其他问题' ? 'default' : 'outline'}
+                            variant={
+                              formData.needType === '其他问题'
+                                ? 'default'
+                                : 'outline'
+                            }
                             className="h-12"
                             onClick={() => handleNeedTypeChange('其他问题')}
                           >
@@ -247,9 +293,19 @@ export default function Contact() {
                     </FormField>
                   </motion.div>
 
-                  <motion.div className="flex items-center space-x-2" variants={animations.formField}>
-                    <Checkbox id="privacy" checked={formData.privacy} onCheckedChange={handleCheckboxChange} />
-                    <Small className="text-muted-foreground cursor-pointer" asChild>
+                  <motion.div
+                    className="flex items-center space-x-2"
+                    variants={animations.formField}
+                  >
+                    <Checkbox
+                      id="privacy"
+                      checked={formData.privacy}
+                      onCheckedChange={handleCheckboxChange}
+                    />
+                    <Small
+                      className="text-muted-foreground cursor-pointer"
+                      asChild
+                    >
                       <label htmlFor="privacy">
                         我同意根据
                         <a href="#" className="text-primary hover:underline">
@@ -260,7 +316,11 @@ export default function Contact() {
                     </Small>
                   </motion.div>
 
-                  <motion.div variants={animations.formField} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <motion.div
+                    variants={animations.formField}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
                     <Button type="submit" className="rounded-full">
                       提交信息
                     </Button>
@@ -271,31 +331,35 @@ export default function Contact() {
           </motion.div>
 
           <motion.div variants={animations.item}>
-            <Card className="shadow-lg h-full bg-card/50 backdrop-blur-sm border-primary/10">
+            <Card className="bg-card/50 border-primary/10 h-full shadow-lg backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-center">联系方式</CardTitle>
+                <CardTitle className="text-center text-2xl font-bold">
+                  联系方式
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
                   {contactInfo.map((item, index) => (
                     <motion.div
                       key={index}
-                      className="flex items-start space-x-4 p-4 rounded-lg transition-colors hover:bg-accent cursor-pointer group"
+                      className="hover:bg-accent group flex cursor-pointer items-start space-x-4 rounded-lg p-4 transition-colors"
                       whileHover={{ scale: 1.02 }}
                       onClick={() => handleCopy(item.content)}
                     >
-                      <div className="bg-primary/10 p-3 rounded-full">
+                      <div className="bg-primary/10 rounded-full p-3">
                         <item.icon className="h-6 w-6" />
                       </div>
                       <div className="flex-1">
                         <H4 className="font-medium">{item.title}</H4>
-                        <P className="text-muted-foreground mt-1">{item.content}</P>
+                        <P className="text-muted-foreground mt-1">
+                          {item.content}
+                        </P>
                       </div>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div
-                              className={`h-8 w-8 flex items-center justify-center transition-all duration-200 ${copiedItem === item.content ? 'bg-green-100/20 rounded-full' : ''}`}
+                              className={`flex h-8 w-8 items-center justify-center transition-all duration-200 ${copiedItem === item.content ? 'rounded-full bg-green-100/20' : ''}`}
                             >
                               {copiedItem === item.content ? (
                                 <Check className="h-4 w-4 text-green-500" />
@@ -307,9 +371,11 @@ export default function Contact() {
                           </TooltipTrigger>
                           <TooltipContent
                             side="left"
-                            className={`${copiedItem === item.content ? 'bg-green-50 text-green-700 border-green-200' : ''}`}
+                            className={`${copiedItem === item.content ? 'border-green-200 bg-green-50 text-green-700' : ''}`}
                           >
-                            {copiedItem === item.content ? '已复制!' : '点击复制'}
+                            {copiedItem === item.content
+                              ? '已复制!'
+                              : '点击复制'}
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>

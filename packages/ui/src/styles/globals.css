@@ -1,9 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -65,73 +65,73 @@
 }
 
 :root {
-  --background: oklch(0.99 0.02 30); /* #fff5f5 (淡粉白色背景) */
-  --foreground: oklch(0.2 0.02 270); /* #2d3748 (深灰蓝) */
+  --background: oklch(0.99 0.01 0); /* #f9f9f9 (纯白背景) */
+  --foreground: oklch(0.2 0.01 0); /* #333333 (深灰) */
   --card: oklch(1 0 0); /* #ffffff (纯白) */
-  --card-foreground: oklch(0.2 0.02 270); /* #2d3748 (深灰蓝) */
+  --card-foreground: oklch(0.2 0.01 0); /* #333333 (深灰) */
   --popover: oklch(1 0 0); /* #ffffff (纯白) */
-  --popover-foreground: oklch(0.2 0.02 270); /* #2d3748 (深灰蓝) */
+  --popover-foreground: oklch(0.2 0.01 0); /* #333333 (深灰) */
   --primary: oklch(0.5 0.21 25); /* #b72121 (中国风科技红) */
-  --primary-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --secondary: oklch(0.98 0.03 27); /* #fef2f2 (淡红背景) */
-  --secondary-foreground: oklch(0.45 0.19 25); /* #991b1b (深红) */
-  --muted: oklch(0.93 0.01 50); /* #f3f4f6 (淡灰) */
-  --muted-foreground: oklch(0.5 0.015 270); /* #6b7280 (中灰) */
-  --accent: oklch(0.7 0.15 40); /* #ea580c (橙红色) */
-  --accent-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
+  --primary-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --secondary: oklch(0.95 0.01 0); /* #f2f2f2 (浅灰背景) */
+  --secondary-foreground: oklch(0.3 0.01 0); /* #4d4d4d (中灰) */
+  --muted: oklch(0.9 0.01 0); /* #e6e6e6 (淡灰) */
+  --muted-foreground: oklch(0.5 0.01 0); /* #808080 (中灰) */
+  --accent: oklch(0.85 0.01 0); /* #d9d9d9 (淡灰色) */
+  --accent-foreground: oklch(0.25 0.01 0); /* #404040 (深灰) */
   --destructive: oklch(0.577 0.245 27.325); /* 保持原有的破坏性颜色 */
-  --destructive-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --border: oklch(0.9 0.01 90); /* #e5e7eb (浅灰边框) */
-  --input: oklch(0.9 0.01 90); /* #e5e7eb (浅灰边框) */
+  --destructive-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --border: oklch(0.9 0.01 0); /* #e6e6e6 (浅灰边框) */
+  --input: oklch(0.9 0.01 0); /* #e6e6e6 (浅灰边框) */
   --ring: oklch(0.5 0.21 25); /* #b72121 (中国风科技红) */
   --chart-1: oklch(0.5 0.21 25); /* #b72121 (中国风科技红) */
-  --chart-2: oklch(0.7 0.15 40); /* #ea580c (橙红色) */
-  --chart-3: oklch(0.7 0.1 100); /* #65a30d (绿色) */
-  --chart-4: oklch(0.6 0.15 210); /* #3b82f6 (蓝色) */
-  --chart-5: oklch(0.6 0.18 300); /* #a855f7 (紫色) */
+  --chart-2: oklch(0.4 0.01 0); /* #666666 (深灰) */
+  --chart-3: oklch(0.6 0.01 0); /* #999999 (中灰) */
+  --chart-4: oklch(0.8 0.01 0); /* #cccccc (浅灰) */
+  --chart-5: oklch(0.3 0.01 0); /* #4d4d4d (暗灰) */
   --radius: 0.5rem;
-  --sidebar: oklch(0.2 0.02 270); /* #2d3748 (深灰蓝) */
-  --sidebar-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
+  --sidebar: oklch(0.2 0.01 0); /* #333333 (深灰) */
+  --sidebar-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
   --sidebar-primary: oklch(0.5 0.21 25); /* #b72121 (中国风科技红) */
-  --sidebar-primary-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --sidebar-accent: oklch(0.7 0.15 40); /* #ea580c (橙红色) */
-  --sidebar-accent-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --sidebar-border: oklch(0.25 0.01 270); /* #374151 (深灰边框) */
+  --sidebar-primary-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --sidebar-accent: oklch(0.7 0.01 0); /* #b3b3b3 (中灰) */
+  --sidebar-accent-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --sidebar-border: oklch(0.25 0.01 0); /* #404040 (深灰边框) */
   --sidebar-ring: oklch(0.5 0.21 25); /* #b72121 (中国风科技红) */
 }
 
 .dark {
-  --background: oklch(0.18 0.01 290); /* #1e1e2f (深蓝黑) */
-  --foreground: oklch(0.95 0.01 90); /* #f9fafb (浅灰白) */
-  --card: oklch(0.22 0.01 290); /* #252538 (暗蓝黑) */
-  --card-foreground: oklch(0.95 0.01 90); /* #f9fafb (浅灰白) */
-  --popover: oklch(0.22 0.01 290); /* #252538 (暗蓝黑) */
-  --popover-foreground: oklch(0.95 0.01 90); /* #f9fafb (浅灰白) */
+  --background: oklch(0.18 0.01 0); /* #2e2e2e (深灰黑) */
+  --foreground: oklch(0.95 0.01 0); /* #f2f2f2 (浅灰白) */
+  --card: oklch(0.22 0.01 0); /* #383838 (暗灰) */
+  --card-foreground: oklch(0.95 0.01 0); /* #f2f2f2 (浅灰白) */
+  --popover: oklch(0.22 0.01 0); /* #383838 (暗灰) */
+  --popover-foreground: oklch(0.95 0.01 0); /* #f2f2f2 (浅灰白) */
   --primary: oklch(0.55 0.22 25); /* #dc2626 (明亮中国红) */
-  --primary-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --secondary: oklch(0.25 0.06 30); /* #450a0a (暗红) */
-  --secondary-foreground: oklch(0.85 0.08 30); /* #fca5a5 (淡红) */
-  --muted: oklch(0.25 0.01 290); /* #383852 (深灰蓝) */
-  --muted-foreground: oklch(0.75 0.01 270); /* #9ca3af (银灰) */
-  --accent: oklch(0.65 0.15 45); /* #ea580c (深橙) */
-  --accent-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
+  --primary-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --secondary: oklch(0.25 0.01 0); /* #404040 (深灰) */
+  --secondary-foreground: oklch(0.85 0.01 0); /* #d9d9d9 (淡灰) */
+  --muted: oklch(0.3 0.01 0); /* #4d4d4d (暗灰) */
+  --muted-foreground: oklch(0.75 0.01 0); /* #bfbfbf (银灰) */
+  --accent: oklch(0.35 0.01 0); /* #595959 (中灰) */
+  --accent-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
   --destructive: oklch(0.5 0.2 25.331); /* 深一点的破坏性颜色 */
-  --destructive-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --border: oklch(0.3 0.01 290); /* #4b4b6f (中深蓝灰边框) */
-  --input: oklch(0.3 0.01 290); /* #4b4b6f (中深蓝灰边框) */
+  --destructive-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --border: oklch(0.3 0.01 0); /* #4d4d4d (深灰边框) */
+  --input: oklch(0.3 0.01 0); /* #4d4d4d (深灰边框) */
   --ring: oklch(0.55 0.22 25); /* #dc2626 (明亮中国红) */
   --chart-1: oklch(0.55 0.22 25); /* #dc2626 (明亮中国红) */
-  --chart-2: oklch(0.65 0.15 45); /* #ea580c (深橙) */
-  --chart-3: oklch(0.6 0.1 100); /* #4ade80 (明绿) */
-  --chart-4: oklch(0.55 0.15 210); /* #3b82f6 (亮蓝) */
-  --chart-5: oklch(0.55 0.2 300); /* #a855f7 (亮紫) */
-  --sidebar: oklch(0.15 0.01 290); /* #121225 (暗夜蓝黑) */
-  --sidebar-foreground: oklch(0.95 0.01 90); /* #f9fafb (浅灰白) */
+  --chart-2: oklch(0.7 0.01 0); /* #b3b3b3 (中灰) */
+  --chart-3: oklch(0.5 0.01 0); /* #808080 (灰) */
+  --chart-4: oklch(0.3 0.01 0); /* #4d4d4d (暗灰) */
+  --chart-5: oklch(0.1 0.01 0); /* #1a1a1a (近黑) */
+  --sidebar: oklch(0.15 0.01 0); /* #262626 (暗灰黑) */
+  --sidebar-foreground: oklch(0.95 0.01 0); /* #f2f2f2 (浅灰白) */
   --sidebar-primary: oklch(0.55 0.22 25); /* #dc2626 (明亮中国红) */
-  --sidebar-primary-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --sidebar-accent: oklch(0.65 0.15 45); /* #ea580c (深橙) */
-  --sidebar-accent-foreground: oklch(0.99 0.001 90); /* #f9f9f9 (纯净白) */
-  --sidebar-border: oklch(0.2 0.01 290); /* #34344a (深蓝灰边框) */
+  --sidebar-primary-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --sidebar-accent: oklch(0.4 0.01 0); /* #666666 (中灰) */
+  --sidebar-accent-foreground: oklch(0.99 0.001 0); /* #f9f9f9 (纯净白) */
+  --sidebar-border: oklch(0.2 0.01 0); /* #333333 (深灰边框) */
   --sidebar-ring: oklch(0.55 0.22 25); /* #dc2626 (明亮中国红) */
 }
 
@@ -191,14 +191,5 @@
     to {
       height: 0;
     }
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

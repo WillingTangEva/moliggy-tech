@@ -29,9 +29,9 @@
 在项目中导入并使用组件：
 
 ```tsx
-import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/input";
-import { Theme } from "@workspace/ui/components/theme";
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Theme } from '@workspace/ui/components/theme';
 
 // 在应用中使用
 <Theme>

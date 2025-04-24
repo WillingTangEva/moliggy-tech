@@ -4,7 +4,14 @@ import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
 import { Switch } from '@workspace/ui/components/switch';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card';
 import { Badge } from '@workspace/ui/components/badge';
 
 const pricingPlans = [
@@ -16,7 +23,13 @@ const pricingPlans = [
       monthly: 19.99,
       annually: 199.99,
     },
-    features: ['个人退休计划创建', '基本财务预测', '手动数据输入', '每月报告', '基础储蓄分析'],
+    features: [
+      '个人退休计划创建',
+      '基本财务预测',
+      '手动数据输入',
+      '每月报告',
+      '基础储蓄分析',
+    ],
     cta: '开始试用',
     popular: false,
   },
@@ -63,7 +76,9 @@ const pricingPlans = [
 ];
 
 const Pricing = () => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annually'>('monthly');
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annually'>(
+    'monthly'
+  );
 
   const toggleBillingCycle = () => {
     setBillingCycle(billingCycle === 'monthly' ? 'annually' : 'monthly');
@@ -71,19 +86,25 @@ const Pricing = () => {
 
   const getDiscount = (monthly: number, annually: number) => {
     const monthlyTotal = monthly * 12;
-    const discount = Math.round(((monthlyTotal - annually) / monthlyTotal) * 100);
+    const discount = Math.round(
+      ((monthlyTotal - annually) / monthlyTotal) * 100
+    );
     return discount;
   };
 
   return (
     <section className="py-16 md:py-24" id="pricing">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-4">简单透明的价格计划</h2>
-          <p className="text-muted-foreground text-lg">选择最适合您需求的计划，开始您的财务自由之旅</p>
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <h2 className="mb-4 text-3xl font-bold">简单透明的价格计划</h2>
+          <p className="text-muted-foreground text-lg">
+            选择最适合您需求的计划，开始您的财务自由之旅
+          </p>
 
-          <div className="flex items-center justify-center mt-8 space-x-2">
-            <span className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground' : 'text-muted-foreground'}`}>
+          <div className="mt-8 flex items-center justify-center space-x-2">
+            <span
+              className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground' : 'text-muted-foreground'}`}
+            >
               月付
             </span>
             <Switch
@@ -92,10 +113,13 @@ const Pricing = () => {
               className="data-[state=checked]:bg-primary"
             />
             <span
-              className={`text-sm flex items-center gap-2 ${billingCycle === 'annually' ? 'text-foreground' : 'text-muted-foreground'}`}
+              className={`flex items-center gap-2 text-sm ${billingCycle === 'annually' ? 'text-foreground' : 'text-muted-foreground'}`}
             >
               年付
-              <Badge variant="outline" className="bg-primary/10 text-primary text-xs font-medium">
+              <Badge
+                variant="outline"
+                className="bg-primary/10 text-primary text-xs font-medium"
+              >
                 省20%
               </Badge>
             </span>
@@ -104,8 +128,12 @@ const Pricing = () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {pricingPlans.map((plan) => {
-            const price = billingCycle === 'monthly' ? plan.price.monthly : plan.price.annually / 12;
-            const totalPrice = billingCycle === 'monthly' ? price : plan.price.annually;
+            const price =
+              billingCycle === 'monthly'
+                ? plan.price.monthly
+                : plan.price.annually / 12;
+            const totalPrice =
+              billingCycle === 'monthly' ? price : plan.price.annually;
 
             return (
               <Card
@@ -113,7 +141,9 @@ const Pricing = () => {
                 className={`relative flex flex-col ${plan.popular ? 'border-primary shadow-lg' : ''}`}
               >
                 {plan.popular && (
-                  <Badge className="absolute -top-3 right-4 bg-primary text-primary-foreground">最受欢迎</Badge>
+                  <Badge className="bg-primary text-primary-foreground absolute -top-3 right-4">
+                    最受欢迎
+                  </Badge>
                 )}
                 <CardHeader>
                   <CardTitle>{plan.name}</CardTitle>
@@ -122,24 +152,33 @@ const Pricing = () => {
                 <CardContent className="flex-1">
                   <div className="mb-6">
                     <div className="flex items-baseline">
-                      <span className="text-4xl font-bold">¥{price.toFixed(0)}</span>
-                      <span className="text-sm text-muted-foreground ml-2">/ 月</span>
+                      <span className="text-4xl font-bold">
+                        ¥{price.toFixed(0)}
+                      </span>
+                      <span className="text-muted-foreground ml-2 text-sm">
+                        / 月
+                      </span>
                     </div>
                     {billingCycle === 'annually' && (
-                      <div className="text-sm text-muted-foreground mt-1">总计 ¥{totalPrice.toFixed(0)} / 年</div>
+                      <div className="text-muted-foreground mt-1 text-sm">
+                        总计 ¥{totalPrice.toFixed(0)} / 年
+                      </div>
                     )}
                   </div>
                   <ul className="space-y-3">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex">
-                        <Check className="text-primary shrink-0 h-5 w-5 mr-2" />
+                        <Check className="text-primary mr-2 h-5 w-5 shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button variant={plan.popular ? 'default' : 'outline'} className="w-full">
+                  <Button
+                    variant={plan.popular ? 'default' : 'outline'}
+                    className="w-full"
+                  >
                     {plan.cta}
                   </Button>
                 </CardFooter>
@@ -149,7 +188,9 @@ const Pricing = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-muted-foreground">所有计划均提供14天无风险试用期，不满意可全额退款。</p>
+          <p className="text-muted-foreground">
+            所有计划均提供14天无风险试用期，不满意可全额退款。
+          </p>
           <div className="mt-4">
             <Button variant="link">查看功能完整对比</Button>
           </div>

@@ -17,7 +17,7 @@
 在项目的`eslint.config.js`文件中导入并使用：
 
 ```js
-import { createConfig } from "@workspace/eslint-config";
+import { createConfig } from '@workspace/eslint-config';
 
 export default createConfig();
 ```
@@ -25,7 +25,7 @@ export default createConfig();
 或者在项目的`eslint.config.mjs`文件中：
 
 ```js
-import { nextConfig } from "@workspace/eslint-config/next";
+import { nextConfig } from '@workspace/eslint-config/next';
 
 export default nextConfig;
 ```

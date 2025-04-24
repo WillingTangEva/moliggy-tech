@@ -22,10 +22,10 @@ export default function About() {
   };
 
   return (
-    <section id="ceo" className="py-20 bg-background">
+    <section id="ceo" className="bg-background py-20">
       <div className="container mx-auto px-4">
         <motion.div
-          className="text-center mb-16"
+          className="mb-16 text-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
@@ -33,10 +33,10 @@ export default function About() {
           custom={0}
         >
           <H2>创始人致辞</H2>
-          <div className="h-1 w-20 bg-primary mx-auto mt-4"></div>
+          <div className="bg-primary mx-auto mt-4 h-1 w-20"></div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid items-center gap-12 md:grid-cols-2">
           <motion.div
             className="relative"
             initial="hidden"
@@ -45,13 +45,13 @@ export default function About() {
             variants={fadeInUpVariants}
             custom={1}
           >
-            <Card className="w-full max-w-md mx-auto overflow-hidden border-none shadow-xl">
+            <Card className="mx-auto w-full max-w-md overflow-hidden border-none shadow-xl">
               <CardContent className="p-0">
-                <div className="aspect-square relative rounded-lg overflow-hidden">
+                <div className="relative aspect-square overflow-hidden rounded-lg">
                   <Image
                     src="/ceo.png"
                     alt="莫力给科技CEO"
-                    className="object-cover transition-transform hover:scale-105 duration-700"
+                    className="object-cover transition-transform duration-700 hover:scale-105"
                     unoptimized={true}
                     fill
                     sizes="100vw"
@@ -61,7 +61,7 @@ export default function About() {
             </Card>
 
             <motion.div
-              className="absolute -bottom-6 -right-6 w-32 h-32 border-2 border-accent rounded-full"
+              className="border-accent absolute -bottom-6 -right-6 h-32 w-32 rounded-full border-2"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 0.2, scale: 1 }}
               viewport={{ once: true }}
@@ -69,7 +69,7 @@ export default function About() {
             />
 
             <motion.div
-              className="absolute -top-6 -left-6 w-32 h-32 border-2 border-accent rounded-full"
+              className="border-accent absolute -left-6 -top-6 h-32 w-32 rounded-full border-2"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 0.2, scale: 1 }}
               viewport={{ once: true }}
@@ -97,9 +97,11 @@ export default function About() {
             >
               <div className="relative px-4 py-6">
                 {/* 左侧引号 */}
-                <div className="absolute -left-2 top-0 text-red-500 text-5xl font-serif opacity-90">"</div>
+                <div className="absolute -left-2 top-0 font-serif text-5xl text-red-500 opacity-90">
+                  "
+                </div>
 
-                <P className="text-muted-foreground space-y-4 ml-4">
+                <P className="text-muted-foreground ml-4 space-y-4">
                   <span className="block">
                     各位伙伴，我是莫满。作为用爪子敲过无数键盘的科技老兵，我的白色卷毛里藏着的不仅是清华与斯坦福的智慧结晶，更是20年数字化转型的实战经验。
                   </span>
@@ -118,25 +120,39 @@ export default function About() {
                 </P>
 
                 {/* 右侧引号 */}
-                <div className="absolute -right-2 bottom-0 text-red-500 text-5xl font-serif opacity-90">"</div>
+                <div className="absolute -right-2 bottom-0 font-serif text-5xl text-red-500 opacity-90">
+                  "
+                </div>
               </div>
             </motion.div>
 
             {/* 狗爪印子 - 移动到徽章组上方并居中对齐 */}
-            <div className="absolute right-0 -bottom-20 w-24 h-24 flex items-center justify-center">
-              <Image src="/foot.png" alt="狗爪印" width={96} height={96} className="opacity-80" />
+            <div className="absolute -bottom-20 right-0 flex h-24 w-24 items-center justify-center">
+              <Image
+                src="/foot.png"
+                alt="狗爪印"
+                width={96}
+                height={96}
+                className="opacity-80"
+              />
             </div>
 
             <motion.div
-              className="pt-10 flex flex-wrap gap-2"
+              className="flex flex-wrap gap-2 pt-10"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              <Badge className="bg-red-600 hover:bg-red-700 text-white">人工智能专家</Badge>
-              <Badge className="bg-red-600 hover:bg-red-700 text-white">数字化转型顾问</Badge>
-              <Badge className="bg-red-600 hover:bg-red-700 text-white">企业家</Badge>
+              <Badge className="bg-red-600 text-white hover:bg-red-700">
+                人工智能专家
+              </Badge>
+              <Badge className="bg-red-600 text-white hover:bg-red-700">
+                数字化转型顾问
+              </Badge>
+              <Badge className="bg-red-600 text-white hover:bg-red-700">
+                企业家
+              </Badge>
             </motion.div>
           </motion.div>
         </div>

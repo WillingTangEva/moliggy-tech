@@ -1,7 +1,11 @@
 'use client';
 
 import { Card, CardContent } from '@workspace/ui/components/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@workspace/ui/components/avatar';
 import {
   Carousel,
   CarouselContent,
@@ -78,7 +82,10 @@ const RatingStars = ({ rating }: { rating: number }) => {
   return (
     <div className="flex gap-1">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} className={`h-4 w-4 ${i < rating ? 'fill-primary text-primary' : 'fill-muted text-muted'}`} />
+        <Star
+          key={i}
+          className={`h-4 w-4 ${i < rating ? 'fill-primary text-primary' : 'fill-muted text-muted'}`}
+        />
       ))}
     </div>
   );
@@ -86,11 +93,13 @@ const RatingStars = ({ rating }: { rating: number }) => {
 
 const Testimonials = () => {
   return (
-    <section className="py-16 md:py-24 bg-muted/20">
+    <section className="bg-muted/20 py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-4">用户心声</h2>
-          <p className="text-muted-foreground text-lg">听听我们的用户如何利用FIRE.Life改变他们的退休规划</p>
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <h2 className="mb-4 text-3xl font-bold">用户心声</h2>
+          <p className="text-muted-foreground text-lg">
+            听听我们的用户如何利用FIRE.Life改变他们的退休规划
+          </p>
         </div>
 
         <Carousel
@@ -102,53 +111,63 @@ const Testimonials = () => {
         >
           <CarouselContent>
             {testimonials.map((testimonial) => (
-              <CarouselItem key={testimonial.id} className="basis-full md:basis-1/2 lg:basis-1/3 pl-4">
+              <CarouselItem
+                key={testimonial.id}
+                className="basis-full pl-4 md:basis-1/2 lg:basis-1/3"
+              >
                 <Card className="h-full">
-                  <CardContent className="p-6 flex flex-col h-full">
-                    <div className="flex items-center gap-3 mb-4">
+                  <CardContent className="flex h-full flex-col p-6">
+                    <div className="mb-4 flex items-center gap-3">
                       <Avatar>
-                        <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                        <AvatarFallback>{testimonial.name.slice(0, 2)}</AvatarFallback>
+                        <AvatarImage
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                        />
+                        <AvatarFallback>
+                          {testimonial.name.slice(0, 2)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{testimonial.name}</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-muted-foreground text-sm">
                           {testimonial.role}，{testimonial.age}岁
                         </div>
                       </div>
                     </div>
                     <RatingStars rating={testimonial.rating} />
-                    <blockquote className="mt-4 flex-1 text-muted-foreground">"{testimonial.content}"</blockquote>
+                    <blockquote className="text-muted-foreground mt-4 flex-1">
+                      "{testimonial.content}"
+                    </blockquote>
                   </CardContent>
                 </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex justify-center mt-8 gap-2">
-            <CarouselPrevious className="relative static" />
-            <CarouselNext className="relative static" />
+          <div className="mt-8 flex justify-center gap-2">
+            <CarouselPrevious className="static relative" />
+            <CarouselNext className="static relative" />
           </div>
         </Carousel>
 
         <div className="mt-16 text-center">
-          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
             <div className="flex items-center gap-2">
-              <div className="text-4xl font-bold text-primary">98%</div>
-              <div className="text-sm text-left">
+              <div className="text-primary text-4xl font-bold">98%</div>
+              <div className="text-left text-sm">
                 <div>用户满意度</div>
                 <div className="text-muted-foreground">基于用户调查</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-4xl font-bold text-primary">45%</div>
-              <div className="text-sm text-left">
+              <div className="text-primary text-4xl font-bold">45%</div>
+              <div className="text-left text-sm">
                 <div>平均退休加速</div>
                 <div className="text-muted-foreground">使用一年后</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-4xl font-bold text-primary">10K+</div>
-              <div className="text-sm text-left">
+              <div className="text-primary text-4xl font-bold">10K+</div>
+              <div className="text-left text-sm">
                 <div>活跃用户</div>
                 <div className="text-muted-foreground">并持续增长</div>
               </div>

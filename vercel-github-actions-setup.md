@@ -66,9 +66,9 @@ name: Vercel部署
 
 on:
   push:
-    branches: ["*"]
+    branches: ['*']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   deploy:
@@ -79,7 +79,7 @@ jobs:
       - name: 安装Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
 
       - name: 安装pnpm
         uses: pnpm/action-setup@v2
