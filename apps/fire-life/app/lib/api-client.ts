@@ -8,7 +8,7 @@ import {
   FinancialPlan,
   Forecast,
   ForecastDetail,
-  RetirementResult
+  RetirementResult,
 } from './types';
 import { redirect } from 'next/navigation';
 import { supabase, getSession, refreshSession } from './supabase';
@@ -20,12 +20,12 @@ import { supabase, getSession, refreshSession } from './supabase';
 export async function checkSession() {
   try {
     const session = await getSession();
-    
+
     if (!session) {
       console.log('没有有效会话');
       return null;
     }
-    
+
     return session.user.id;
   } catch (error) {
     console.error('检查会话时出错:', error);
@@ -39,55 +39,61 @@ export async function checkSession() {
  * @param options 请求选项
  * @returns 响应数据
  */
-export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+export async function fetchAPI<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
   try {
     // 确保包含凭据
     options.credentials = 'include';
-    
+
     // 添加必要的headers
     options.headers = {
       ...options.headers,
       'Content-Type': 'application/json',
     };
-    
+
     // 执行请求
     const response = await fetch(`/api/${endpoint}`, options);
-    
+
     // 检查是否未授权
     if (response.status === 401) {
       console.log('请求未授权，检查会话状态');
-      
+
       // 检查是否已登录但会话可能需要刷新
       const userId = await checkSession();
-      
+
       if (userId) {
         // 用户已登录但会话可能需要刷新，尝试刷新会话
         const session = await refreshSession();
-        
+
         if (session) {
           console.log('会话已刷新，重试请求');
           // 重试请求
           return fetchAPI<T>(endpoint, options);
         }
       }
-      
+
       // 重定向到登录页面，附带当前URL作为返回URL
-      const currentUrl = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/';
+      const currentUrl =
+        typeof window !== 'undefined'
+          ? window.location.pathname + window.location.search
+          : '/';
       console.log(`用户未登录，重定向到登录页面，返回URL: ${currentUrl}`);
-      
+
       if (typeof window !== 'undefined') {
         window.location.href = `/login?returnUrl=${encodeURIComponent(currentUrl)}`;
       }
-      
+
       throw new Error(`未授权访问 (${response.status})`);
     }
-    
+
     // 检查其他错误
     if (!response.ok) {
       throw new Error(`API请求失败: ${response.status} ${response.statusText}`);
     }
-    
-    return await response.json() as T;
+
+    return (await response.json()) as T;
   } catch (error) {
     console.error('API请求出错:', error);
     throw error;
@@ -107,7 +113,10 @@ export const assetAPI = {
     }),
 
   // 更新资产
-  updateAsset: (id: string, updates: Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>) =>
+  updateAsset: (
+    id: string,
+    updates: Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>
+  ) =>
     fetchAPI<Asset>(`/assets/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updates),
@@ -136,7 +145,10 @@ export const planAPI = {
     }),
 
   // 更新计划
-  updatePlan: (id: string, updates: Partial<Omit<FinancialPlan, 'id' | 'user_id' | 'created_at'>>) =>
+  updatePlan: (
+    id: string,
+    updates: Partial<Omit<FinancialPlan, 'id' | 'user_id' | 'created_at'>>
+  ) =>
     fetchAPI<FinancialPlan>(`/plans/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updates),
@@ -155,7 +167,10 @@ export const forecastAPI = {
   getForecasts: () => fetchAPI<Forecast[]>('/forecasts'),
 
   // 获取单个预测详情
-  getForecast: (id: string) => fetchAPI<{ forecast: Forecast; details: ForecastDetail[] }>(`/forecasts/${id}`),
+  getForecast: (id: string) =>
+    fetchAPI<{ forecast: Forecast; details: ForecastDetail[] }>(
+      `/forecasts/${id}`
+    ),
 
   // 创建新预测
   createForecast: (planId: string, currentAssets: number) =>
@@ -170,4 +185,4 @@ export const forecastAPI = {
       method: 'POST',
       body: JSON.stringify({ planId, currentAssets }),
     }),
-}; 
+};

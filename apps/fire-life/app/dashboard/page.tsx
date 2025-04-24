@@ -73,28 +73,29 @@ export default function Dashboard() {
     const checkAuth = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-        
+
         if (error) {
           console.error('获取会话出错:', error.message);
           setSessionStatus(`会话错误: ${error.message}`);
           setTimeout(() => router.push('/login'), 2000);
           return;
         }
-        
+
         if (!data.session) {
           console.log('仪表盘: 未登录');
           setSessionStatus('未登录，正在跳转到登录页面...');
           setTimeout(() => router.push('/login'), 2000);
           return;
         }
-        
+
         // 获取用户信息
         setUser(data.session.user);
         setSessionStatus('已登录');
-        
+
         // 检查API会话状态
         try {
-          const apiSessionStatus = await fetchAPI<ApiSessionStatus>('/auth/session');
+          const apiSessionStatus =
+            await fetchAPI<ApiSessionStatus>('/auth/session');
           console.log('API会话状态:', apiSessionStatus);
           setSessionStatus(`已登录 (API会话有效: ${apiSessionStatus.userId})`);
         } catch (apiError) {
@@ -103,12 +104,14 @@ export default function Dashboard() {
         }
       } catch (err) {
         console.error('认证检查失败:', err);
-        setSessionStatus(`认证检查失败: ${err instanceof Error ? err.message : '未知错误'}`);
+        setSessionStatus(
+          `认证检查失败: ${err instanceof Error ? err.message : '未知错误'}`
+        );
       } finally {
         setLoading(false);
       }
     };
-    
+
     checkAuth();
   }, [router]);
 
@@ -120,11 +123,20 @@ export default function Dashboard() {
 
   // 计算财务自由进度
   const financialFreedomProgress = latestForecast
-    ? Math.min(100, Math.round((totalAssetValue / latestForecast.retirement_assets) * 100))
+    ? Math.min(
+        100,
+        Math.round((totalAssetValue / latestForecast.retirement_assets) * 100)
+      )
     : 0;
 
   // 计算资产分布
-  type AssetDistributionType = 'cash' | 'stock' | 'bond' | 'real_estate' | 'crypto' | 'other';
+  type AssetDistributionType =
+    | 'cash'
+    | 'stock'
+    | 'bond'
+    | 'real_estate'
+    | 'crypto'
+    | 'other';
   const assetDistribution: Record<AssetDistributionType, number> = {
     cash: 0,
     stock: 0,
@@ -134,7 +146,7 @@ export default function Dashboard() {
     other: 0,
   };
 
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     // 如果资产类型是有效的分布类型，则添加到相应类别，否则添加到"其他"
     const type = asset.type as AssetDistributionType;
     if (type in assetDistribution) {
@@ -146,9 +158,9 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-24 md:px-6 md:py-28 flex justify-center items-center">
+      <div className="container mx-auto flex items-center justify-center px-4 py-24 md:px-6 md:py-28">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
+          <Loader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
           <p>加载数据中...</p>
         </div>
       </div>
@@ -158,7 +170,7 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="container mx-auto mt-10 px-4">
-        <h1 className="text-2xl font-bold mb-6">认证状态: {sessionStatus}</h1>
+        <h1 className="mb-6 text-2xl font-bold">认证状态: {sessionStatus}</h1>
       </div>
     );
   }
@@ -166,7 +178,7 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-24 md:px-6 md:py-28">
       {error && (
-        <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-md border border-red-200">
+        <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-4 text-red-600">
           {error}
         </div>
       )}
@@ -192,21 +204,26 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-medium">{financialFreedomProgress}%</span>
+                <span className="text-lg font-medium">
+                  {financialFreedomProgress}%
+                </span>
                 <span className="text-muted-foreground text-sm">
                   目标: 100%
                 </span>
               </div>
               <div className="bg-muted mt-2 h-3 w-full rounded-full">
-                <div 
-                  className="bg-primary h-3 rounded-full" 
+                <div
+                  className="bg-primary h-3 rounded-full"
                   style={{ width: `${financialFreedomProgress}%` }}
                 ></div>
               </div>
               <div className="mt-2 flex justify-between text-sm">
                 <span>当前: ¥{(totalAssetValue / 10000).toFixed(1)}万</span>
                 {latestForecast && (
-                  <span>目标: ¥{(latestForecast.retirement_assets / 10000).toFixed(1)}万</span>
+                  <span>
+                    目标: ¥
+                    {(latestForecast.retirement_assets / 10000).toFixed(1)}万
+                  </span>
                 )}
               </div>
             </CardContent>
@@ -223,8 +240,10 @@ export default function Dashboard() {
                 {latestForecast ? (
                   <>
                     <div className="text-2xl font-bold">
-                      {new Date().getFullYear() + 
-                        (latestForecast.retirement_age - (plans[0]?.current_age || 30))}年
+                      {new Date().getFullYear() +
+                        (latestForecast.retirement_age -
+                          (plans[0]?.current_age || 30))}
+                      年
                     </div>
                     <div className="text-muted-foreground text-sm">
                       {latestForecast.retirement_age}岁
@@ -277,7 +296,11 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         <div className="bg-primary mr-2 h-3 w-3 rounded-full"></div>
                         <span className="text-sm">
-                          股票 ({Math.round((assetDistribution.stock / totalAssetValue) * 100)}%)
+                          股票 (
+                          {Math.round(
+                            (assetDistribution.stock / totalAssetValue) * 100
+                          )}
+                          %)
                         </span>
                       </div>
                     )}
@@ -285,7 +308,11 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         <div className="bg-secondary mr-2 h-3 w-3 rounded-full"></div>
                         <span className="text-sm">
-                          债券 ({Math.round((assetDistribution.bond / totalAssetValue) * 100)}%)
+                          债券 (
+                          {Math.round(
+                            (assetDistribution.bond / totalAssetValue) * 100
+                          )}
+                          %)
                         </span>
                       </div>
                     )}
@@ -293,15 +320,24 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         <div className="bg-destructive mr-2 h-3 w-3 rounded-full"></div>
                         <span className="text-sm">
-                          现金 ({Math.round((assetDistribution.cash / totalAssetValue) * 100)}%)
+                          现金 (
+                          {Math.round(
+                            (assetDistribution.cash / totalAssetValue) * 100
+                          )}
+                          %)
                         </span>
                       </div>
                     )}
                     {assetDistribution.real_estate > 0 && (
                       <div className="flex items-center">
-                        <div className="bg-green-500 mr-2 h-3 w-3 rounded-full"></div>
+                        <div className="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
                         <span className="text-sm">
-                          房产 ({Math.round((assetDistribution.real_estate / totalAssetValue) * 100)}%)
+                          房产 (
+                          {Math.round(
+                            (assetDistribution.real_estate / totalAssetValue) *
+                              100
+                          )}
+                          %)
                         </span>
                       </div>
                     )}
@@ -309,7 +345,11 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         <div className="bg-muted-foreground mr-2 h-3 w-3 rounded-full"></div>
                         <span className="text-sm">
-                          其他 ({Math.round((assetDistribution.other / totalAssetValue) * 100)}%)
+                          其他 (
+                          {Math.round(
+                            (assetDistribution.other / totalAssetValue) * 100
+                          )}
+                          %)
                         </span>
                       </div>
                     )}
@@ -334,10 +374,15 @@ export default function Dashboard() {
             <CardContent>
               {plans.length > 0 ? (
                 <div className="space-y-4">
-                  {plans.slice(0, 3).map(plan => (
-                    <div key={plan.id} className="flex items-start justify-between">
+                  {plans.slice(0, 3).map((plan) => (
+                    <div
+                      key={plan.id}
+                      className="flex items-start justify-between"
+                    >
                       <div>
-                        <div className="font-medium">{plan.name || '未命名计划'}</div>
+                        <div className="font-medium">
+                          {plan.name || '未命名计划'}
+                        </div>
                         <div className="text-muted-foreground text-sm">
                           目标退休年龄: {plan.target_retirement_age}岁
                         </div>
@@ -348,7 +393,7 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {plans.length > 3 && (
-                    <div className="text-center mt-2">
+                    <div className="mt-2 text-center">
                       <Button asChild variant="link" size="sm">
                         <Link href="/plans">查看所有计划</Link>
                       </Button>

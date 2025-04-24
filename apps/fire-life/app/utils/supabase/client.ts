@@ -8,4 +8,4 @@ export function createClient() {
 }
 
 // 创建默认的客户端供直接导入使用
-export const supabase = createClient(); 
+export const supabase = createClient();

@@ -9,7 +9,13 @@ export interface User {
 }
 
 // 资产类型
-export type AssetType = 'cash' | 'stock' | 'bond' | 'property' | 'insurance' | 'other';
+export type AssetType =
+  | 'cash'
+  | 'stock'
+  | 'bond'
+  | 'property'
+  | 'insurance'
+  | 'other';
 
 // 货币类型
 export type Currency = 'CNY' | 'USD' | 'EUR' | 'GBP' | 'JPY';
@@ -86,7 +92,7 @@ export enum Tables {
   FinancialPlans = 'financial_plans',
   Forecasts = 'forecasts',
   ForecastDetails = 'forecast_details',
-  UserSettings = 'user_settings'
+  UserSettings = 'user_settings',
 }
 
 export interface RetirementResult {
@@ -108,4 +114,4 @@ export interface ChartData {
     borderWidth?: number;
     fill?: boolean;
   }[];
-} 
+}

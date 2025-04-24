@@ -1,15 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@workspace/ui/components/card";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
-import { Button } from "@workspace/ui/components/button";
-import { Checkbox } from "@workspace/ui/components/checkbox";
-import { Alert, AlertDescription } from "@workspace/ui/components/alert";
-import { login, signup, ActionResult } from './actions';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
+import { Button } from '@workspace/ui/components/button';
+import { Checkbox } from '@workspace/ui/components/checkbox';
+import { Alert, AlertDescription } from '@workspace/ui/components/alert';
+import { login, signup } from './actions';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -24,7 +31,10 @@ export default function LoginPage() {
   const returnUrl = searchParams.get('returnUrl') || '/dashboard';
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, action: 'login' | 'signup') => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    action: 'login' | 'signup'
+  ) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
@@ -39,7 +49,9 @@ export default function LoginPage() {
       formData.append('origin', origin);
 
       // 根据操作类型调用相应的action
-      const result = await (action === 'login' ? login(formData) : signup(formData));
+      const result = await (action === 'login'
+        ? login(formData)
+        : signup(formData));
 
       if (result?.error) {
         setError(result.error);
@@ -48,21 +60,27 @@ export default function LoginPage() {
       }
     } catch (err) {
       console.error(`${action === 'login' ? '登录' : '注册'}失败:`, err);
-      setError(err instanceof Error ? err.message : `${action === 'login' ? '登录' : '注册'}失败，请稍后重试`);
+      setError(
+        err instanceof Error
+          ? err.message
+          : `${action === 'login' ? '登录' : '注册'}失败，请稍后重试`
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-80px)] px-4">
+    <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">
             {isLogin ? '登录账户' : '注册新账户'}
           </CardTitle>
           <CardDescription>
-            {isLogin ? '输入您的账户信息继续访问FIRE.Life平台' : '创建一个新账户开始您的财务自由之旅'}
+            {isLogin
+              ? '输入您的账户信息继续访问FIRE.Life平台'
+              : '创建一个新账户开始您的财务自由之旅'}
           </CardDescription>
         </CardHeader>
         <form onSubmit={(e) => handleSubmit(e, isLogin ? 'login' : 'signup')}>
@@ -72,18 +90,18 @@ export default function LoginPage() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            
+
             {message && (
               <Alert>
                 <AlertDescription>{message}</AlertDescription>
               </Alert>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">电子邮箱</Label>
-              <Input 
-                id="email" 
-                type="email" 
+              <Input
+                id="email"
+                type="email"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -94,16 +112,16 @@ export default function LoginPage() {
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">密码</Label>
                 {isLogin && (
-                  <Link 
-                    href="/forgot-password" 
-                    className="text-sm text-primary underline-offset-4 hover:underline"
+                  <Link
+                    href="/forgot-password"
+                    className="text-primary text-sm underline-offset-4 hover:underline"
                   >
                     忘记密码?
                   </Link>
                 )}
               </div>
-              <Input 
-                id="password" 
+              <Input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -112,8 +130,8 @@ export default function LoginPage() {
             </div>
             {isLogin && (
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="remember" 
+                <Checkbox
+                  id="remember"
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked === true)}
                 />
@@ -125,13 +143,19 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? (isLogin ? '登录中...' : '注册中...') : (isLogin ? '登录' : '注册')}
+              {loading
+                ? isLogin
+                  ? '登录中...'
+                  : '注册中...'
+                : isLogin
+                  ? '登录'
+                  : '注册'}
             </Button>
             <div className="text-center text-sm">
               {isLogin ? (
                 <>
-                  还没有账户?{" "}
-                  <button 
+                  还没有账户?{' '}
+                  <button
                     type="button"
                     onClick={() => setIsLogin(false)}
                     className="text-primary underline-offset-4 hover:underline"
@@ -141,8 +165,8 @@ export default function LoginPage() {
                 </>
               ) : (
                 <>
-                  已有账户?{" "}
-                  <button 
+                  已有账户?{' '}
+                  <button
                     type="button"
                     onClick={() => setIsLogin(true)}
                     className="text-primary underline-offset-4 hover:underline"
@@ -157,4 +181,4 @@ export default function LoginPage() {
       </Card>
     </div>
   );
-} 
+}

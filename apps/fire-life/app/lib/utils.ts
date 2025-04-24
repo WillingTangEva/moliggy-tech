@@ -6,15 +6,21 @@
  * 生成唯一ID
  */
 export function generateId(): string {
-  return Math.random().toString(36).substring(2, 15) + 
-         Math.random().toString(36).substring(2, 15) + 
-         Date.now().toString(36);
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15) +
+    Date.now().toString(36)
+  );
 }
 
 /**
  * 格式化货币
  */
-export function formatCurrency(value: number, locale = 'zh-CN', currency = 'CNY'): string {
+export function formatCurrency(
+  value: number,
+  locale = 'zh-CN',
+  currency = 'CNY'
+): string {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
@@ -34,7 +40,7 @@ export function formatPercentage(value: number, decimalPlaces = 1): string {
  * 睡眠函数 - 用于调试或模拟延迟
  */
 export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -52,11 +58,14 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
 /**
  * 深度合并对象
  */
-export function deepMerge<T extends object = object, U extends object = T>(target: T, source: U): T & U {
+export function deepMerge<T extends object = object, U extends object = T>(
+  target: T,
+  source: U
+): T & U {
   const output = { ...target } as T & U;
-  
+
   if (isObject(target) && isObject(source)) {
-    Object.keys(source).forEach(key => {
+    Object.keys(source).forEach((key) => {
       if (isObject(source[key as keyof U])) {
         if (!(key in target)) {
           Object.assign(output, { [key]: source[key as keyof U] });
@@ -71,7 +80,7 @@ export function deepMerge<T extends object = object, U extends object = T>(targe
       }
     });
   }
-  
+
   return output;
 }
 
@@ -80,4 +89,4 @@ export function deepMerge<T extends object = object, U extends object = T>(targe
  */
 function isObject(item: unknown): item is object {
   return Boolean(item && typeof item === 'object' && !Array.isArray(item));
-} 
+}

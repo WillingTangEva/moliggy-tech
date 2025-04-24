@@ -6,7 +6,8 @@ import { createClient } from '@supabase/supabase-js';
 // NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'your-supabase-url';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-supabase-anon-key';
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-supabase-anon-key';
 
 // 判断是否在浏览器环境
 const isBrowser = typeof window !== 'undefined';
@@ -31,11 +32,11 @@ if (!isBrowser) {
   getServerSupabase = () => {
     // 这个代码只会在服务器端运行
     const { cookies } = require('next/headers');
-    
+
     try {
       // 在服务器端，需要手动传递cookie
       const cookieStore = cookies();
-      
+
       return createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
           persistSession: false,
@@ -63,17 +64,17 @@ export { getServerSupabase };
 // 创建带有服务角色密钥的管理员客户端（仅在服务器端使用）
 export const createAdminClient = () => {
   const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseServiceRoleKey) {
     console.warn('缺少SUPABASE_SERVICE_ROLE_KEY环境变量');
     return supabase;
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false
-    }
+      persistSession: false,
+    },
   });
 };
 
@@ -95,7 +96,10 @@ export const getSession = async () => {
 // 获取当前用户方法
 export const getUser = async () => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
     if (error) {
       console.error('获取用户出错:', error.message);
       return null;
@@ -120,4 +124,4 @@ export const refreshSession = async () => {
     console.error('刷新会话时发生异常:', error);
     return null;
   }
-}; 
+};

@@ -1,13 +1,32 @@
-import { Button } from "@workspace/ui/components/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
-import { Plus, Download, Upload, Filter, MoreHorizontal, Edit, Trash2 } from "lucide-react";
+import { Button } from '@workspace/ui/components/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@workspace/ui/components/tabs';
+import {
+  Plus,
+  Download,
+  Upload,
+  Filter,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@workspace/ui/components/dropdown-menu";
+} from '@workspace/ui/components/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -15,7 +34,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@workspace/ui/components/table";
+} from '@workspace/ui/components/table';
 import {
   Dialog,
   DialogContent,
@@ -24,95 +43,95 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@workspace/ui/components/dialog";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
+} from '@workspace/ui/components/dialog';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@workspace/ui/components/select";
-import { cn } from "@workspace/ui/lib/utils";
+} from '@workspace/ui/components/select';
+import { cn } from '@workspace/ui/lib/utils';
 
 // 模拟资产数据
 const assets = [
   {
-    id: "1",
-    name: "招商银行储蓄账户",
-    type: "cash",
+    id: '1',
+    name: '招商银行储蓄账户',
+    type: 'cash',
     value: 50000,
-    currency: "CNY",
-    lastUpdated: "2023-10-15",
+    currency: 'CNY',
+    lastUpdated: '2023-10-15',
   },
   {
-    id: "2",
-    name: "支付宝余额宝",
-    type: "cash",
+    id: '2',
+    name: '支付宝余额宝',
+    type: 'cash',
     value: 30000,
-    currency: "CNY",
-    lastUpdated: "2023-10-10",
+    currency: 'CNY',
+    lastUpdated: '2023-10-10',
   },
   {
-    id: "3",
-    name: "A股ETF",
-    type: "stock",
+    id: '3',
+    name: 'A股ETF',
+    type: 'stock',
     value: 120000,
-    currency: "CNY",
-    lastUpdated: "2023-10-12",
+    currency: 'CNY',
+    lastUpdated: '2023-10-12',
   },
   {
-    id: "4",
-    name: "美股Index基金",
-    type: "stock",
+    id: '4',
+    name: '美股Index基金',
+    type: 'stock',
     value: 200000,
-    currency: "CNY",
-    lastUpdated: "2023-10-14",
+    currency: 'CNY',
+    lastUpdated: '2023-10-14',
   },
   {
-    id: "5",
-    name: "国债",
-    type: "bond",
+    id: '5',
+    name: '国债',
+    type: 'bond',
     value: 100000,
-    currency: "CNY",
-    lastUpdated: "2023-10-01",
+    currency: 'CNY',
+    lastUpdated: '2023-10-01',
   },
   {
-    id: "6",
-    name: "养老保险",
-    type: "insurance",
+    id: '6',
+    name: '养老保险',
+    type: 'insurance',
     value: 80000,
-    currency: "CNY",
-    lastUpdated: "2023-09-30",
+    currency: 'CNY',
+    lastUpdated: '2023-09-30',
   },
   {
-    id: "7",
-    name: "住房公积金",
-    type: "other",
+    id: '7',
+    name: '住房公积金',
+    type: 'other',
     value: 60000,
-    currency: "CNY",
-    lastUpdated: "2023-09-28",
+    currency: 'CNY',
+    lastUpdated: '2023-09-28',
   },
 ];
 
 // 资产类型映射
 const assetTypeMap = {
-  cash: "现金/存款",
-  stock: "股票/基金",
-  bond: "债券",
-  property: "房产",
-  insurance: "保险",
-  other: "其他",
+  cash: '现金/存款',
+  stock: '股票/基金',
+  bond: '债券',
+  property: '房产',
+  insurance: '保险',
+  other: '其他',
 };
 
 export default function AssetsPage() {
   // 计算资产总值
   const totalAssetValue = assets.reduce((sum, asset) => sum + asset.value, 0);
-  
+
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">资产管理</h1>
           <p className="text-muted-foreground">
@@ -147,7 +166,11 @@ export default function AssetsPage() {
                   <Label htmlFor="asset-name" className="text-right">
                     资产名称*
                   </Label>
-                  <Input id="asset-name" className="col-span-3" placeholder="如：招商银行储蓄账户" />
+                  <Input
+                    id="asset-name"
+                    className="col-span-3"
+                    placeholder="如：招商银行储蓄账户"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="asset-type" className="text-right">
@@ -171,7 +194,12 @@ export default function AssetsPage() {
                   <Label htmlFor="asset-value" className="text-right">
                     资产价值*
                   </Label>
-                  <Input id="asset-value" className="col-span-3" type="number" placeholder="0.00" />
+                  <Input
+                    id="asset-value"
+                    className="col-span-3"
+                    type="number"
+                    placeholder="0.00"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="asset-currency" className="text-right">
@@ -194,7 +222,11 @@ export default function AssetsPage() {
                   <Label htmlFor="asset-notes" className="text-right">
                     备注
                   </Label>
-                  <Input id="asset-notes" className="col-span-3" placeholder="备注信息..." />
+                  <Input
+                    id="asset-notes"
+                    className="col-span-3"
+                    placeholder="备注信息..."
+                  />
                 </div>
               </div>
               <DialogFooter>
@@ -206,14 +238,16 @@ export default function AssetsPage() {
       </div>
 
       <div className="grid gap-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">总资产</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">¥{totalAssetValue.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold">
+                ¥{totalAssetValue.toLocaleString()}
+              </div>
+              <p className="text-muted-foreground text-xs">
                 最后更新: 2023-10-15
               </p>
             </CardContent>
@@ -224,13 +258,17 @@ export default function AssetsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{assets.length}</div>
-              <p className="text-xs text-muted-foreground">
-                跨{Object.keys(
-                  assets.reduce((acc, asset) => {
-                    acc[asset.type] = true;
-                    return acc;
-                  }, {})
-                ).length}种资产类型
+              <p className="text-muted-foreground text-xs">
+                跨
+                {
+                  Object.keys(
+                    assets.reduce((acc, asset) => {
+                      acc[asset.type] = true;
+                      return acc;
+                    }, {})
+                  ).length
+                }
+                种资产类型
               </p>
             </CardContent>
           </Card>
@@ -240,15 +278,13 @@ export default function AssetsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">+¥1,234</div>
-              <p className="text-xs text-muted-foreground">
-                较昨日增长0.3%
-              </p>
+              <p className="text-muted-foreground text-xs">较昨日增长0.3%</p>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="all" className="w-full">
-          <div className="flex justify-between items-center mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <TabsList>
               <TabsTrigger value="all">全部资产</TabsTrigger>
               <TabsTrigger value="cash">现金/存款</TabsTrigger>
@@ -262,14 +298,16 @@ export default function AssetsPage() {
               筛选
             </Button>
           </div>
-          
+
           <TabsContent value="all" className="mt-0">
             <AssetTable assets={assets} />
           </TabsContent>
-          
+
           {Object.keys(assetTypeMap).map((type) => (
             <TabsContent key={type} value={type} className="mt-0">
-              <AssetTable assets={assets.filter(asset => asset.type === type)} />
+              <AssetTable
+                assets={assets.filter((asset) => asset.type === type)}
+              />
             </TabsContent>
           ))}
         </Tabs>
@@ -296,7 +334,7 @@ function AssetTable({ assets }) {
           <TableBody>
             {assets.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center h-24">
+                <TableCell colSpan={6} className="h-24 text-center">
                   暂无资产数据
                 </TableCell>
               </TableRow>
@@ -304,8 +342,12 @@ function AssetTable({ assets }) {
               assets.map((asset) => (
                 <TableRow key={asset.id}>
                   <TableCell className="font-medium">{asset.name}</TableCell>
-                  <TableCell>{assetTypeMap[asset.type] || asset.type}</TableCell>
-                  <TableCell className="text-right">{asset.value.toLocaleString()}</TableCell>
+                  <TableCell>
+                    {assetTypeMap[asset.type] || asset.type}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {asset.value.toLocaleString()}
+                  </TableCell>
                   <TableCell>{asset.currency}</TableCell>
                   <TableCell>{asset.lastUpdated}</TableCell>
                   <TableCell>
@@ -336,4 +378,4 @@ function AssetTable({ assets }) {
       </CardContent>
     </Card>
   );
-} 
+}

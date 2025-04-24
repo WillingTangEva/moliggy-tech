@@ -60,54 +60,58 @@ export default function ApiTestPage() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-2xl font-bold mb-6">API 测试页面</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="mb-6 text-2xl font-bold">API 测试页面</h1>
+
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
         <button
           onClick={testGetAssets}
           disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded disabled:opacity-50"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:opacity-50"
         >
           测试获取资产
         </button>
-        
+
         <button
           onClick={testGetPlans}
           disabled={loading}
-          className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded disabled:opacity-50"
+          className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 disabled:opacity-50"
         >
           测试获取计划
         </button>
-        
+
         <button
           onClick={testGetForecasts}
           disabled={loading}
-          className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded disabled:opacity-50"
+          className="rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600 disabled:opacity-50"
         >
           测试获取预测
         </button>
       </div>
-      
-      {loading && <p className="text-gray-500 mb-4">加载中...</p>}
-      
+
+      {loading && <p className="mb-4 text-gray-500">加载中...</p>}
+
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded text-red-600">
+        <div className="mb-4 rounded border border-red-200 bg-red-50 p-4 text-red-600">
           {error}
         </div>
       )}
-      
+
       {results && (
         <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">
-            {results.type === 'assets' ? '资产' : 
-             results.type === 'plans' ? '计划' : '预测'} 结果:
+          <h2 className="mb-2 text-xl font-semibold">
+            {results.type === 'assets'
+              ? '资产'
+              : results.type === 'plans'
+                ? '计划'
+                : '预测'}{' '}
+            结果:
           </h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">
+          <pre className="max-h-96 overflow-auto rounded bg-gray-100 p-4">
             {JSON.stringify(results.data, null, 2)}
           </pre>
         </div>
       )}
     </div>
   );
-} 
+}
