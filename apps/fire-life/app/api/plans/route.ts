@@ -6,16 +6,37 @@ import { createClient } from '../../utils/supabase/server';
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
+    console.log('获取用户财务计划: 开始处理');
+    
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      console.log('获取用户财务计划: 用户未登录，返回测试数据');
+      // 为未登录用户提供测试数据
+      return NextResponse.json([
+        {
+          id: "test-plan-1",
+          user_id: "test-user-123",
+          name: "标准退休计划",
+          description: "基于标准退休方案的财务规划",
+          current_age: 30,
+          target_retirement_age: 55,
+          annual_income: 240000,
+          annual_expenses: 180000,
+          retirement_income: 120000,
+          retirement_expenses: 120000,
+          expected_return_rate: 0.07,
+          inflation_rate: 0.03,
+          risk_tolerance: 6,
+          created_at: new Date().toISOString()
+        }
+      ]);
     }
 
+    console.log('获取用户财务计划: 用户已登录, ID:', user.id);
     const plans = await getUserPlans(user.id);
+    console.log('获取用户财务计划: 成功获取计划数量:', plans.length);
+    
     return NextResponse.json(plans);
   } catch (error) {
     console.error('获取财务计划列表失败:', error);

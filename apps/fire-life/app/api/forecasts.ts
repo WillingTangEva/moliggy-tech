@@ -28,7 +28,7 @@ export const forecastAPI = {
 
     // 计算退休结果（不保存）
     calculateRetirement: (planId: string, currentAssets: number) =>
-        fetchAPI<RetirementResult>('/retirement/calculate', {
+        fetchAPI<RetirementResult>('/forecasts/calculate', {
             method: 'POST',
             body: JSON.stringify({ planId, currentAssets }),
         }),

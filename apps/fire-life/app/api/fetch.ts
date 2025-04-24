@@ -10,6 +10,7 @@ export async function fetchAPI<T>(
     endpoint: string,
     options: RequestInit = {}
 ): Promise<T> {
+    console.log(`[API请求] 开始: ${endpoint}`);
     try {
         // 确保包含凭据
         options.credentials = 'include';
@@ -22,6 +23,7 @@ export async function fetchAPI<T>(
 
         // 执行请求
         const response = await fetch(`/api/${endpoint}`, options);
+        console.log(`[API响应] 状态: ${response.status} ${response.statusText}`);
 
         // 检查是否未授权
         if (response.status === 401) {
@@ -43,8 +45,11 @@ export async function fetchAPI<T>(
             );
         }
 
-        return (await response.json()) as T;
+        const data = await response.json();
+        console.log(`[API数据] ${endpoint}:`, data);
+        return data as T;
     } catch (error) {
+        console.error(`[API错误] ${endpoint}:`, error);
         console.error('API请求出错:', error);
         throw error;
     }

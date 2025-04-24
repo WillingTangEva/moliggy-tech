@@ -65,16 +65,39 @@ export default function ForecastPage() {
         async function fetchData() {
             try {
                 setLoading(true);
-                // 获取用户计划和资产
-                const [plansData, assetsData, forecastsData] =
-                    await Promise.all([
-                        planAPI.getPlans(),
+                setError(null);
+                
+                // 先获取计划数据
+                let plansData: FinancialPlan[] = [];
+                try {
+                    plansData = await planAPI.getPlans();
+                    console.log('获取到计划数据:', plansData);
+                    setPlans(plansData);
+                } catch (err) {
+                    console.error('获取计划数据失败:', err);
+                    setError('获取财务计划数据失败，请刷新页面重试');
+                }
+
+                // 获取资产和预测数据
+                try {
+                    const [assetsData, forecastsData] = await Promise.all([
                         assetAPI.getAssets(),
                         forecastAPI.getForecasts(),
                     ]);
+                    setForecasts(forecastsData);
 
-                setPlans(plansData);
-                setForecasts(forecastsData);
+                    // 计算总资产
+                    const totalAssets = assetsData.reduce(
+                        (sum, asset) => sum + asset.value,
+                        0
+                    );
+                    setCurrentAssets(totalAssets);
+                } catch (err) {
+                    console.error('获取资产或预测数据失败:', err);
+                    if (!error) {
+                        setError('获取资产或预测数据失败，请刷新页面重试');
+                    }
+                }
 
                 // 检查URL中是否有planId参数
                 const searchParams = new URLSearchParams(window.location.search);
@@ -87,16 +110,11 @@ export default function ForecastPage() {
                 } else if (plansData.length > 0 && plansData[0]?.id) {
                     // 否则选择第一个计划
                     setSelectedPlanId(plansData[0].id);
+                    console.log('设置为第一个计划ID:', plansData[0].id);
+                } else {
+                    console.log('没有可用的计划，计划列表为空');
+                    setSelectedPlanId('');
                 }
-
-                // 计算总资产
-                const totalAssets = assetsData.reduce(
-                    (sum, asset) => sum + asset.value,
-                    0
-                );
-                setCurrentAssets(totalAssets);
-
-                setError(null);
             } catch (err) {
                 console.error('获取数据失败:', err);
                 setError('获取数据失败，请刷新页面重试');
@@ -115,10 +133,13 @@ export default function ForecastPage() {
 
             try {
                 setCalculating(true);
+                // 使用forecastAPI，访问正确的端点
                 const result = await forecastAPI.calculateRetirement(
                     selectedPlanId,
                     currentAssets
                 );
+                
+                console.log('计算结果:', result);
                 setRetirementResult(result);
 
                 // 设置模拟器参数为当前计划的参数
@@ -154,21 +175,26 @@ export default function ForecastPage() {
 
         try {
             setCalculating(true);
+            // 使用forecastAPI，访问正确的端点
             const result = await forecastAPI.createForecast(
                 selectedPlanId,
                 currentAssets
             );
+            
+            console.log('创建预测结果:', result);
 
             // 更新预测列表
-            setForecasts([result.forecast, ...forecasts]);
-            setRetirementResult({
-                targetRetirementAge: result.forecast.retirement_age,
-                actualRetirementAge: result.forecast.retirement_age,
-                retirementAssets: result.forecast.retirement_assets,
-                monthlyRetirementIncome: result.forecast.monthly_income || 0,
-                readinessScore: result.forecast.readiness_score || 0,
-                yearlyDetails: result.details,
-            });
+            if (result.forecast) {
+                setForecasts([result.forecast, ...forecasts]);
+                setRetirementResult({
+                    targetRetirementAge: result.forecast.retirement_age,
+                    actualRetirementAge: result.forecast.retirement_age,
+                    retirementAssets: result.forecast.retirement_assets,
+                    monthlyRetirementIncome: result.forecast.monthly_income || 0,
+                    readinessScore: result.forecast.readiness_score || 0,
+                    yearlyDetails: result.details || [],
+                });
+            }
 
             alert('预测已创建/更新');
         } catch (err) {
@@ -219,6 +245,41 @@ export default function ForecastPage() {
                     <Loader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
                     <p>加载数据中...</p>
                 </div>
+            </div>
+        );
+    }
+
+    // 检查是否有财务计划
+    if (plans.length === 0) {
+        return (
+            <div className="container mx-auto py-8">
+                <div className="mb-8 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            退休预测
+                        </h1>
+                        <p className="text-muted-foreground">
+                            基于您的财务数据，预测未来财务状况和退休收入
+                        </p>
+                    </div>
+                </div>
+                
+                <Card>
+                    <CardHeader>
+                        <CardTitle>创建财务计划</CardTitle>
+                        <CardDescription>
+                            您需要创建一个财务计划才能进行退休预测
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-center pb-6">
+                        <p className="mb-4">您还没有创建任何财务计划。请先创建一个财务计划，然后再进行退休预测。</p>
+                        <Button 
+                            onClick={() => router.push('/plans/new')}
+                        >
+                            创建财务计划
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
         );
     }
@@ -314,9 +375,18 @@ export default function ForecastPage() {
                                 </SelectContent>
                             </Select>
                             {plans.length === 0 && (
-                                <p className="text-muted-foreground mt-2 text-sm">
-                                    您需要先创建一个财务计划才能进行预测
-                                </p>
+                                <div className="mt-2">
+                                    <p className="text-muted-foreground text-sm mb-2">
+                                        您需要先创建一个财务计划才能进行预测
+                                    </p>
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm"
+                                        onClick={() => router.push('/plans/new')}
+                                    >
+                                        创建财务计划
+                                    </Button>
+                                </div>
                             )}
                         </div>
                         <div>
