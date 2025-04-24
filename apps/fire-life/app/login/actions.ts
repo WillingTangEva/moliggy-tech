@@ -14,8 +14,8 @@ export async function login(formData: FormData) {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     };
-    
-    const returnUrl = formData.get('returnUrl') as string || '/dashboard';
+
+    const returnUrl = (formData.get('returnUrl') as string) || '/dashboard';
 
     const { error } = await supabase.auth.signInWithPassword(data);
 
@@ -36,8 +36,8 @@ export async function signup(formData: FormData) {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     };
-    
-    const returnUrl = formData.get('returnUrl') as string || '/dashboard';
+
+    const returnUrl = (formData.get('returnUrl') as string) || '/dashboard';
 
     const { error } = await supabase.auth.signUp(data);
 
@@ -45,7 +45,7 @@ export async function signup(formData: FormData) {
         return { error: error.message };
     }
 
-    return { 
-        message: '注册成功！请检查您的邮箱完成验证。验证后将自动登录。'
+    return {
+        message: '注册成功！请检查您的邮箱完成验证。验证后将自动登录。',
     };
 }

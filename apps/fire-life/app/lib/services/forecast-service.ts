@@ -259,12 +259,15 @@ export const forecastService = {
         // 3. 计算退休准备度分数
         const targetAge = plan.target_retirement_age;
         const actualAge = forecast.retirement_age;
-        
+
         // 分数计算：如果提前达到目标则100分，否则基于接近程度计算
         let readinessScore = 100;
         if (actualAge > targetAge) {
             // 每晚5年扣10分，最低0分
-            readinessScore = Math.max(0, 100 - Math.floor((actualAge - targetAge) / 5) * 10);
+            readinessScore = Math.max(
+                0,
+                100 - Math.floor((actualAge - targetAge) / 5) * 10
+            );
         }
 
         // 4. 返回结果

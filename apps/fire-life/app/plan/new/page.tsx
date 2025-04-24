@@ -40,13 +40,13 @@ export default function NewPlan() {
             try {
                 const response = await fetch('/api/auth/check');
                 const data = await response.json();
-                
+
                 if (!data.authenticated) {
                     console.log('新建计划: 未登录');
                     router.push('/login?returnUrl=/plan/new');
                     return;
                 }
-                
+
                 setLoading(false);
             } catch (err) {
                 console.error('认证检查失败:', err);

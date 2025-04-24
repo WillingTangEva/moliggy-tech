@@ -5,4 +5,4 @@ export * from './user';
 export * from './assets';
 export * from './plans';
 export * from './forecasts';
-export { fetchAPI } from './fetch'; 
+export { fetchAPI } from './fetch';

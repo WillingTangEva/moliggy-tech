@@ -22,7 +22,6 @@ import Link from 'next/link';
 import { assetAPI, planAPI, forecastAPI } from '../api';
 import { Asset, FinancialPlan, Forecast } from '../lib/types';
 import { useRouter } from 'next/navigation';
-import { checkApiSession } from '../api/user';
 
 // API会话状态接口
 interface ApiSessionStatus {
@@ -75,7 +74,7 @@ export default function Dashboard() {
                 // 使用fetch API请求服务器端的登录检查接口
                 const response = await fetch('/api/auth/check');
                 const data = await response.json();
-                
+
                 if (!data.authenticated) {
                     console.log('仪表盘: 未登录');
                     setSessionStatus('未登录，正在跳转到登录页面...');
@@ -86,18 +85,6 @@ export default function Dashboard() {
                 // 获取用户信息
                 setUser(data.user);
                 setSessionStatus('已登录');
-
-                // 检查API会话状态
-                try {
-                    const apiSessionStatus = await checkApiSession();
-                    console.log('API会话状态:', apiSessionStatus);
-                    setSessionStatus(
-                        `已登录 (API会话有效: ${apiSessionStatus.userId})`
-                    );
-                } catch (apiError) {
-                    console.error('API会话检查失败:', apiError);
-                    setSessionStatus(`已登录 (API会话检查失败)`);
-                }
             } catch (err) {
                 console.error('认证检查失败:', err);
                 setSessionStatus(

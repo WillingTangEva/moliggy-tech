@@ -65,13 +65,13 @@ export default function ForecastPage() {
             try {
                 const response = await fetch('/api/auth/check');
                 const data = await response.json();
-                
+
                 if (!data.authenticated) {
                     console.log('预测页面: 未登录');
                     router.push('/login?returnUrl=/forecast');
                     return;
                 }
-                
+
                 setAuthChecked(true);
             } catch (err) {
                 console.error('认证检查失败:', err);

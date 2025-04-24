@@ -163,7 +163,7 @@ export const serverAssetService = {
         // 管理员操作应该在受保护的API路由中实现
         // 这里使用普通的客户端，依赖于RLS策略进行权限控制
         const supabase = await createClient();
-        
+
         const { data, error } = await supabase
             .from(Tables.Assets)
             .select('*')

@@ -49,18 +49,18 @@ export interface FinancialPlan {
     updated_at?: string;
     name?: string;
     description?: string;
-    
+
     // 基本信息
     current_age: number;
     target_retirement_age: number;
     retirement_target_amount?: number;
-    
+
     // 财务数据
-    annual_income: number;  // 年收入
+    annual_income: number; // 年收入
     annual_expenses: number; // 年支出
     retirement_income: number; // 退休后年收入
     retirement_expenses: number; // 退休后年支出
-    
+
     // 投资相关
     expected_return_rate: number; // 预期投资回报率
     inflation_rate: number; // 通胀率
@@ -73,17 +73,17 @@ export interface Forecast {
     user_id: string;
     plan_id: string;
     created_at?: string;
-    
+
     // 核心预测结果
     retirement_age: number;
     retirement_year: number;
     retirement_assets: number;
-    
+
     // 预测设置和结果
     initial_assets: number;
     final_assets: number;
     years_forecasted: number;
-    
+
     // 兼容旧版属性
     monthly_income?: number;
     readiness_score?: number;

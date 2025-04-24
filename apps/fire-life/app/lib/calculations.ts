@@ -155,52 +155,57 @@ function generateAnnualProjections(
 export function calculateForecast(
     plan: FinancialPlan,
     initialAssets: number
-): { forecast: Omit<Forecast, 'id' | 'created_at'>; details: Omit<ForecastDetail, 'id' | 'forecast_id'>[]; } {
+): {
+    forecast: Omit<Forecast, 'id' | 'created_at'>;
+    details: Omit<ForecastDetail, 'id' | 'forecast_id'>[];
+} {
     const maxYears = 50; // 最多预测50年
     const targetRetirementAge = plan.target_retirement_age || 60;
     const currentAge = plan.current_age;
     const yearsToRetirement = targetRetirementAge - currentAge;
-    
+
     // 初始化预测详情
     const details: Omit<ForecastDetail, 'id' | 'forecast_id'>[] = [];
-    
+
     let totalAssets = initialAssets;
     let retirementAssets = 0;
     let retirementYear = 0;
     let retirementAchieved = false;
-    
+
     // 计算年度资产增长
     for (let year = 0; year < maxYears; year++) {
         const currentYear = new Date().getFullYear() + year;
         const age = currentAge + year;
-        const isRetirementYear = age >= targetRetirementAge && !retirementAchieved;
-        
+        const isRetirementYear =
+            age >= targetRetirementAge && !retirementAchieved;
+
         // 收入和支出
         let annualIncome = plan.annual_income || 0;
         let annualExpenses = plan.annual_expenses || 0;
-        
+
         // 如果已退休，调整收入和支出
         if (age >= targetRetirementAge) {
             annualIncome = plan.retirement_income || 0;
             annualExpenses = plan.retirement_expenses || 0;
         }
-        
+
         // 净存款
         const netSavings = annualIncome - annualExpenses;
-        
+
         // 资产增长（考虑投资回报）
-        const investmentReturn = totalAssets * (plan.expected_return_rate || 0.05);
-        
+        const investmentReturn =
+            totalAssets * (plan.expected_return_rate || 0.05);
+
         // 更新总资产
         totalAssets = totalAssets + netSavings + investmentReturn;
-        
+
         // 如果达到退休年龄且尚未标记为退休，记录退休资产
         if (isRetirementYear) {
             retirementAssets = totalAssets;
             retirementYear = currentYear;
             retirementAchieved = true;
         }
-        
+
         // 添加到详情
         details.push({
             year: currentYear,
@@ -212,7 +217,7 @@ export function calculateForecast(
             total_assets: totalAssets,
         });
     }
-    
+
     // 预测结果
     const forecast: Omit<Forecast, 'id' | 'created_at'> = {
         user_id: plan.user_id,
@@ -224,6 +229,6 @@ export function calculateForecast(
         final_assets: totalAssets,
         years_forecasted: maxYears,
     };
-    
+
     return { forecast, details };
 }
