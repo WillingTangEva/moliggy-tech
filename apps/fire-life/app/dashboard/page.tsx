@@ -21,7 +21,6 @@ import {
 import Link from 'next/link';
 import { assetAPI, planAPI, forecastAPI } from '../lib/api-client';
 import { Asset, FinancialPlan, Forecast } from '../lib/types';
-import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/navigation';
 import { fetchAPI } from '../lib/api-client';
 
@@ -73,16 +72,11 @@ export default function Dashboard() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const { data, error } = await supabase.auth.getSession();
-
-                if (error) {
-                    console.error('获取会话出错:', error.message);
-                    setSessionStatus(`会话错误: ${error.message}`);
-                    setTimeout(() => router.push('/login'), 2000);
-                    return;
-                }
-
-                if (!data.session) {
+                // 使用fetch API请求服务器端的登录检查接口
+                const response = await fetch('/api/auth/check');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
                     console.log('仪表盘: 未登录');
                     setSessionStatus('未登录，正在跳转到登录页面...');
                     setTimeout(() => router.push('/login'), 2000);
@@ -90,7 +84,7 @@ export default function Dashboard() {
                 }
 
                 // 获取用户信息
-                setUser(data.session.user);
+                setUser(data.user);
                 setSessionStatus('已登录');
 
                 // 检查API会话状态

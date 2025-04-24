@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     Card,
     CardContent,
@@ -49,6 +50,8 @@ export default function ForecastPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [calculating, setCalculating] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [authChecked, setAuthChecked] = useState<boolean>(false);
+    const router = useRouter();
 
     // 参数调整
     const [inflationRate, setInflationRate] = useState<number>(3);
@@ -56,8 +59,33 @@ export default function ForecastPage() {
     const [monthlySavings, setMonthlySavings] = useState<number>(5000);
     const [retirementAge, setRetirementAge] = useState<number>(55);
 
+    // 检查用户登录状态
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await fetch('/api/auth/check');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    console.log('预测页面: 未登录');
+                    router.push('/login?returnUrl=/forecast');
+                    return;
+                }
+                
+                setAuthChecked(true);
+            } catch (err) {
+                console.error('认证检查失败:', err);
+                router.push('/login?returnUrl=/forecast');
+            }
+        };
+
+        checkAuth();
+    }, [router]);
+
     // 获取用户数据
     useEffect(() => {
+        if (!authChecked) return; // 只有在认证检查完成后才加载数据
+
         async function fetchData() {
             try {
                 setLoading(true);
@@ -94,7 +122,7 @@ export default function ForecastPage() {
         }
 
         fetchData();
-    }, []);
+    }, [authChecked]);
 
     // 当用户选择计划时，重新计算退休结果
     useEffect(() => {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import {
@@ -19,7 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@workspace/ui/components/select';
-import { ArrowLeft, ArrowRight, Save } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Loader2, Save } from 'lucide-react';
 
 const steps = [
     { id: 1, name: '基本信息' },
@@ -30,6 +31,31 @@ const steps = [
 
 export default function NewPlan() {
     const [currentStep, setCurrentStep] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
+
+    // 检查用户登录状态
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await fetch('/api/auth/check');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    console.log('新建计划: 未登录');
+                    router.push('/login?returnUrl=/plan/new');
+                    return;
+                }
+                
+                setLoading(false);
+            } catch (err) {
+                console.error('认证检查失败:', err);
+                router.push('/login?returnUrl=/plan/new');
+            }
+        };
+
+        checkAuth();
+    }, [router]);
 
     const nextStep = () => {
         if (currentStep < steps.length) {
@@ -42,6 +68,17 @@ export default function NewPlan() {
             setCurrentStep(currentStep - 1);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="container mx-auto flex items-center justify-center px-4 py-24 md:px-6 md:py-28">
+                <div className="text-center">
+                    <Loader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
+                    <p>加载中...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto px-4 py-24 md:px-6 md:py-28">

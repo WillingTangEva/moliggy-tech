@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * API客户端工具
  * 用于处理与后端API的交互
@@ -10,27 +12,22 @@ import {
     ForecastDetail,
     RetirementResult,
 } from './types';
-import { redirect } from 'next/navigation';
-import { supabase, getSession, refreshSession } from './supabase';
+import { getClientSession, refreshClientSession } from './services/client-service';
 
 /**
  * 检查用户会话状态
  * @returns 返回用户ID或null
  */
 export async function checkSession() {
-    try {
-        const session = await getSession();
+    return await getClientSession();
+}
 
-        if (!session) {
-            console.log('没有有效会话');
-            return null;
-        }
-
-        return session.user.id;
-    } catch (error) {
-        console.error('检查会话时出错:', error);
-        return null;
-    }
+/**
+ * 刷新用户会话
+ * @returns 返回刷新后的会话或null
+ */
+export async function refreshSessionAPI() {
+    return await refreshClientSession();
 }
 
 /**
@@ -65,7 +62,7 @@ export async function fetchAPI<T>(
 
             if (userId) {
                 // 用户已登录但会话可能需要刷新，尝试刷新会话
-                const session = await refreshSession();
+                const session = await refreshSessionAPI();
 
                 if (session) {
                     console.log('会话已刷新，重试请求');
@@ -75,15 +72,9 @@ export async function fetchAPI<T>(
             }
 
             // 重定向到登录页面，附带当前URL作为返回URL
-            const currentUrl =
-                typeof window !== 'undefined'
-                    ? window.location.pathname + window.location.search
-                    : '/';
+            const currentUrl = window.location.pathname + window.location.search;
             console.log(`用户未登录，重定向到登录页面，返回URL: ${currentUrl}`);
-
-            if (typeof window !== 'undefined') {
-                window.location.href = `/login?returnUrl=${encodeURIComponent(currentUrl)}`;
-            }
+            window.location.href = `/login?returnUrl=${encodeURIComponent(currentUrl)}`;
 
             throw new Error(`未授权访问 (${response.status})`);
         }

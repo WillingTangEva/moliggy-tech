@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { createClient } from '../utils/supabase/server';
 import {
     Tabs,
     TabsContent,
@@ -50,7 +52,15 @@ import {
     AlertDialogTrigger,
 } from '@workspace/ui/components/alert-dialog';
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+    // 检查用户登录状态
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error || !data?.user) {
+        redirect('/login?returnUrl=/settings');
+    }
+    
     return (
         <div className="container mx-auto py-8">
             <div className="mb-8">

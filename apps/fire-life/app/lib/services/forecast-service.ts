@@ -1,4 +1,4 @@
-import { supabase } from '../supabase';
+import { getServerSupabaseClient } from './base-service';
 import { Forecast, ForecastDetail, Tables, FinancialPlan } from '../types';
 import { planService } from './plan-service';
 import { assetService } from './asset-service';
@@ -9,6 +9,7 @@ export const forecastService = {
      * 获取预测结果
      */
     async getForecastById(forecastId: string): Promise<Forecast | null> {
+        const supabase = await getServerSupabaseClient();
         const { data, error } = await supabase
             .from(Tables.Forecasts)
             .select('*')
@@ -27,6 +28,7 @@ export const forecastService = {
      * 获取用户所有预测结果
      */
     async getUserForecasts(userId: string): Promise<Forecast[]> {
+        const supabase = await getServerSupabaseClient();
         const { data, error } = await supabase
             .from(Tables.Forecasts)
             .select('*')
@@ -45,6 +47,7 @@ export const forecastService = {
      * 获取特定规划的预测结果
      */
     async getForecastByPlanId(planId: string): Promise<Forecast | null> {
+        const supabase = await getServerSupabaseClient();
         const { data, error } = await supabase
             .from(Tables.Forecasts)
             .select('*')
@@ -65,6 +68,7 @@ export const forecastService = {
      * 获取预测详情（按年份的财务状况）
      */
     async getForecastDetails(forecastId: string): Promise<ForecastDetail[]> {
+        const supabase = await getServerSupabaseClient();
         const { data, error } = await supabase
             .from(Tables.ForecastDetails)
             .select('*')
@@ -86,6 +90,7 @@ export const forecastService = {
         forecast: Omit<Forecast, 'id' | 'created_at'>,
         details: Omit<ForecastDetail, 'id' | 'forecast_id'>[]
     ): Promise<Forecast | null> {
+        const supabase = await getServerSupabaseClient();
         // 1. 创建预测主记录
         const { data, error } = await supabase
             .from(Tables.Forecasts)
@@ -162,6 +167,7 @@ export const forecastService = {
      * 获取最新的预测结果
      */
     async getLatestForecast(userId: string): Promise<Forecast | null> {
+        const supabase = await getServerSupabaseClient();
         const { data, error } = await supabase
             .from(Tables.Forecasts)
             .select('*')
@@ -182,6 +188,7 @@ export const forecastService = {
      * 删除预测及其详情
      */
     async deleteForecast(forecastId: string): Promise<boolean> {
+        const supabase = await getServerSupabaseClient();
         // 1. 删除预测详情
         const { error: detailsError } = await supabase
             .from(Tables.ForecastDetails)
