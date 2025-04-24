@@ -32,7 +32,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@workspace/ui/components/tooltip';
-import { forecastAPI, planAPI, assetAPI } from '../lib/api-client';
+import { forecastAPI, planAPI, assetAPI } from '../api';
 import {
     FinancialPlan,
     RetirementResult,

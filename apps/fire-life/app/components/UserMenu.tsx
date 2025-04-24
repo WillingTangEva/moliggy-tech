@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { User, Settings, LogOut } from 'lucide-react';
-import { getCurrentUser, checkApiSession, signOut } from '../api/client/user';
+import { getCurrentUser, checkApiSession, signOut } from '../api/user';
 import { ApiSessionStatus } from '../lib/types';
 
 export type UserData = {

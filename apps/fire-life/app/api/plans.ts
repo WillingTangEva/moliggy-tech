@@ -1,6 +1,6 @@
 'use client';
 
-import { FinancialPlan } from '../../lib/types';
+import { FinancialPlan } from '../lib/types';
 import { fetchAPI } from './fetch';
 
 /**

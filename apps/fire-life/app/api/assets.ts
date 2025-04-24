@@ -1,6 +1,6 @@
 'use client';
 
-import { Asset } from '../../lib/types';
+import { Asset } from '../lib/types';
 import { fetchAPI } from './fetch';
 
 /**

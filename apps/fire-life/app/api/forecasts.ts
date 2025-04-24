@@ -1,6 +1,6 @@
 'use client';
 
-import { Forecast, ForecastDetail, RetirementResult } from '../../lib/types';
+import { Forecast, ForecastDetail, RetirementResult } from '../lib/types';
 import { fetchAPI } from './fetch';
 
 /**

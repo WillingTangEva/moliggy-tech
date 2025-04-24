@@ -9,7 +9,7 @@ import { Textarea } from '@workspace/ui/components/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Loader2, Save, User } from 'lucide-react';
-import { getCurrentUser } from '../api/client/user';
+import { getCurrentUser } from '../api/user';
 import { supabase } from '../utils/supabase/client';
 
 interface Profile {

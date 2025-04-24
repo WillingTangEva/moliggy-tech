@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { checkApiSession } from '../api/client/user';
+import { checkApiSession } from '../api/user';
 import { ApiSessionStatus } from '../lib/types';
+import { Badge } from '@workspace/ui/components/badge';
 
 interface SessionStatusProps {
   onStatusChange?: (status: ApiSessionStatus | null) => void;

@@ -1,7 +1,7 @@
 'use client';
 
-import { supabase } from '../../utils/supabase/client';
-import { ApiSessionStatus } from '../../lib/types';
+import { supabase } from '../utils/supabase/client';
+import { ApiSessionStatus } from '../lib/types';
 import { fetchAPI } from './fetch';
 
 /**

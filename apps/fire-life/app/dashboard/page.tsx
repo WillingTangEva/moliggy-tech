@@ -19,10 +19,10 @@ import {
     Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { assetAPI, planAPI, forecastAPI } from '../lib/api-client';
+import { assetAPI, planAPI, forecastAPI } from '../api';
 import { Asset, FinancialPlan, Forecast } from '../lib/types';
 import { useRouter } from 'next/navigation';
-import { fetchAPI } from '../lib/api-client';
+import { checkApiSession } from '../api/user';
 
 // API会话状态接口
 interface ApiSessionStatus {
@@ -89,8 +89,7 @@ export default function Dashboard() {
 
                 // 检查API会话状态
                 try {
-                    const apiSessionStatus =
-                        await fetchAPI<ApiSessionStatus>('/auth/session');
+                    const apiSessionStatus = await checkApiSession();
                     console.log('API会话状态:', apiSessionStatus);
                     setSessionStatus(
                         `已登录 (API会话有效: ${apiSessionStatus.userId})`
