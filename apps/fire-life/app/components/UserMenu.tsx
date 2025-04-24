@@ -15,12 +15,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/av
 import { Button } from '@workspace/ui/components/button';
 import { User, Settings, LogOut } from 'lucide-react';
 import { clientSupabase } from '../lib/services/client-service';
+import { checkApiSession } from '../lib/api-client';
+import { ApiSessionStatus } from '../lib/types';
 
 export type UserData = {
   id: string;
   email: string;
   name?: string;
   avatar_url?: string;
+  sessionStatus?: string;
 };
 
 export function UserMenu() {
@@ -44,6 +47,21 @@ export function UserMenu() {
             name: data.user.user_metadata?.name,
             avatar_url: data.user.user_metadata?.avatar_url,
           };
+          
+          // 检查API会话状态
+          try {
+            const apiSessionStatus = await checkApiSession();
+            console.log('API会话状态:', apiSessionStatus);
+            if (apiSessionStatus) {
+              userData.sessionStatus = `已登录 (API会话有效: ${apiSessionStatus.userId})`;
+            } else {
+              userData.sessionStatus = '已登录 (API会话未激活)';
+            }
+          } catch (apiError) {
+            console.error('API会话检查失败:', apiError);
+            userData.sessionStatus = '已登录 (API会话检查失败)';
+          }
+          
           setUser(userData);
         }
       } catch (error) {
@@ -108,6 +126,9 @@ export function UserMenu() {
           <div className="flex flex-col space-y-1">
             <p className="font-medium">{user.name || '用户'}</p>
             <p className="text-sm text-muted-foreground">{user.email}</p>
+            {user.sessionStatus && (
+              <p className="text-xs text-muted-foreground">{user.sessionStatus}</p>
+            )}
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

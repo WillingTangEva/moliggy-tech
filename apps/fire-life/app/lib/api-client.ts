@@ -11,6 +11,7 @@ import {
     Forecast,
     ForecastDetail,
     RetirementResult,
+    ApiSessionStatus,
 } from './types';
 import { getClientSession, refreshClientSession } from './services/client-service';
 
@@ -20,6 +21,19 @@ import { getClientSession, refreshClientSession } from './services/client-servic
  */
 export async function checkSession() {
     return await getClientSession();
+}
+
+/**
+ * 检查API会话状态
+ * @returns 返回API会话状态
+ */
+export async function checkApiSession(): Promise<ApiSessionStatus | null> {
+    try {
+        return await fetchAPI<ApiSessionStatus>('/auth/session');
+    } catch (error) {
+        console.error('检查API会话状态出错:', error);
+        return null;
+    }
 }
 
 /**

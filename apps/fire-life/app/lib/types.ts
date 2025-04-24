@@ -8,6 +8,14 @@ export interface User {
     avatar_url?: string;
 }
 
+// API会话状态类型
+export interface ApiSessionStatus {
+    status: 'authenticated' | 'unauthenticated';
+    userId?: string;
+    email?: string;
+    lastUpdated?: number;
+}
+
 // 资产类型
 export type AssetType =
     | 'cash'
