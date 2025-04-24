@@ -1,27 +1,37 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import { Inter as FontSans } from 'next/font/google';
+import { cn } from '@workspace/ui/lib/utils';
 import { ThemeProvider } from '@workspace/ui/components/theme-provider';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import { Navbar } from './components/Navbar';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-export const metadata: Metadata = {
-    title: 'Fire Life - 退休规划平台',
+const fontSans = FontSans({
+    subsets: ['latin'],
+    variable: '--font-sans',
+});
+
+export const metadata = {
+    title: 'FIRE.Life - 财务独立与提早退休规划工具',
     description:
-        '帮助用户整合财务资源，预测退休财务状况，提供可视化的财富增长和支出模拟',
+        'FIRE.Life 帮助您规划财务独立与提早退休之路，管理资产、创建规划、预测退休时间。',
     icons: {
         icon: '/favicon.svg',
     },
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
+interface RootLayoutProps {
     children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
     return (
-        <html lang="zh" suppressHydrationWarning>
-            <body>
+        <html lang="zh-CN" suppressHydrationWarning>
+            <body
+                className={cn(
+                    'min-h-screen bg-background font-sans antialiased',
+                    fontSans.variable
+                )}
+            >
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
@@ -30,11 +40,10 @@ export default function RootLayout({
                 >
                     <div className="flex min-h-screen flex-col">
                         <Navbar />
-                        <main className="flex-grow">{children}</main>
-                        <Footer />
+                        <main className="flex-1">{children}</main>
                     </div>
+                    <SpeedInsights />
                 </ThemeProvider>
-                <SpeedInsights />
             </body>
         </html>
     );

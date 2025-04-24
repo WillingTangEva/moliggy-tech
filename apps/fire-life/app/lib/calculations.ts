@@ -147,87 +147,83 @@ function generateAnnualProjections(
 }
 
 /**
- * 执行退休预测计算
+ * 计算退休预测
+ * @param plan 财务计划
+ * @param initialAssets 初始资产
+ * @returns 预测结果和详情
  */
 export function calculateForecast(
     plan: FinancialPlan,
-    currentAssets: number
-): {
-    forecast: Omit<Forecast, 'id' | 'created_at' | 'user_id' | 'plan_id'>;
-    details: Omit<ForecastDetail, 'id' | 'forecast_id'>[];
-} {
-    // 1. 计算关键参数
-    const withdrawalRate = getSafeWithdrawalRate(plan.risk_tolerance);
-    const annualExpenses = plan.monthly_expenses * 12;
-    const requiredRetirementAssets = calculateRequiredRetirementAssets(
-        annualExpenses,
-        withdrawalRate
-    );
-
-    // 2. 计算年度储蓄（简化，假设年收入的20%用于储蓄）
-    const annualSavings = (annualExpenses / 0.8) * 0.2;
-
-    // 3. 计算退休年龄
-    let optimalRetirementAge = plan.target_retirement_age;
+    initialAssets: number
+): { forecast: Omit<Forecast, 'id' | 'created_at'>; details: Omit<ForecastDetail, 'id' | 'forecast_id'>[]; } {
+    const maxYears = 50; // 最多预测50年
+    const targetRetirementAge = plan.target_retirement_age || 60;
+    const currentAge = plan.current_age;
+    const yearsToRetirement = targetRetirementAge - currentAge;
+    
+    // 初始化预测详情
+    const details: Omit<ForecastDetail, 'id' | 'forecast_id'>[] = [];
+    
+    let totalAssets = initialAssets;
     let retirementAssets = 0;
-
-    // 4. 检查是否可以提前退休
-    for (
-        let testAge = plan.current_age;
-        testAge <= plan.target_retirement_age;
-        testAge++
-    ) {
-        const yearsToRetirement = testAge - plan.current_age;
-        const projectedAssets = calculateProjectedAssets(
-            currentAssets,
-            annualSavings,
-            yearsToRetirement,
-            plan.investment_return_rate
-        );
-
-        if (projectedAssets >= requiredRetirementAssets) {
-            optimalRetirementAge = testAge;
-            retirementAssets = projectedAssets;
-            break;
+    let retirementYear = 0;
+    let retirementAchieved = false;
+    
+    // 计算年度资产增长
+    for (let year = 0; year < maxYears; year++) {
+        const currentYear = new Date().getFullYear() + year;
+        const age = currentAge + year;
+        const isRetirementYear = age >= targetRetirementAge && !retirementAchieved;
+        
+        // 收入和支出
+        let annualIncome = plan.annual_income || 0;
+        let annualExpenses = plan.annual_expenses || 0;
+        
+        // 如果已退休，调整收入和支出
+        if (age >= targetRetirementAge) {
+            annualIncome = plan.retirement_income || 0;
+            annualExpenses = plan.retirement_expenses || 0;
         }
-
-        // 如果到了目标退休年龄，记录预计资产
-        if (testAge === plan.target_retirement_age) {
-            retirementAssets = projectedAssets;
+        
+        // 净存款
+        const netSavings = annualIncome - annualExpenses;
+        
+        // 资产增长（考虑投资回报）
+        const investmentReturn = totalAssets * (plan.expected_return_rate || 0.05);
+        
+        // 更新总资产
+        totalAssets = totalAssets + netSavings + investmentReturn;
+        
+        // 如果达到退休年龄且尚未标记为退休，记录退休资产
+        if (isRetirementYear) {
+            retirementAssets = totalAssets;
+            retirementYear = currentYear;
+            retirementAchieved = true;
         }
+        
+        // 添加到详情
+        details.push({
+            year: currentYear,
+            age,
+            income: annualIncome,
+            expenses: annualExpenses,
+            savings: netSavings,
+            investment_return: investmentReturn,
+            total_assets: totalAssets,
+        });
     }
-
-    // 5. 计算退休准备指数
-    const yearsToTargetRetirement =
-        plan.target_retirement_age - plan.current_age;
-    const readinessScore = calculateReadinessScore(
-        requiredRetirementAssets,
-        currentAssets,
-        yearsToTargetRetirement,
-        annualSavings
-    );
-
-    // 6. 生成年度预测详情
-    const details = generateAnnualProjections(
-        plan.current_age,
-        optimalRetirementAge,
-        currentAssets,
-        annualSavings,
-        annualExpenses,
-        plan.investment_return_rate,
-        plan.inflation_rate
-    );
-
-    // 7. 构建预测结果
-    const forecast: Omit<
-        Forecast,
-        'id' | 'created_at' | 'user_id' | 'plan_id'
-    > = {
-        retirement_age: optimalRetirementAge,
-        retirement_assets: Math.round(retirementAssets),
-        monthly_income: Math.round((retirementAssets * withdrawalRate) / 12),
-        readiness_score: readinessScore,
+    
+    // 预测结果
+    const forecast: Omit<Forecast, 'id' | 'created_at'> = {
+        user_id: plan.user_id,
+        plan_id: plan.id!,
+        retirement_age: targetRetirementAge,
+        retirement_year: retirementYear,
+        retirement_assets: retirementAssets,
+        initial_assets: initialAssets,
+        final_assets: totalAssets,
+        years_forecasted: maxYears,
     };
-
+    
     return { forecast, details };
 }

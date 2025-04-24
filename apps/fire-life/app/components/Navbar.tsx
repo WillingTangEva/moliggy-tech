@@ -1,156 +1,96 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { ThemeToggle } from '@workspace/ui/components/theme-toggle';
-import { Button } from '@workspace/ui/components/button';
-import { Menu, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { cn } from '@workspace/ui/lib/utils';
+import { UserMenu } from './UserMenu';
+import { Menu } from 'lucide-react';
+import { useState } from 'react';
+import { Sheet, SheetContent, SheetTrigger } from '@workspace/ui/components/sheet';
 
-const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+const menuItems = [
+  { name: '仪表盘', path: '/dashboard' },
+  { name: '资产管理', path: '/assets' },
+  { name: '财务规划', path: '/plans' },
+  { name: '退休预测', path: '/forecast' }
+];
 
-    return (
-        <nav className="bg-background/80 fixed z-50 w-full border-b backdrop-blur-md">
-            <div className="container mx-auto flex items-center justify-between px-4 py-3 md:px-6">
-                <Link href="/" className="flex items-center space-x-2">
-                    <span className="text-primary text-2xl font-bold">
-                        FIRE.Life
-                    </span>
-                </Link>
+export function Navbar() {
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
-                {/* Desktop Navigation */}
-                <div className="hidden items-center space-x-6 md:flex">
-                    <Link
-                        href="/"
-                        className="text-foreground/80 hover:text-primary transition-colors"
-                    >
-                        首页
-                    </Link>
-                    <Link
-                        href="/dashboard"
-                        className="text-foreground/80 hover:text-primary transition-colors"
-                    >
-                        仪表盘
-                    </Link>
-                    <Link
-                        href="/assets"
-                        className="text-foreground/80 hover:text-primary transition-colors"
-                    >
-                        资产管理
-                    </Link>
-                    <Link
-                        href="/plan/new"
-                        className="text-foreground/80 hover:text-primary transition-colors"
-                    >
-                        创建规划
-                    </Link>
-                    <Link
-                        href="/forecast"
-                        className="text-foreground/80 hover:text-primary transition-colors"
-                    >
-                        退休预测
-                    </Link>
+  return (
+    <header className="sticky top-0 z-40 border-b bg-background">
+      <div className="container flex h-16 items-center justify-between px-4 sm:px-8">
+        <div className="flex items-center gap-6 lg:gap-10">
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold">FIRE.Life</span>
+          </Link>
+          
+          {/* 桌面端菜单 */}
+          <nav className="hidden md:flex md:gap-6">
+            {menuItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-foreground/80",
+                  pathname === item.path
+                    ? "text-foreground"
+                    : "text-foreground/60"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* 移动端菜单按钮 */}
+        <div className="flex md:hidden">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground"
+                aria-label="打开菜单"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[240px] px-0 sm:w-[300px]">
+              <div className="py-4">
+                <div className="flex items-center px-6 pb-4">
+                  <Link href="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+                    <span className="text-xl font-bold">FIRE.Life</span>
+                  </Link>
                 </div>
-
-                <div className="hidden items-center space-x-3 md:flex">
-                    <ThemeToggle />
-                    <Button variant="outline" size="sm" asChild>
-                        <Link href="/login">登录</Link>
-                    </Button>
-                    <Button
-                        size="sm"
-                        className="bg-primary hover:bg-primary/90"
-                        asChild
+                <nav className="flex flex-col gap-1">
+                  {menuItems.map((item) => (
+                    <Link 
+                      key={item.path}
+                      href={item.path}
+                      className={cn(
+                        "flex h-10 items-center px-6 text-sm font-medium",
+                        pathname === item.path
+                          ? "bg-accent text-accent-foreground"
+                          : "text-foreground/60 hover:bg-accent/50 hover:text-foreground"
+                      )}
+                      onClick={() => setIsOpen(false)}
                     >
-                        <Link href="/signup">注册</Link>
-                    </Button>
-                </div>
+                      {item.name}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
 
-                {/* Mobile Menu Button */}
-                <div className="flex items-center space-x-3 md:hidden">
-                    <ThemeToggle />
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    >
-                        {isMenuOpen ? (
-                            <X className="h-6 w-6" />
-                        ) : (
-                            <Menu className="h-6 w-6" />
-                        )}
-                    </Button>
-                </div>
-            </div>
-
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div className="bg-background absolute left-0 right-0 top-full border-b md:hidden">
-                    <div className="container mx-auto flex flex-col space-y-4 px-4 py-4">
-                        <Link
-                            href="/"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            首页
-                        </Link>
-                        <Link
-                            href="/dashboard"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            仪表盘
-                        </Link>
-                        <Link
-                            href="/assets"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            资产管理
-                        </Link>
-                        <Link
-                            href="/plan/new"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            创建规划
-                        </Link>
-                        <Link
-                            href="/forecast"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            退休预测
-                        </Link>
-                        <Link
-                            href="/settings"
-                            className="text-foreground/80 hover:text-primary py-2 transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            设置
-                        </Link>
-                        <div className="flex space-x-3 pt-2">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="flex-1"
-                                asChild
-                            >
-                                <Link href="/login">登录</Link>
-                            </Button>
-                            <Button
-                                size="sm"
-                                className="bg-primary hover:bg-primary/90 flex-1"
-                                asChild
-                            >
-                                <Link href="/signup">注册</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </nav>
-    );
-};
-
-export default Navbar;
+        {/* 用户菜单，总是显示 */}
+        <div className="flex items-center gap-4">
+          <UserMenu />
+        </div>
+      </div>
+    </header>
+  );
+}
