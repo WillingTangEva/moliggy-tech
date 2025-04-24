@@ -39,6 +39,8 @@ import {
     Forecast,
     ForecastDetail,
 } from '../lib/types';
+import ForecastChart from '../components/ForecastChart';
+import RetirementReadinessCard from '../components/RetirementReadinessCard';
 
 export default function ForecastPage() {
     const [plans, setPlans] = useState<FinancialPlan[]>([]);
@@ -118,7 +120,7 @@ export default function ForecastPage() {
                         (selectedPlan.inflation_rate || 0.03) * 100
                     );
                     setReturnRate(
-                        (selectedPlan.investment_return_rate || 0.07) * 100
+                        (selectedPlan.expected_return_rate || 0.07) * 100
                     );
                     setRetirementAge(selectedPlan.target_retirement_age || 55);
                 }
@@ -155,8 +157,8 @@ export default function ForecastPage() {
                 targetRetirementAge: result.forecast.retirement_age,
                 actualRetirementAge: result.forecast.retirement_age,
                 retirementAssets: result.forecast.retirement_assets,
-                monthlyRetirementIncome: result.forecast.monthly_income,
-                readinessScore: result.forecast.readiness_score,
+                monthlyRetirementIncome: result.forecast.monthly_income || 0,
+                readinessScore: result.forecast.readiness_score || 0,
                 yearlyDetails: result.details,
             });
 
@@ -182,7 +184,7 @@ export default function ForecastPage() {
             // 更新计划参数
             await planAPI.updatePlan(selectedPlanId, {
                 inflation_rate: inflationRate / 100,
-                investment_return_rate: returnRate / 100,
+                expected_return_rate: returnRate / 100,
                 target_retirement_age: retirementAge,
             });
 
@@ -212,6 +214,18 @@ export default function ForecastPage() {
             </div>
         );
     }
+
+    // 获取当前选择的计划
+    const selectedPlan = plans.find((p) => p.id === selectedPlanId);
+    const currentAge = selectedPlan?.current_age || 30;
+
+    // 确保RetirementReadinessCard组件获得有效的属性
+    const readinessCardProps = {
+        readinessScore: retirementResult?.readinessScore || 0,
+        currentAge,
+        targetRetirementAge: retirementResult?.targetRetirementAge || 0,
+        actualRetirementAge: retirementResult?.actualRetirementAge || 0,
+    };
 
     return (
         <div className="container mx-auto py-8">
@@ -278,7 +292,7 @@ export default function ForecastPage() {
                                         plans.map((plan) => (
                                             <SelectItem
                                                 key={plan.id}
-                                                value={plan.id}
+                                                value={plan.id || ''}
                                             >
                                                 {plan.name ||
                                                     `计划 (目标退休年龄: ${plan.target_retirement_age}岁)`}
@@ -351,10 +365,7 @@ export default function ForecastPage() {
                                     <p className="text-muted-foreground mt-1 text-xs">
                                         {new Date().getFullYear() +
                                             (retirementResult.actualRetirementAge -
-                                                (plans.find(
-                                                    (p) =>
-                                                        p.id === selectedPlanId
-                                                )?.current_age || 30))}
+                                                currentAge)}
                                         年
                                     </p>
                                 </>
@@ -451,6 +462,23 @@ export default function ForecastPage() {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* 图表和退休准备状态 */}
+                {retirementResult && retirementResult.yearlyDetails && (
+                    <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="md:col-span-2">
+                            <ForecastChart 
+                                forecastDetails={retirementResult.yearlyDetails} 
+                                retirementAge={retirementResult.actualRetirementAge} 
+                            />
+                        </div>
+                        <div>
+                            <RetirementReadinessCard 
+                                {...readinessCardProps}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {/* 免责提示 */}
                 <Card className="border-amber-200 bg-amber-50">
