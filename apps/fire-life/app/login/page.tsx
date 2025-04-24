@@ -16,7 +16,8 @@ import { Label } from '@workspace/ui/components/label';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { Alert, AlertDescription } from '@workspace/ui/components/alert';
-import { login, signup } from './actions';
+import { supabase } from '../utils/supabase/client';
+import { triggerAuthStateChange } from '../utils/events';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -29,7 +30,6 @@ export default function LoginPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const returnUrl = searchParams.get('returnUrl') || '/dashboard';
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>,
@@ -41,22 +41,37 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            // 创建FormData对象
-            const formData = new FormData();
-            formData.append('email', email);
-            formData.append('password', password);
-            formData.append('returnUrl', returnUrl);
-            formData.append('origin', origin);
+            if (action === 'login') {
+                // 使用客户端API进行登录
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
 
-            // 根据操作类型调用相应的action
-            const result = await (action === 'login'
-                ? login(formData)
-                : signup(formData));
+                if (error) {
+                    setError(error.message);
+                    return;
+                }
 
-            if (result?.error) {
-                setError(result.error);
-            } else if (result?.message) {
-                setMessage(result.message);
+                // 登录成功，触发认证状态变化事件
+                triggerAuthStateChange();
+                
+                // 使用客户端导航跳转到目标页面
+                router.push(returnUrl);
+                return;
+            } else {
+                // 注册流程
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                });
+
+                if (error) {
+                    setError(error.message);
+                    return;
+                }
+
+                setMessage('注册成功！请检查您的邮箱完成验证。验证后将自动登录。');
             }
         } catch (err) {
             console.error(`${action === 'login' ? '登录' : '注册'}失败:`, err);

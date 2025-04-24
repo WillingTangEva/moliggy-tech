@@ -37,8 +37,6 @@ export default function Dashboard() {
     const [forecasts, setForecasts] = useState<Forecast[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [user, setUser] = useState<any>(null);
-    const [sessionStatus, setSessionStatus] = useState<string>('检查中...');
     const router = useRouter();
 
     // 获取用户数据
@@ -67,36 +65,6 @@ export default function Dashboard() {
 
         fetchData();
     }, []);
-
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                // 使用fetch API请求服务器端的登录检查接口
-                const response = await fetch('/api/auth/check');
-                const data = await response.json();
-
-                if (!data.authenticated) {
-                    console.log('仪表盘: 未登录');
-                    setSessionStatus('未登录，正在跳转到登录页面...');
-                    setTimeout(() => router.push('/login'), 2000);
-                    return;
-                }
-
-                // 获取用户信息
-                setUser(data.user);
-                setSessionStatus('已登录');
-            } catch (err) {
-                console.error('认证检查失败:', err);
-                setSessionStatus(
-                    `认证检查失败: ${err instanceof Error ? err.message : '未知错误'}`
-                );
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        checkAuth();
-    }, [router]);
 
     // 计算总资产价值
     const totalAssetValue = assets.reduce((sum, asset) => sum + asset.value, 0);
@@ -148,16 +116,6 @@ export default function Dashboard() {
                     <Loader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
                     <p>加载数据中...</p>
                 </div>
-            </div>
-        );
-    }
-
-    if (!user) {
-        return (
-            <div className="container mx-auto mt-10 px-4">
-                <h1 className="mb-6 text-2xl font-bold">
-                    认证状态: {sessionStatus}
-                </h1>
             </div>
         );
     }
@@ -275,7 +233,7 @@ export default function Dashboard() {
                                     <>
                                         <div className="text-2xl font-bold">
                                             ¥
-                                            {latestForecast.monthly_income.toLocaleString()}
+                                            {latestForecast?.monthly_income?.toLocaleString() || '0'}
                                         </div>
                                         <div className="text-muted-foreground text-sm">
                                             已达到目标的
