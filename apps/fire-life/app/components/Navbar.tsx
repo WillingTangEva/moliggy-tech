@@ -31,16 +31,22 @@ const Navbar = () => {
             仪表盘
           </Link>
           <Link
-            href="/plan"
+            href="/assets"
             className="text-foreground/80 hover:text-primary transition-colors"
           >
-            规划工具
+            资产管理
           </Link>
           <Link
-            href="/resources"
+            href="/plan/new"
             className="text-foreground/80 hover:text-primary transition-colors"
           >
-            资源中心
+            创建规划
+          </Link>
+          <Link
+            href="/forecast"
+            className="text-foreground/80 hover:text-primary transition-colors"
+          >
+            退休预测
           </Link>
         </div>
 
@@ -90,18 +96,32 @@ const Navbar = () => {
               仪表盘
             </Link>
             <Link
-              href="/plan"
+              href="/assets"
               className="text-foreground/80 hover:text-primary py-2 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              规划工具
+              资产管理
             </Link>
             <Link
-              href="/resources"
+              href="/plan/new"
               className="text-foreground/80 hover:text-primary py-2 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              资源中心
+              创建规划
+            </Link>
+            <Link
+              href="/forecast"
+              className="text-foreground/80 hover:text-primary py-2 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              退休预测
+            </Link>
+            <Link
+              href="/settings"
+              className="text-foreground/80 hover:text-primary py-2 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              设置
             </Link>
             <div className="flex space-x-3 pt-2">
               <Button variant="outline" size="sm" className="flex-1" asChild>
