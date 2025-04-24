@@ -9,7 +9,8 @@ import { Textarea } from '@workspace/ui/components/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Loader2, Save, User } from 'lucide-react';
-import { clientSupabase } from '../lib/services/client-service';
+import { getCurrentUser } from '../api/client/user';
+import { supabase } from '../utils/supabase/client';
 
 interface Profile {
   id: string;
@@ -37,21 +38,21 @@ export default function ProfilePage() {
     async function loadProfile() {
       try {
         setLoading(true);
-        const { data: { user }, error } = await clientSupabase.auth.getUser();
+        const user = await getCurrentUser();
 
-        if (error || !user) {
-          console.error('获取用户信息失败:', error?.message);
+        if (!user) {
+          console.error('获取用户信息失败');
           router.push('/login');
           return;
         }
 
-        // 从用户元数据获取资料信息
+        // 从用户信息设置资料
         setProfile({
           id: user.id,
           email: user.email || '',
-          name: user.user_metadata?.name || '',
-          bio: user.user_metadata?.bio || '',
-          avatar_url: user.user_metadata?.avatar_url || '',
+          name: user.name || '',
+          bio: user.bio || '',
+          avatar_url: user.avatar_url || '',
         });
       } catch (err) {
         console.error('加载用户资料失败:', err);
@@ -76,7 +77,7 @@ export default function ProfilePage() {
       setMessage(null);
 
       // 更新用户元数据
-      const { error } = await clientSupabase.auth.updateUser({
+      const { error } = await supabase.auth.updateUser({
         data: {
           name: profile.name,
           bio: profile.bio,

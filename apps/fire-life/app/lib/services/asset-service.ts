@@ -1,12 +1,14 @@
-import { getServerSupabaseClient, createAdminClient } from './base-service';
+'use server';
+
 import { Asset, Tables, AssetType, Currency } from '../types';
+import { createClient } from '../../utils/supabase/server';
 
 export const assetService = {
     /**
      * 获取用户所有资产
      */
     async getUserAssets(userId: string): Promise<Asset[]> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.Assets)
             .select('*')
@@ -28,7 +30,7 @@ export const assetService = {
         userId: string,
         type: AssetType
     ): Promise<Asset[]> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.Assets)
             .select('*')
@@ -50,7 +52,7 @@ export const assetService = {
     async createAsset(
         asset: Omit<Asset, 'id' | 'created_at' | 'updated_at'>
     ): Promise<Asset | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.Assets)
             .insert({
@@ -76,7 +78,7 @@ export const assetService = {
         id: string,
         updates: Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>
     ): Promise<Asset | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.Assets)
             .update({
@@ -99,7 +101,7 @@ export const assetService = {
      * 删除资产
      */
     async deleteAsset(id: string): Promise<boolean> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { error } = await supabase
             .from(Tables.Assets)
             .delete()
@@ -158,13 +160,11 @@ export const serverAssetService = {
      * 管理员获取所有用户资产（仅在服务器端使用）
      */
     async getAllAssets(): Promise<Asset[]> {
-        const adminClient = await createAdminClient();
-        if (!adminClient) {
-            console.error('Failed to create admin client');
-            return [];
-        }
-
-        const { data, error } = await adminClient
+        // 管理员操作应该在受保护的API路由中实现
+        // 这里使用普通的客户端，依赖于RLS策略进行权限控制
+        const supabase = await createClient();
+        
+        const { data, error } = await supabase
             .from(Tables.Assets)
             .select('*')
             .order('created_at', { ascending: false });

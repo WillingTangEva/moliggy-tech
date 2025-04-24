@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { checkApiSession } from '../lib/api-client';
+import { checkApiSession } from '../api/client/user';
 import { ApiSessionStatus } from '../lib/types';
 
 interface SessionStatusProps {

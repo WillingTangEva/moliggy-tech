@@ -1,12 +1,14 @@
-import { getServerSupabaseClient } from './base-service';
+'use server';
+
 import { FinancialPlan, Tables } from '../types';
+import { createClient } from '../../utils/supabase/server';
 
 export const planService = {
     /**
      * 获取用户所有财务规划
      */
     async getUserPlans(userId: string): Promise<FinancialPlan[]> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.FinancialPlans)
             .select('*')
@@ -25,7 +27,7 @@ export const planService = {
      * 获取单个财务规划详情
      */
     async getPlanById(planId: string): Promise<FinancialPlan | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.FinancialPlans)
             .select('*')
@@ -46,7 +48,7 @@ export const planService = {
     async createPlan(
         plan: Omit<FinancialPlan, 'id' | 'created_at' | 'updated_at'>
     ): Promise<FinancialPlan | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.FinancialPlans)
             .insert({
@@ -72,7 +74,7 @@ export const planService = {
         id: string,
         updates: Partial<Omit<FinancialPlan, 'id' | 'user_id' | 'created_at'>>
     ): Promise<FinancialPlan | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.FinancialPlans)
             .update({
@@ -95,7 +97,7 @@ export const planService = {
      * 删除财务规划
      */
     async deletePlan(id: string): Promise<boolean> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         // 1. 删除相关的预测结果
         const deleteForecasts = await supabase
             .from(Tables.Forecasts)
@@ -127,7 +129,7 @@ export const planService = {
      * 获取用户最新的财务规划
      */
     async getLatestPlan(userId: string): Promise<FinancialPlan | null> {
-        const supabase = await getServerSupabaseClient();
+        const supabase = await createClient();
         const { data, error } = await supabase
             .from(Tables.FinancialPlans)
             .select('*')

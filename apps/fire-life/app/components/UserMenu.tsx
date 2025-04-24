@@ -14,8 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { User, Settings, LogOut } from 'lucide-react';
-import { clientSupabase } from '../lib/services/client-service';
-import { checkApiSession } from '../lib/api-client';
+import { getCurrentUser, checkApiSession, signOut } from '../api/client/user';
 import { ApiSessionStatus } from '../lib/types';
 
 export type UserData = {
@@ -35,17 +34,18 @@ export function UserMenu() {
     async function getUser() {
       setIsLoading(true);
       try {
-        const { data, error } = await clientSupabase.auth.getUser();
-        if (error) {
-          console.error('获取用户信息出错:', error.message);
+        // 使用新的统一方法获取用户信息
+        const userData = await getCurrentUser();
+        
+        if (!userData) {
           setUser(null);
-        } else if (data.user) {
-          // 获取用户数据
-          const userData: UserData = {
-            id: data.user.id,
-            email: data.user.email || '未设置邮箱',
-            name: data.user.user_metadata?.name,
-            avatar_url: data.user.user_metadata?.avatar_url,
+        } else {
+          // 构建用户数据
+          const userInfo: UserData = {
+            id: userData.id,
+            email: userData.email,
+            name: userData.name,
+            avatar_url: userData.avatar_url,
           };
           
           // 检查API会话状态
@@ -53,16 +53,16 @@ export function UserMenu() {
             const apiSessionStatus = await checkApiSession();
             console.log('API会话状态:', apiSessionStatus);
             if (apiSessionStatus) {
-              userData.sessionStatus = `已登录 (API会话有效: ${apiSessionStatus.userId})`;
+              userInfo.sessionStatus = `已登录 (API会话有效: ${apiSessionStatus.userId})`;
             } else {
-              userData.sessionStatus = '已登录 (API会话未激活)';
+              userInfo.sessionStatus = '已登录 (API会话未激活)';
             }
           } catch (apiError) {
             console.error('API会话检查失败:', apiError);
-            userData.sessionStatus = '已登录 (API会话检查失败)';
+            userInfo.sessionStatus = '已登录 (API会话检查失败)';
           }
           
-          setUser(userData);
+          setUser(userInfo);
         }
       } catch (error) {
         console.error('获取用户信息失败:', error);
@@ -77,7 +77,7 @@ export function UserMenu() {
 
   const handleLogout = async () => {
     try {
-      await clientSupabase.auth.signOut();
+      await signOut();
       router.push('/login');
     } catch (error) {
       console.error('退出登录失败:', error);
