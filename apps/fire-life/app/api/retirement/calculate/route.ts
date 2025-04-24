@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { forecastService } from '../../../lib/services/forecast-service';
-import { planService } from '../../../lib/services/plan-service';
+import { calculateRetirement } from '../../../lib/services/forecast-service';
+import { getPlanById } from '../../../lib/services/plan-service';
 import { createClient } from '../../../utils/supabase/server';
 
 // POST /api/retirement/calculate - 计算退休结果（不保存）
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
     
     // 获取计划
-    const plan = await planService.getPlanById(planId);
+    const plan = await getPlanById(planId);
     
     if (!plan) {
       return NextResponse.json(
@@ -44,8 +44,9 @@ export async function POST(request: NextRequest) {
     }
     
     // 计算退休结果
-    const result = await forecastService.calculateRetirement(
-      plan,
+    const result = await calculateRetirement(
+      user.id,
+      planId, 
       currentAssets || 0
     );
     

@@ -5,11 +5,11 @@ import { createClient } from '../../../utils/supabase/server';
 // GET /api/plans/:id - 获取单个财务计划
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  params: { params: { id: string } }
 ) {
   try {
     // 确保params.id是有效的
-    const id = context.params.id;
+    const { id } = params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的计划ID' },
@@ -57,11 +57,11 @@ export async function GET(
 // PUT /api/plans/:id - 更新财务计划
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  params: { params: { id: string } }
 ) {
   try {
     // 确保params.id是有效的
-    const id = context.params.id;
+    const { id } = params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的计划ID' },
@@ -123,11 +123,11 @@ export async function PUT(
 // DELETE /api/plans/:id - 删除财务计划
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  params: { params: { id: string } }
 ) {
   try {
     // 确保params.id是有效的
-    const id = context.params.id;
+    const { id } = params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的计划ID' },
