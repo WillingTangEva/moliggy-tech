@@ -61,24 +61,24 @@ pnpm start
 ## 项目结构
 
 - `app/` - Next.js App Router目录
-  - `page.tsx` - 首页组件
-  - `layout.tsx` - 应用布局
-  - `globals.css` - 全局样式
+    - `page.tsx` - 首页组件
+    - `layout.tsx` - 应用布局
+    - `globals.css` - 全局样式
 - `components/` - 页面组件
-  - `Hero.tsx` - 主页英雄区
-  - `Navbar.tsx` - 导航栏
-  - `About.tsx` - 关于我们
-  - `Solutions.tsx` - 解决方案
-  - `Cases.tsx` - 案例展示
-  - `Contact.tsx` - 联系方式
-  - `Footer.tsx` - 页脚
-  - `QrCodeModal.tsx` - 二维码模态框
+    - `Hero.tsx` - 主页英雄区
+    - `Navbar.tsx` - 导航栏
+    - `About.tsx` - 关于我们
+    - `Solutions.tsx` - 解决方案
+    - `Cases.tsx` - 案例展示
+    - `Contact.tsx` - 联系方式
+    - `Footer.tsx` - 页脚
+    - `QrCodeModal.tsx` - 二维码模态框
 - `lib/` - 工具函数和通用逻辑
 - `hooks/` - 自定义React Hooks
 - `public/` - 静态资源
-  - `icons/` - UI图标
-  - `partners/` - 合作伙伴图标
-  - `certifications/` - 认证标识
+    - `icons/` - UI图标
+    - `partners/` - 合作伙伴图标
+    - `certifications/` - 认证标识
 
 ## 共享资源
 

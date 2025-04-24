@@ -22,40 +22,40 @@
 
 1. 安装Vercel CLI（如果尚未安装）：
 
-   ```bash
-   # 使用npm
-   npm install -g vercel
+    ```bash
+    # 使用npm
+    npm install -g vercel
 
-   # 或使用pnpm
-   pnpm add -g vercel
-   ```
+    # 或使用pnpm
+    pnpm add -g vercel
+    ```
 
 2. 在终端中登录Vercel：
 
-   ```bash
-   vercel login
-   ```
+    ```bash
+    vercel login
+    ```
 
 3. 在项目目录中运行以下命令将项目链接到Vercel：
 
-   ```bash
-   vercel link
-   ```
+    ```bash
+    vercel link
+    ```
 
-   - 按照提示选择你的Vercel组织和项目，或创建新项目
+    - 按照提示选择你的Vercel组织和项目，或创建新项目
 
 4. 链接完成后，打开项目目录中的`.vercel/project.json`文件，你将在其中找到：
-   - `orgId`：这是你的`VERCEL_ORG_ID`
-   - `projectId`：这是你的`VERCEL_PROJECT_ID`
+    - `orgId`：这是你的`VERCEL_ORG_ID`
+    - `projectId`：这是你的`VERCEL_PROJECT_ID`
 
 ## 步骤三：将Secrets添加到GitHub仓库
 
 1. 在GitHub上打开你的仓库
 2. 导航到"Settings" > "Secrets and variables" > "Actions"
 3. 点击"New repository secret"添加以下三个Secrets：
-   - `VERCEL_TOKEN`：来自步骤一的访问令牌
-   - `VERCEL_ORG_ID`：来自步骤二的组织ID
-   - `VERCEL_PROJECT_ID`：来自步骤二的项目ID
+    - `VERCEL_TOKEN`：来自步骤一的访问令牌
+    - `VERCEL_ORG_ID`：来自步骤二的组织ID
+    - `VERCEL_PROJECT_ID`：来自步骤二的项目ID
 
 ## 步骤四：配置GitHub Actions工作流
 
@@ -65,54 +65,54 @@
 name: Vercel部署
 
 on:
-  push:
-    branches: ['*']
-  pull_request:
-    branches: ['main']
+    push:
+        branches: ['*']
+    pull_request:
+        branches: ['main']
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: 安装Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+            - name: 安装Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
 
-      - name: 安装pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-          run_install: false
+            - name: 安装pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 10
+                  run_install: false
 
-      - name: 获取pnpm缓存目录
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+            - name: 获取pnpm缓存目录
+              id: pnpm-cache
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: 设置pnpm缓存
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            - name: 设置pnpm缓存
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
 
-      - name: 安装依赖
-        run: pnpm install
+            - name: 安装依赖
+              run: pnpm install
 
-      - name: 部署到Vercel
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_ORG_ID }}
-          working-directory: ./
-          vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
+            - name: 部署到Vercel
+              uses: amondnet/vercel-action@v20
+              with:
+                  vercel-token: ${{ secrets.VERCEL_TOKEN }}
+                  vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+                  vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+                  scope: ${{ secrets.VERCEL_ORG_ID }}
+                  working-directory: ./
+                  vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
 ```
 
 ## 完成

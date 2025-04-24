@@ -35,11 +35,11 @@ import { Theme } from '@workspace/ui/components/theme';
 
 // 在应用中使用
 <Theme>
-  <div className="p-4">
-    <h1 className="text-2xl font-bold">表单示例</h1>
-    <Input placeholder="请输入用户名" />
-    <Button>提交</Button>
-  </div>
+    <div className="p-4">
+        <h1 className="text-2xl font-bold">表单示例</h1>
+        <Input placeholder="请输入用户名" />
+        <Button>提交</Button>
+    </div>
 </Theme>;
 ```
 

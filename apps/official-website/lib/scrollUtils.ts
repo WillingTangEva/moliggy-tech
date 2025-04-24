@@ -3,8 +3,8 @@
  * @param elementId 目标元素的ID
  */
 export const scrollToElement = (elementId: string): void => {
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
 };

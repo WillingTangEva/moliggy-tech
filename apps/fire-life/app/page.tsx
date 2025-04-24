@@ -6,14 +6,14 @@ import Pricing from './components/Pricing';
 import CTA from './components/CTA';
 
 export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <Benefits />
-      <Features />
-      <Testimonials />
-      <Pricing />
-      <CTA />
-    </main>
-  );
+    return (
+        <main>
+            <Hero />
+            <Benefits />
+            <Features />
+            <Testimonials />
+            <Pricing />
+            <CTA />
+        </main>
+    );
 }
