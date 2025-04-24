@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '../../utils/supabase/server';
-import * as forecastService from '../../lib/services/forecast-service';
+import { getUserForecasts, generateForecast, getFullForecast } from '../../lib/services/forecast-service';
 import { getPlanById } from '../../lib/services/plan-service';
 
 // GET /api/forecasts - 获取用户的预测列表
@@ -30,8 +30,8 @@ export async function GET(request: NextRequest) {
       ]);
     }
 
-    // 使用 forecastService 获取用户的预测列表
-    const forecasts = await forecastService.getUserForecasts(user.id);
+    // 获取用户的预测列表
+    const forecasts = await getUserForecasts(user.id);
     return NextResponse.json(forecasts);
   } catch (error) {
     console.error('获取预测列表失败:', error);
@@ -80,8 +80,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 使用 forecastService 生成预测
-    const forecast = await forecastService.generateForecast(user.id, planId);
+    // 生成预测
+    const forecast = await generateForecast(user.id, planId);
     
     if (!forecast) {
       return NextResponse.json(
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     }
     
     // 获取完整的预测信息（包含详情）
-    const fullForecast = await forecastService.getFullForecast(forecast.id);
+    const fullForecast = await getFullForecast(forecast.id);
     
     return NextResponse.json(fullForecast);
   } catch (error) {

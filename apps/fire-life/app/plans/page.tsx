@@ -160,7 +160,7 @@ export default function PlansOverview() {
                                             <Button 
                                                 variant="ghost" 
                                                 size="sm"
-                                                onClick={() => router.push(`/plan/${plan.id}/edit`)}
+                                                onClick={() => router.push(`/plan/new?editId=${plan.id}`)}
                                             >
                                                 <FileEdit className="h-4 w-4" />
                                             </Button>

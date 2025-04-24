@@ -4,10 +4,10 @@ import { createClient } from '../../../utils/supabase/server';
 // GET /api/forecasts/:id - 获取单个预测详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const forecastId = params.id;
+    const forecastId = context.params.id;
     
     if (!forecastId) {
       return NextResponse.json(
@@ -80,10 +80,10 @@ export async function GET(
 // DELETE /api/forecasts/:id - 删除预测
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const forecastId = params.id;
+    const forecastId = context.params.id;
     
     if (!forecastId) {
       return NextResponse.json(

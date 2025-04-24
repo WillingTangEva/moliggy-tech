@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { assetService } from '../../../lib/services/asset-service';
+import { getUserAssets, updateAsset, deleteAsset } from '../../../lib/services/asset-service';
 import { createClient } from '../../../utils/supabase/server';
 
 // GET /api/assets/:id - 获取单个资产
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
+    // 确保id是有效的
+    const id = context.params.id;
+    if (!id) {
+      return NextResponse.json(
+        { error: '无效的资产ID' },
+        { status: 400 }
+      );
+    }
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -18,10 +27,9 @@ export async function GET(
       );
     }
 
-    // 由于assetService没有提供获取单个资产的方法
-    // 我们获取所有资产并筛选
-    const assets = await assetService.getUserAssets(user.id);
-    const asset = assets.find(a => a.id === params.id);
+    // 获取所有资产并筛选
+    const assets = await getUserAssets(user.id);
+    const asset = assets.find(a => a.id === id);
 
     if (!asset) {
       return NextResponse.json(
@@ -43,9 +51,18 @@ export async function GET(
 // PUT /api/assets/:id - 更新资产
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
+    // 确保id是有效的
+    const id = context.params.id;
+    if (!id) {
+      return NextResponse.json(
+        { error: '无效的资产ID' },
+        { status: 400 }
+      );
+    }
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -57,7 +74,11 @@ export async function PUT(
     }
 
     const updateData = await request.json();
-    const updatedAsset = await assetService.updateAsset(params.id, updateData);
+    
+    // 确保用户ID不被修改
+    updateData.user_id = user.id;
+    
+    const updatedAsset = await updateAsset(id, updateData);
 
     if (!updatedAsset) {
       return NextResponse.json(
@@ -79,9 +100,18 @@ export async function PUT(
 // DELETE /api/assets/:id - 删除资产
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
+    // 确保id是有效的
+    const id = context.params.id;
+    if (!id) {
+      return NextResponse.json(
+        { error: '无效的资产ID' },
+        { status: 400 }
+      );
+    }
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -92,7 +122,7 @@ export async function DELETE(
       );
     }
 
-    const success = await assetService.deleteAsset(params.id);
+    const success = await deleteAsset(id);
 
     if (!success) {
       return NextResponse.json(

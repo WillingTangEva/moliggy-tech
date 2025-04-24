@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import {
@@ -22,10 +22,11 @@ import {
 } from '@workspace/ui/components/select';
 import { ArrowLeft, ArrowRight, Loader2, Save } from 'lucide-react';
 import { planAPI } from '../../api/plans';
+import { assetAPI } from '../../api';
 
 const steps = [
     { id: 1, name: '基本信息' },
-    { id: 2, name: '资产录入' },
+    { id: 2, name: '资产概览' },
     { id: 3, name: '保险设置' },
     { id: 4, name: '支出设置' },
 ];
@@ -51,14 +52,6 @@ interface FormDataType {
     life_expectancy: string;
     monthly_income: string;
     risk_profile: string;
-
-    // 资产信息
-    bank_savings: string;
-    term_deposits: string;
-    stocks: string;
-    funds: string;
-    real_estate: string;
-    other_assets: string;
 
     // 保险信息
     social_insurance_base: string;
@@ -87,8 +80,15 @@ interface FormErrorsType {
 
 export default function NewPlan() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('editId');
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [pageTitle, setPageTitle] = useState('创建退休规划');
+    const [totalAssets, setTotalAssets] = useState<number>(0);
+    const [assetLoading, setAssetLoading] = useState<boolean>(true);
+    const [assetError, setAssetError] = useState<string | null>(null);
 
     // 表单状态，设置默认值
     const [formData, setFormData] = useState<FormDataType>({
@@ -98,14 +98,6 @@ export default function NewPlan() {
         life_expectancy: '85',
         monthly_income: '20000',
         risk_profile: 'moderate',
-
-        // 资产信息
-        bank_savings: '100000',
-        term_deposits: '200000',
-        stocks: '300000',
-        funds: '200000',
-        real_estate: '2000000',
-        other_assets: '50000',
 
         // 保险信息
         social_insurance_base: '10000',
@@ -128,6 +120,82 @@ export default function NewPlan() {
 
     // 表单验证错误
     const [errors, setErrors] = useState<FormErrorsType>({});
+
+    // 加载用户资产数据
+    useEffect(() => {
+        async function fetchAssetData() {
+            try {
+                setAssetLoading(true);
+                setAssetError(null);
+                const assets = await assetAPI.getAssets();
+                
+                // 计算总资产价值
+                const total = assets.reduce((sum, asset) => sum + asset.value, 0);
+                setTotalAssets(total);
+                
+                console.log('加载资产数据成功，总资产:', total);
+            } catch (error) {
+                console.error('获取资产数据失败:', error);
+                setAssetError('无法获取您的资产数据，请先在资产管理页面添加您的资产');
+            } finally {
+                setAssetLoading(false);
+            }
+        }
+        
+        fetchAssetData();
+    }, []);
+
+    // 加载现有计划数据进行编辑
+    useEffect(() => {
+        async function fetchPlanData() {
+            if (!editId) return;
+            
+            try {
+                setIsEditing(true);
+                setPageTitle('编辑退休规划');
+                
+                const planData = await planAPI.getPlan(editId);
+                
+                if (planData) {
+                    console.log('加载计划数据进行编辑:', planData);
+                    
+                    // 转换计划数据为表单数据格式
+                    setFormData({
+                        // 基本信息
+                        current_age: String(planData.current_age || '35'),
+                        target_retirement_age: String(planData.target_retirement_age || '60'),
+                        life_expectancy: '85', // 默认值
+                        monthly_income: String(Math.round((planData.annual_income || 0) / 12)),
+                        risk_profile: planData.risk_tolerance <= 3 ? 'conservative' : 
+                                     planData.risk_tolerance <= 7 ? 'moderate' : 'aggressive',
+                        
+                        // 保险信息 - 使用默认值
+                        social_insurance_base: '10000',
+                        social_insurance_years: '10',
+                        annuity_premium: '20000',
+                        annuity_payout_age: '60',
+                        annuity_monthly_payment: '3000',
+                        commercial_pension_premium: '12000',
+                        commercial_pension_years: '15',
+                        commercial_pension_monthly: '2500',
+                        
+                        // 支出信息
+                        current_monthly_expenses: String(Math.round((planData.annual_expenses || 0) / 12)),
+                        retirement_monthly_expenses: String(Math.round((planData.retirement_expenses || 0) / 12)),
+                        major_expenses: [
+                            { name: '子女教育', amount: '500000', year: '2030' },
+                            { name: '环球旅行', amount: '200000', year: '2035' },
+                        ],
+                    });
+                }
+            } catch (error) {
+                console.error('获取计划数据失败:', error);
+                alert('获取计划数据失败，将以新建模式继续');
+            }
+        }
+        
+        fetchPlanData();
+    }, [editId]);
 
     // 处理输入变化
     const handleChange = (field: keyof FormDataType, value: string) => {
@@ -218,19 +286,11 @@ export default function NewPlan() {
                 const annualExpenses = parseFloat(formData.current_monthly_expenses) * 12 || annualIncome * 0.7; // 如果未填写，假设为收入的70%
                 const retirementExpenses = parseFloat(formData.retirement_monthly_expenses) * 12 || annualExpenses * 0.8; // 如果未填写，假设为当前支出的80%
                 
-                // 计算总资产
-                const totalAssets = 
-                    (parseFloat(formData.bank_savings) || 0) +
-                    (parseFloat(formData.term_deposits) || 0) +
-                    (parseFloat(formData.stocks) || 0) +
-                    (parseFloat(formData.funds) || 0) +
-                    (parseFloat(formData.real_estate) || 0) +
-                    (parseFloat(formData.other_assets) || 0);
-                
                 // 转换为FinancialPlan类型
                 const planData = {
-                    user_id: 'temporary-user-id',  // 临时用户ID，将由后端替换
-                    name: `退休计划 ${new Date().toLocaleDateString('zh-CN')}`,
+                    // 添加user_id但使用空字符串，由服务器端根据认证状态覆盖
+                    user_id: '', 
+                    name: isEditing ? `退休计划 (编辑于${new Date().toLocaleDateString('zh-CN')})` : `退休计划 ${new Date().toLocaleDateString('zh-CN')}`,
                     description: `目标退休年龄: ${formData.target_retirement_age}岁`,
                     
                     // 基本信息
@@ -253,14 +313,23 @@ export default function NewPlan() {
                 
                 console.log('发送计划数据:', planData);
                 
-                // 调用API保存计划
-                const result = await planAPI.createPlan(planData);
-                
-                // 保存成功后，显示成功信息
-                console.log('退休计划创建成功！', result);
-                
-                // 重定向到计划详情页
-                router.push(`/plan/${result.id}`);
+                let result;
+                try {
+                    // 根据是否编辑调用不同的API
+                    if (isEditing && editId) {
+                        result = await planAPI.updatePlan(editId, planData);
+                        console.log('退休计划更新成功！', result);
+                    } else {
+                        result = await planAPI.createPlan(planData);
+                        console.log('退休计划创建成功！', result);
+                    }
+                    
+                    // 重定向到计划详情页
+                    router.push(`/plan/${result.id}`);
+                } catch (apiError: any) { // 使用any类型
+                    console.error('API调用失败:', apiError);
+                    alert(`保存计划失败: ${apiError.message || '未知错误'}`);
+                }
                 
             } catch (error) {
                 console.error('保存计划失败:', error);
@@ -275,7 +344,7 @@ export default function NewPlan() {
         <div className="container mx-auto px-4 py-24 md:px-6 md:py-28">
             <div className="mx-auto max-w-3xl">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold">创建退休规划</h1>
+                    <h1 className="text-3xl font-bold">{pageTitle}</h1>
                     <p className="text-muted-foreground mt-1">
                         填写必要信息，获取您的退休财务分析
                     </p>
@@ -441,80 +510,55 @@ export default function NewPlan() {
                 {currentStep === 2 && (
                     <Card>
                         <CardHeader>
-                            <CardTitle>资产录入</CardTitle>
+                            <CardTitle>资产概览</CardTitle>
                             <CardDescription>
-                                添加您当前拥有的各类资产
+                                查看您的当前资产情况
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="bank-savings">
-                                    银行储蓄 (¥)
-                                </Label>
-                                <Input
-                                    id="bank-savings"
-                                    type="number"
-                                    placeholder="100000"
-                                    value={formData.bank_savings}
-                                    onChange={(e) => handleChange('bank_savings', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="term-deposits">
-                                    定期存款 (¥)
-                                </Label>
-                                <Input
-                                    id="term-deposits"
-                                    type="number"
-                                    placeholder="200000"
-                                    value={formData.term_deposits}
-                                    onChange={(e) => handleChange('term_deposits', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="stocks">股票投资 (¥)</Label>
-                                <Input
-                                    id="stocks"
-                                    type="number"
-                                    placeholder="300000"
-                                    value={formData.stocks}
-                                    onChange={(e) => handleChange('stocks', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="funds">基金投资 (¥)</Label>
-                                <Input
-                                    id="funds"
-                                    type="number"
-                                    placeholder="200000"
-                                    value={formData.funds}
-                                    onChange={(e) => handleChange('funds', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="real-estate">
-                                    房产估值 (¥)
-                                </Label>
-                                <Input
-                                    id="real-estate"
-                                    type="number"
-                                    placeholder="2000000"
-                                    value={formData.real_estate}
-                                    onChange={(e) => handleChange('real_estate', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="other-assets">
-                                    其他资产 (¥)
-                                </Label>
-                                <Input
-                                    id="other-assets"
-                                    type="number"
-                                    placeholder="50000"
-                                    value={formData.other_assets}
-                                    onChange={(e) => handleChange('other_assets', e.target.value)}
-                                />
-                            </div>
+                            {assetLoading ? (
+                                <div className="flex flex-col items-center justify-center py-8">
+                                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground mb-2" />
+                                    <p className="text-muted-foreground">加载资产数据中...</p>
+                                </div>
+                            ) : assetError ? (
+                                <div className="rounded-md border border-red-200 bg-red-50 p-4 space-y-3">
+                                    <p className="text-red-800">{assetError}</p>
+                                    <div className="flex justify-center">
+                                        <Button 
+                                            variant="outline" 
+                                            onClick={() => router.push('/assets')}
+                                        >
+                                            前往资产管理
+                                        </Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="rounded-md bg-green-50 border border-green-200 p-6 text-center">
+                                        <p className="text-sm font-medium text-green-800 mb-1">当前总资产</p>
+                                        <p className="text-3xl font-bold text-green-700">¥ {totalAssets.toLocaleString()}</p>
+                                        <p className="text-sm text-green-600 mt-2">
+                                            这些资产数据来自您的资产管理页面
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="text-center pt-2 pb-4">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => router.push('/assets')}
+                                            className="mb-6"
+                                        >
+                                            管理我的资产
+                                        </Button>
+                                        
+                                        <div className="text-muted-foreground text-sm">
+                                            <p>您可以在资产管理页面添加、编辑和删除您的资产。</p>
+                                            <p>更新后的资产数据将自动反映在您的退休计划中。</p>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </CardContent>
                         <CardFooter className="flex justify-between">
                             <Button variant="outline" onClick={prevStep}>
