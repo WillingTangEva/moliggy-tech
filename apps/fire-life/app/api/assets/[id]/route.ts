@@ -4,12 +4,12 @@ import { createClient } from '../../../utils/supabase/server';
 
 // GET /api/assets/:id - 获取单个资产
 export async function GET(
-  request: NextRequest,
-  params: { params: { id: string } }
+  request: Request,
+  params: { params: Promise<{ id: string }> }
 ) {
   try {
     // 确保id是有效的
-    const { id } = params.params;
+    const { id } = await params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的资产ID' },
@@ -50,12 +50,12 @@ export async function GET(
 
 // PUT /api/assets/:id - 更新资产
 export async function PUT(
-  request: NextRequest,
-  params: { params: { id: string } }
+  request: Request,
+  params: { params: Promise<{ id: string }> }
 ) {
   try {
     // 确保id是有效的
-    const { id } = params.params;
+    const { id } = await params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的资产ID' },
@@ -99,12 +99,12 @@ export async function PUT(
 
 // DELETE /api/assets/:id - 删除资产
 export async function DELETE(
-  request: NextRequest,
-  params: { params: { id: string } }
+  request: Request,
+  params: { params: Promise<{ id: string }> }
 ) {
   try {
     // 确保id是有效的
-    const { id } = params.params;
+    const { id } = await params.params;
     if (!id) {
       return NextResponse.json(
         { error: '无效的资产ID' },

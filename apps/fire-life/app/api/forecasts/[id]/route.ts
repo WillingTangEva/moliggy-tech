@@ -3,11 +3,11 @@ import { createClient } from '../../../utils/supabase/server';
 
 // GET /api/forecasts/:id - 获取单个预测详情
 export async function GET(
-  request: NextRequest,
-  params: { params: { id: string } }
+  request: Request,
+  params: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: forecastId } = params.params;
+    const { id: forecastId } = await params.params;
     
     if (!forecastId) {
       return NextResponse.json(
@@ -79,11 +79,11 @@ export async function GET(
 
 // DELETE /api/forecasts/:id - 删除预测
 export async function DELETE(
-  request: NextRequest,
-  params: { params: { id: string } }
+  request: Request,
+  params: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: forecastId } = params.params;
+    const { id: forecastId } = await params.params;
     
     if (!forecastId) {
       return NextResponse.json(

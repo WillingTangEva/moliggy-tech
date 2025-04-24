@@ -93,7 +93,7 @@ function generateAnnualProjections(
     annualExpenses: number,
     investmentReturnRate: number,
     inflationRate: number
-): ForecastDetail[] {
+): Omit<ForecastDetail, 'id' | 'forecast_id'>[] {
     const projections: Omit<ForecastDetail, 'id' | 'forecast_id'>[] = [];
     const maxAge = 100; // 预测到100岁
 
@@ -116,24 +116,27 @@ function generateAnnualProjections(
                 year,
                 age,
                 total_assets: Math.round(assets),
-                annual_income: Math.round(yearlyIncome),
-                annual_expenses: Math.round(yearlyExpenses),
-                savings_rate: Math.round((annualSavings / yearlyIncome) * 100),
+                income: Math.round(yearlyIncome),
+                expenses: Math.round(yearlyExpenses),
+                savings: Math.round(annualSavings),
+                investment_return: Math.round(assets * investmentReturnRate)
             });
         } else {
             // 退休期：资产变化 = 投资回报 - 年度支出
             const withdrawalAmount = yearlyExpenses;
             yearlyIncome = 0; // 退休后无工作收入
 
+            const investReturn = assets * investmentReturnRate;
             assets = assets * (1 + investmentReturnRate) - withdrawalAmount;
 
             projections.push({
                 year,
                 age,
                 total_assets: Math.round(assets),
-                annual_income: 0,
-                annual_expenses: Math.round(yearlyExpenses),
-                savings_rate: 0,
+                income: 0,
+                expenses: Math.round(yearlyExpenses),
+                savings: 0,
+                investment_return: Math.round(investReturn)
             });
 
             // 如果资产耗尽，结束预测

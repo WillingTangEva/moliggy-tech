@@ -98,8 +98,8 @@ export default function ForecastChart({
             formattedIncome: formatCurrency(detail.income || 0),
             formattedExpenses: formatCurrency(detail.expenses || 0),
             // 确保以下字段在图表中可用
-            annual_income: detail.income || 0,
-            annual_expenses: detail.expenses || 0,
+            income: detail.income || 0,
+            expenses: detail.expenses || 0,
         }));
     }, [forecastDetails, retirementAge]);
 
@@ -280,7 +280,7 @@ export default function ForecastChart({
                                 <Tooltip
                                     formatter={(value: any, name: any) => {
                                         const label =
-                                            name === 'annual_income'
+                                            name === 'income'
                                                 ? '年收入'
                                                 : '年支出';
                                         return [formatCurrency(value), label];
@@ -322,14 +322,14 @@ export default function ForecastChart({
 
                                 <Line
                                     type="monotone"
-                                    dataKey="annual_income"
+                                    dataKey="income"
                                     stroke="#10b981"
                                     name="年收入"
                                     strokeWidth={2}
                                 />
                                 <Line
                                     type="monotone"
-                                    dataKey="annual_expenses"
+                                    dataKey="expenses"
                                     stroke="#f43f5e"
                                     name="年支出"
                                     strokeWidth={2}

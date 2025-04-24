@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import {
@@ -15,7 +15,8 @@ import { ArrowLeft } from 'lucide-react';
 import { planAPI } from '../../api/plans';
 import { FinancialPlan } from '../../lib/types';
 
-export default function PlanDetail({ params }: { params: { id: string } }) {
+export default function PlanDetail(props: { params: Promise<{ id: string }> }) {
+    const params = use(props.params);
     const router = useRouter();
     const [plan, setPlan] = useState<FinancialPlan | null>(null);
     const [loading, setLoading] = useState(true);
