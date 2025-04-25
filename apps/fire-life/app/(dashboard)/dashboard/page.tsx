@@ -30,11 +30,7 @@ export default function Dashboard() {
     async function fetchData() {
       try {
         setLoading(true);
-        const [assetsData, plansData, forecastsData] = await Promise.all([
-          getAssets(),
-          getPlans(),
-          getForecasts(),
-        ]);
+        const [assetsData, plansData, forecastsData] = await Promise.all([getAssets(), getPlans(), getForecasts()]);
 
         setAssets(assetsData);
         setPlans(plansData);

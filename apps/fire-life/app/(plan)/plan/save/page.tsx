@@ -280,7 +280,8 @@ function PlanForm() {
         annual_expenses: parseInt(formData.current_monthly_expenses) * 12,
         retirement_income: 0, // 将通过计算得出
         retirement_expenses: parseInt(formData.retirement_monthly_expenses) * 12,
-        expected_return_rate: formData.risk_profile === 'conservative' ? 0.04 : formData.risk_profile === 'moderate' ? 0.07 : 0.1,
+        expected_return_rate:
+          formData.risk_profile === 'conservative' ? 0.04 : formData.risk_profile === 'moderate' ? 0.07 : 0.1,
         inflation_rate: 0.03,
         risk_tolerance: riskToleranceMap[formData.risk_profile] || 5, // 默认值为5，避免undefined
       };
@@ -290,7 +291,7 @@ function PlanForm() {
         // 更新现有计划
         const updateData = { ...planData };
         delete (updateData as any).user_id; // 不能更新user_id
-        
+
         response = await updatePlan(planId, updateData);
       } else {
         // 创建新计划

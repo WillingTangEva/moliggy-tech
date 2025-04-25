@@ -43,7 +43,7 @@ export default function PlansOverview() {
     try {
       setDeletingId(id);
       const result = await deletePlan(id);
-      
+
       if (result) {
         setPlans(plans.filter((plan) => plan.id !== id));
       } else {

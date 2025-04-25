@@ -10,7 +10,9 @@ import { revalidatePath } from 'next/cache';
 export async function getGoals(): Promise<Goal[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未登录，返回测试目标数据');
@@ -71,7 +73,9 @@ export async function getGoals(): Promise<Goal[]> {
 export async function getGoalsByPlanId(planId: string): Promise<Goal[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未登录');
@@ -103,18 +107,15 @@ export async function getGoalsByPlanId(planId: string): Promise<Goal[]> {
 export async function getGoal(id: string): Promise<Goal | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return null;
     }
 
-    const { data, error } = await supabase
-      .from(Tables.Goals)
-      .select('*')
-      .eq('id', id)
-      .eq('user_id', user.id)
-      .single();
+    const { data, error } = await supabase.from(Tables.Goals).select('*').eq('id', id).eq('user_id', user.id).single();
 
     if (error) {
       console.error('Error fetching goal:', error);
@@ -134,7 +135,9 @@ export async function getGoal(id: string): Promise<Goal | null> {
 export async function createGoal(goal: Omit<Goal, 'id' | 'created_at' | 'updated_at'>): Promise<Goal | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       // 如果用户未登录，为了演示使用测试用户ID
@@ -197,10 +200,15 @@ export async function createGoal(goal: Omit<Goal, 'id' | 'created_at' | 'updated
 /**
  * 更新财务目标
  */
-export async function updateGoal(id: string, updates: Partial<Omit<Goal, 'id' | 'user_id' | 'created_at'>>): Promise<Goal | null> {
+export async function updateGoal(
+  id: string,
+  updates: Partial<Omit<Goal, 'id' | 'user_id' | 'created_at'>>
+): Promise<Goal | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -254,7 +262,9 @@ export async function updateGoal(id: string, updates: Partial<Omit<Goal, 'id' | 
 export async function deleteGoal(id: string): Promise<boolean> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -273,11 +283,7 @@ export async function deleteGoal(id: string): Promise<boolean> {
       return false;
     }
 
-    const { error } = await supabase
-      .from(Tables.Goals)
-      .delete()
-      .eq('id', id)
-      .eq('user_id', user.id);
+    const { error } = await supabase.from(Tables.Goals).delete().eq('id', id).eq('user_id', user.id);
 
     if (error) {
       console.error('Error deleting goal:', error);
@@ -296,4 +302,4 @@ export async function deleteGoal(id: string): Promise<boolean> {
     console.error('删除财务目标失败:', error);
     return false;
   }
-} 
+}

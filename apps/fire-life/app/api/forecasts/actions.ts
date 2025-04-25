@@ -11,7 +11,9 @@ import { calculateForecast } from '../utils/calculations';
 export async function getForecasts(): Promise<Forecast[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未认证，返回示例预测数据');
@@ -58,7 +60,9 @@ export async function getForecasts(): Promise<Forecast[]> {
 export async function getForecast(id: string): Promise<{ forecast: Forecast | null; details: ForecastDetail[] }> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { forecast: null, details: [] };
@@ -140,7 +144,7 @@ async function saveForecast(
   details: Omit<ForecastDetail, 'id' | 'forecast_id'>[]
 ): Promise<Forecast | null> {
   const supabase = await createClient();
-  
+
   // 1. 创建预测主记录
   const { data, error } = await supabase
     .from(Tables.Forecasts)
@@ -179,10 +183,15 @@ async function saveForecast(
 /**
  * 创建新预测
  */
-export async function createForecast(planId: string, currentAssets: number): Promise<{ forecast: Forecast | null; details: ForecastDetail[] }> {
+export async function createForecast(
+  planId: string,
+  currentAssets: number
+): Promise<{ forecast: Forecast | null; details: ForecastDetail[] }> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { forecast: null, details: [] };
@@ -223,14 +232,14 @@ export async function createForecast(planId: string, currentAssets: number): Pro
     // 重新验证预测数据的页面
     revalidatePath('/dashboard');
     revalidatePath('/forecast');
-    
+
     if (createdForecast) {
       revalidatePath(`/forecast/${createdForecast.id}`);
     }
 
-    return { 
-      forecast: createdForecast, 
-      details: createdForecast ? details : [] 
+    return {
+      forecast: createdForecast,
+      details: createdForecast ? details : [],
     };
   } catch (error) {
     console.error('创建预测失败:', error);
@@ -244,7 +253,9 @@ export async function createForecast(planId: string, currentAssets: number): Pro
 export async function calculateRetirement(planId: string, currentAssets: number): Promise<RetirementResult | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return null;
@@ -287,4 +298,4 @@ export async function calculateRetirement(planId: string, currentAssets: number)
     console.error('计算退休结果失败:', error);
     return null;
   }
-} 
+}

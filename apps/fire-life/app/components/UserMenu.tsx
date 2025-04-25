@@ -135,12 +135,12 @@ export function UserMenu() {
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
-      
+
       if (error) {
         console.error('退出登录失败:', error.message);
         return;
       }
-      
+
       setUser(null); // 立即更新状态
       triggerAuthStateChange(); // 触发认证状态变化事件
       router.push('/');

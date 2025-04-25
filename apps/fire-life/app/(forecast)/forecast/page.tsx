@@ -153,7 +153,7 @@ export default function ForecastPage() {
           readinessScore: result.forecast.readiness_score || 0,
           yearlyDetails: result.details || [],
         });
-        
+
         alert('预测已创建/更新');
       } else {
         setError('创建预测失败，请重试');
@@ -185,10 +185,8 @@ export default function ForecastPage() {
 
       if (updatedPlan) {
         // 更新本地计划数据
-        setPlans(plans.map(plan => 
-          plan.id === selectedPlanId ? updatedPlan : plan
-        ));
-        
+        setPlans(plans.map((plan) => (plan.id === selectedPlanId ? updatedPlan : plan)));
+
         // 重新计算
         const result = await calculateRetirement(selectedPlanId, currentAssets);
         if (result) {

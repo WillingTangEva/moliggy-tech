@@ -10,7 +10,9 @@ import { revalidatePath } from 'next/cache';
 export async function getPlans(): Promise<FinancialPlan[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未登录，返回测试计划数据');
@@ -59,7 +61,9 @@ export async function getPlans(): Promise<FinancialPlan[]> {
 export async function getPlan(id: string): Promise<FinancialPlan | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return null;
@@ -87,10 +91,14 @@ export async function getPlan(id: string): Promise<FinancialPlan | null> {
 /**
  * 创建新财务规划
  */
-export async function createPlan(plan: Omit<FinancialPlan, 'id' | 'created_at' | 'updated_at'>): Promise<FinancialPlan | null> {
+export async function createPlan(
+  plan: Omit<FinancialPlan, 'id' | 'created_at' | 'updated_at'>
+): Promise<FinancialPlan | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       // 如果用户未登录，为了演示使用测试用户ID
@@ -155,10 +163,15 @@ export async function createPlan(plan: Omit<FinancialPlan, 'id' | 'created_at' |
 /**
  * 更新财务规划
  */
-export async function updatePlan(id: string, updates: Partial<Omit<FinancialPlan, 'id' | 'user_id' | 'created_at'>>): Promise<FinancialPlan | null> {
+export async function updatePlan(
+  id: string,
+  updates: Partial<Omit<FinancialPlan, 'id' | 'user_id' | 'created_at'>>
+): Promise<FinancialPlan | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -210,7 +223,9 @@ export async function updatePlan(id: string, updates: Partial<Omit<FinancialPlan
 export async function deletePlan(id: string): Promise<boolean> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -229,10 +244,7 @@ export async function deletePlan(id: string): Promise<boolean> {
       return false;
     }
 
-    const { error } = await supabase
-      .from(Tables.FinancialPlans)
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from(Tables.FinancialPlans).delete().eq('id', id);
 
     if (error) {
       console.error('Error deleting plan:', error);
@@ -248,4 +260,4 @@ export async function deletePlan(id: string): Promise<boolean> {
     console.error('删除财务计划失败:', error);
     return false;
   }
-} 
+}

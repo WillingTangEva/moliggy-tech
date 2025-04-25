@@ -154,7 +154,7 @@ export default function AssetsPage() {
         currentAsset.id,
         formData as Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>
       );
-      
+
       if (updatedAsset) {
         setAssets(assets.map((asset) => (asset.id === updatedAsset.id ? updatedAsset : asset)));
         setIsEditDialogOpen(false);
@@ -177,7 +177,7 @@ export default function AssetsPage() {
     try {
       setSubmitting(true);
       const result = await deleteAsset(currentAsset.id);
-      
+
       if (result) {
         setAssets(assets.filter((asset) => asset.id !== currentAsset.id));
         setIsDeleteDialogOpen(false);

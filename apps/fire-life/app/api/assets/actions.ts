@@ -10,7 +10,9 @@ import { revalidatePath } from 'next/cache';
 export async function getAssets(): Promise<Asset[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未认证，返回测试资产数据');
@@ -73,7 +75,9 @@ export async function getAssets(): Promise<Asset[]> {
 export async function getAssetsByType(type: AssetType): Promise<Asset[]> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return [];
@@ -138,7 +142,9 @@ export async function getAssetDistribution(): Promise<Record<AssetType, number>>
 export async function createAsset(asset: Omit<Asset, 'id' | 'created_at' | 'updated_at'>): Promise<Asset | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -176,10 +182,15 @@ export async function createAsset(asset: Omit<Asset, 'id' | 'created_at' | 'upda
 /**
  * 更新资产
  */
-export async function updateAsset(id: string, updates: Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>): Promise<Asset | null> {
+export async function updateAsset(
+  id: string,
+  updates: Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>
+): Promise<Asset | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -230,7 +241,9 @@ export async function updateAsset(id: string, updates: Partial<Omit<Asset, 'id' 
 export async function deleteAsset(id: string): Promise<boolean> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       throw new Error('Unauthorized');
@@ -249,10 +262,7 @@ export async function deleteAsset(id: string): Promise<boolean> {
       return false;
     }
 
-    const { error } = await supabase
-      .from(Tables.Assets)
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from(Tables.Assets).delete().eq('id', id);
 
     if (error) {
       console.error('Error deleting asset:', error);
@@ -268,4 +278,4 @@ export async function deleteAsset(id: string): Promise<boolean> {
     console.error('删除资产失败:', error);
     return false;
   }
-} 
+}
