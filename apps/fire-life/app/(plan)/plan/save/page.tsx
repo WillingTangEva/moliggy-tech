@@ -273,7 +273,10 @@ function PlanForm() {
       const annualExpenses = parseFloat(formData.current_monthly_expenses) * 12;
       const retirementExpenses = parseFloat(formData.retirement_monthly_expenses) * 12;
 
-      // 创建计划数据对象
+      // 确保risk_tolerance有默认值
+      const riskTolerance = riskToleranceMap[formData.risk_profile] || 5; // 如果映射失败，默认为5
+
+      // 创建计划数据对象，去掉自动生成的字段
       const planData = {
         name: `退休计划 (${formData.target_retirement_age}岁退休)`,
         description: `${formData.current_age}岁到${formData.target_retirement_age}岁的退休规划`,
@@ -287,14 +290,16 @@ function PlanForm() {
         expected_return_rate:
           formData.risk_profile === 'conservative' ? 0.05 : formData.risk_profile === 'moderate' ? 0.07 : 0.1,
         inflation_rate: 0.03,
-        risk_tolerance: riskToleranceMap[formData.risk_profile],
-        created_at: new Date().toISOString(),
+        risk_tolerance: riskTolerance,
+        user_id: 'auto', // 占位符，服务器端会自动设置为当前用户ID
       };
 
       let response;
       if (isEditing && planId) {
         // 更新现有计划
-        response = await planAPI.updatePlan(planId, planData);
+        // 更新时不需要user_id，从类型定义可以看出updatePlan不接受user_id字段
+        const { user_id, ...updateData } = planData;
+        response = await planAPI.updatePlan(planId, updateData);
         console.log('计划更新成功:', response);
       } else {
         // 创建新计划
