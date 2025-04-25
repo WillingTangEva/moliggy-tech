@@ -1,10 +1,11 @@
 import { createClient } from '@/app/utils/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
-import { Tables } from '../../utils/types';
+import { Tables, GoalType, GoalStatus, GoalTypeValues, GoalStatusValues } from '../../utils/types';
 
 // 获取单个目标
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const resolvedParams = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = resolvedParams;
     const { data, error } = await supabase.from(Tables.Goals).select('*').eq('id', id).eq('user_id', user.id).single();
 
     if (error) {
@@ -23,14 +24,15 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(`Error in GET /api/goals/${params.id}:`, error);
+    console.error(`Error in GET /api/goals/[id]:`, error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 // 更新目标
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const resolvedParams = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -40,8 +42,17 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = resolvedParams;
     const body = await request.json();
+
+    // 验证目标类型和状态（如果提供）
+    if (body.type && !GoalTypeValues.includes(body.type as GoalType)) {
+      return NextResponse.json({ error: 'Invalid goal type' }, { status: 400 });
+    }
+
+    if (body.status && !GoalStatusValues.includes(body.status as GoalStatus)) {
+      return NextResponse.json({ error: 'Invalid goal status' }, { status: 400 });
+    }
 
     // 确保用户有权限修改这个目标
     const { data: existingGoal, error: fetchError } = await supabase
@@ -69,14 +80,15 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(`Error in PUT /api/goals/${params.id}:`, error);
+    console.error(`Error in PUT /api/goals/[id]:`, error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 // 删除目标
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const resolvedParams = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -86,7 +98,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = resolvedParams;
 
     // 确保用户有权限删除这个目标
     const { data: existingGoal, error: fetchError } = await supabase
@@ -109,7 +121,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(`Error in DELETE /api/goals/${params.id}:`, error);
+    console.error(`Error in DELETE /api/goals/[id]:`, error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

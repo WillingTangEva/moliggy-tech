@@ -44,9 +44,9 @@ async function calculateRetirement(userId: string, planId: string, currentAssets
     yearlyDetails: details.map((d) => ({
       year: d.year,
       age: d.age,
-      income: d.annual_income,
-      expenses: d.annual_expenses,
-      savings: d.annual_savings,
+      income: d.income,
+      expenses: d.expenses,
+      savings: d.savings,
       investment_return: d.investment_return,
       total_assets: d.total_assets,
     })),

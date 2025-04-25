@@ -19,14 +19,34 @@ export interface ApiSessionStatus {
 // 资产类型
 export type AssetType = 'cash' | 'stock' | 'bond' | 'property' | 'insurance' | 'other';
 
+// 资产类型的所有可能值（用于类型检查）
+export const AssetTypeValues: readonly AssetType[] = ['cash', 'stock', 'bond', 'property', 'insurance', 'other'];
+
 // 货币类型
 export type Currency = 'CNY' | 'USD' | 'EUR' | 'GBP' | 'JPY';
+
+// 货币类型的所有可能值（用于类型检查）
+export const CurrencyValues: readonly Currency[] = ['CNY', 'USD', 'EUR', 'GBP', 'JPY'];
 
 // 目标类型
 export type GoalType = 'retirement' | 'education' | 'housing' | 'travel' | 'emergency' | 'debt' | 'other';
 
+// 目标类型的所有可能值（用于类型检查）
+export const GoalTypeValues: readonly GoalType[] = [
+  'retirement',
+  'education',
+  'housing',
+  'travel',
+  'emergency',
+  'debt',
+  'other',
+];
+
 // 目标状态
 export type GoalStatus = 'active' | 'completed' | 'abandoned';
+
+// 目标状态的所有可能值（用于类型检查）
+export const GoalStatusValues: readonly GoalStatus[] = ['active', 'completed', 'abandoned'];
 
 // 目标实体
 export interface Goal {

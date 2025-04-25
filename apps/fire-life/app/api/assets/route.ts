@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Asset, Tables, AssetType, Currency } from '../utils/types';
+import { Asset, Tables, AssetType, AssetTypeValues, Currency } from '../utils/types';
 import { createClient } from '../../utils/supabase/server';
 
 /**
@@ -154,8 +154,8 @@ export async function GET(request: NextRequest) {
     }
 
     // 如果请求特定类型的资产
-    if (type && Object.values(AssetType).includes(type)) {
-      const assets = await getUserAssetsByType(user.id, type);
+    if (type && AssetTypeValues.includes(type as AssetType)) {
+      const assets = await getUserAssetsByType(user.id, type as AssetType);
       return NextResponse.json(assets);
     }
 

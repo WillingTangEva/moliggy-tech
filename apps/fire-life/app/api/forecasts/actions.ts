@@ -237,9 +237,20 @@ export async function createForecast(
       revalidatePath(`/forecast/${createdForecast.id}`);
     }
 
+    // 创建完整的ForecastDetail对象数组
+    let completeDetails: ForecastDetail[] = [];
+    if (createdForecast) {
+      // 如果预测成功创建，使用真实的forecast_id
+      completeDetails = details.map((detail, index) => ({
+        ...detail,
+        id: `${createdForecast.id}-detail-${index}`, // 使用临时ID
+        forecast_id: createdForecast.id,
+      }));
+    }
+
     return {
       forecast: createdForecast,
-      details: createdForecast ? details : [],
+      details: completeDetails,
     };
   } catch (error) {
     console.error('创建预测失败:', error);
@@ -283,13 +294,20 @@ export async function calculateRetirement(planId: string, currentAssets: number)
     // 执行计算
     const { forecast, details } = calculateForecast(plan, totalAssets);
 
+    // 为details添加临时ID以符合ForecastDetail类型
+    const completeDetails: ForecastDetail[] = details.map((detail, index) => ({
+      ...detail,
+      id: `temp-id-${index}`,
+      forecast_id: 'temp-forecast-id',
+    }));
+
     // 构建结果对象，但不保存到数据库
     const result: RetirementResult = {
       targetRetirementAge: plan.target_retirement_age,
       actualRetirementAge: forecast.retirement_age,
       retirementAssets: forecast.retirement_assets,
       monthlyRetirementIncome: forecast.monthly_income || 0,
-      yearlyDetails: details,
+      yearlyDetails: completeDetails,
       readinessScore: forecast.readiness_score || 0,
     };
 
