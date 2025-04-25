@@ -153,7 +153,7 @@ export default function PlanDetail(props: { params: Promise<{ id: string }> }) {
                     </CardContent>
 
                     <CardFooter className="flex justify-end space-x-2">
-                        <Button variant="outline" onClick={() => router.push(`/plan/${plan.id}/edit`)}>
+                        <Button variant="outline" onClick={() => router.push(`/plan/save?id=${plan.id}`)}>
                             编辑计划
                         </Button>
                         <Button 

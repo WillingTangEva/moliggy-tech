@@ -80,7 +80,7 @@ export default function PlansOverview() {
                         管理您的财务计划和退休目标
                     </p>
                 </div>
-                <Button className="shrink-0" onClick={() => router.push('/plan/new')}>
+                <Button className="shrink-0" onClick={() => router.push('/plan/save')}>
                     <Plus className="mr-2 h-4 w-4" /> 创建新计划
                 </Button>
             </div>
@@ -112,7 +112,7 @@ export default function PlansOverview() {
                             <p className="text-muted-foreground mt-2">
                                 创建一个新计划来开始您的财务自由之旅
                             </p>
-                            <Button className="mt-4" onClick={() => router.push('/plan/new')}>
+                            <Button className="mt-4" onClick={() => router.push('/plan/save')}>
                                 <Plus className="mr-2 h-4 w-4" /> 创建新计划
                             </Button>
                         </div>
@@ -160,7 +160,7 @@ export default function PlansOverview() {
                                             <Button 
                                                 variant="ghost" 
                                                 size="sm"
-                                                onClick={() => router.push(`/plan/new?editId=${plan.id}`)}
+                                                onClick={() => router.push(`/plan/save?id=${plan.id}`)}
                                             >
                                                 <FileEdit className="h-4 w-4" />
                                             </Button>
