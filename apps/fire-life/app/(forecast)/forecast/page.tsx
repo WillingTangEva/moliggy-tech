@@ -10,7 +10,7 @@ import { Download, Share2, RefreshCw, AlertTriangle, Loader2 } from 'lucide-reac
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { forecastAPI, planAPI, assetAPI } from '@/app/api';
-import { FinancialPlan, RetirementResult, Forecast, ForecastDetail } from '@/app/lib/types';
+import { FinancialPlan, RetirementResult, Forecast, ForecastDetail } from '@/app/api/utils/types';
 import ForecastChart from './components/ForecastChart';
 import RetirementReadinessCard from './components/RetirementReadinessCard';
 

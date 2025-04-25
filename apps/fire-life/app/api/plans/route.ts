@@ -1,6 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getUserPlans, createPlan } from '../../lib/services/plan-service';
+import { FinancialPlan, Tables } from '../utils/types';
 import { createClient } from '../../utils/supabase/server';
+
+/**
+ * 获取用户所有财务规划
+ */
+async function getUserPlans(userId: string): Promise<FinancialPlan[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(Tables.FinancialPlans)
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching plans:', error);
+    return [];
+  }
+
+  return data as FinancialPlan[];
+}
+
+/**
+ * 创建新财务规划
+ */
+async function createPlan(
+  plan: Omit<FinancialPlan, 'id' | 'created_at' | 'updated_at'>
+): Promise<FinancialPlan | null> {
+  const supabase = await createClient();
+
+  console.log('接收到计划数据:', plan);
+
+  // 确保所有必填字段都存在
+  if (!plan.user_id) {
+    console.error('缺少必填字段 user_id');
+    return null;
+  }
+
+  if (typeof plan.current_age !== 'number') {
+    console.error('current_age 不是有效的数字');
+    return null;
+  }
+
+  if (typeof plan.target_retirement_age !== 'number') {
+    console.error('target_retirement_age 不是有效的数字');
+    return null;
+  }
+
+  if (typeof plan.annual_income !== 'number') {
+    console.error('annual_income 不是有效的数字');
+    return null;
+  }
+
+  if (typeof plan.annual_expenses !== 'number') {
+    console.error('annual_expenses 不是有效的数字');
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from(Tables.FinancialPlans)
+    .insert({
+      ...plan,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating plan:', error);
+    return null;
+  }
+
+  console.log('Plan created successfully:', data);
+  return data as FinancialPlan;
+}
 
 // GET /api/plans - 获取用户财务计划列表
 export async function GET(request: NextRequest) {

@@ -6,7 +6,7 @@ import { Button } from '@workspace/ui/components/button';
 import { PlusCircle, TrendingUp, Calendar, Wallet, CreditCard, PieChart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { assetAPI, planAPI, forecastAPI } from '@/app/api';
-import { Asset, FinancialPlan, Forecast } from '@/app/lib/types';
+import { Asset, FinancialPlan, Forecast } from '@/app/api/utils/types';
 import { useRouter } from 'next/navigation';
 
 // API会话状态接口

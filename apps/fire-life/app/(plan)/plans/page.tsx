@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/componen
 import { Badge } from '@workspace/ui/components/badge';
 import { Plus, BarChart4, FileEdit, Trash2, Loader2 } from 'lucide-react';
 import { planAPI } from '@/app/api/plans';
-import { FinancialPlan } from '@/app/lib/types';
+import { FinancialPlan } from '@/app/api/utils/types';
 
 export default function PlansOverview() {
   const router = useRouter();

@@ -1,7 +1,170 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Forecast, ForecastDetail, Tables } from '../utils/types';
 import { createClient } from '../../utils/supabase/server';
-import { getUserForecasts, generateForecast, getFullForecast } from '../../lib/services/forecast-service';
-import { getPlanById } from '../../lib/services/plan-service';
+import { calculateForecast } from '../utils/calculations';
+
+/**
+ * 获取用户所有预测结果
+ */
+async function getUserForecasts(userId: string): Promise<Forecast[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(Tables.Forecasts)
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching forecasts:', error);
+    return [];
+  }
+
+  return data as Forecast[];
+}
+
+/**
+ * 获取单个规划
+ */
+async function getPlanById(planId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from(Tables.FinancialPlans).select('*').eq('id', planId).single();
+
+  if (error) {
+    console.error('Error fetching plan:', error);
+    return null;
+  }
+
+  return data;
+}
+
+/**
+ * 获取用户资产
+ */
+async function getUserAssets(userId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(Tables.Assets)
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching assets:', error);
+    return [];
+  }
+
+  return data;
+}
+
+/**
+ * 创建新预测
+ */
+async function createForecast(
+  forecast: Omit<Forecast, 'id' | 'created_at'>,
+  details: Omit<ForecastDetail, 'id' | 'forecast_id'>[]
+): Promise<Forecast | null> {
+  const supabase = await createClient();
+  // 1. 创建预测主记录
+  const { data, error } = await supabase
+    .from(Tables.Forecasts)
+    .insert({
+      ...forecast,
+      created_at: new Date().toISOString(),
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating forecast:', error);
+    return null;
+  }
+
+  const createdForecast = data as Forecast;
+
+  // 2. 创建预测详情记录
+  const forecastDetails = details.map((detail) => ({
+    ...detail,
+    forecast_id: createdForecast.id,
+  }));
+
+  const { error: detailsError } = await supabase.from(Tables.ForecastDetails).insert(forecastDetails);
+
+  if (detailsError) {
+    console.error('Error creating forecast details:', detailsError);
+    // 考虑回滚主记录
+    await supabase.from(Tables.Forecasts).delete().eq('id', createdForecast.id);
+    return null;
+  }
+
+  return createdForecast;
+}
+
+/**
+ * 生成财务预测（基于规划和资产数据）
+ */
+async function generateForecast(userId: string, planId: string): Promise<Forecast | null> {
+  // 1. 获取规划数据
+  const plan = await getPlanById(planId);
+  if (!plan || plan.user_id !== userId) {
+    console.error('Plan not found or not owned by user');
+    return null;
+  }
+
+  // 2. 获取用户资产
+  const assets = await getUserAssets(userId);
+  const totalAssets = assets.reduce((sum: number, asset: any) => sum + asset.value, 0);
+
+  // 3. 执行计算
+  const { forecast, details } = calculateForecast(plan, totalAssets);
+
+  // 4. 存储结果
+  return createForecast(
+    {
+      ...forecast,
+      user_id: userId,
+      plan_id: planId,
+    },
+    details
+  );
+}
+
+/**
+ * 获取预测及其详情
+ */
+async function getForecastDetails(forecastId: string): Promise<ForecastDetail[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(Tables.ForecastDetails)
+    .select('*')
+    .eq('forecast_id', forecastId)
+    .order('year', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching forecast details:', error);
+    return [];
+  }
+
+  return data as ForecastDetail[];
+}
+
+/**
+ * 获取预测完整信息（包括主记录和详情）
+ */
+async function getFullForecast(forecastId: string): Promise<{
+  forecast: Forecast | null;
+  details: ForecastDetail[];
+}> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from(Tables.Forecasts).select('*').eq('id', forecastId).single();
+
+  const forecast = error ? null : (data as Forecast);
+  if (!forecast) {
+    return { forecast: null, details: [] };
+  }
+
+  const details = await getForecastDetails(forecastId);
+  return { forecast, details };
+}
 
 // GET /api/forecasts - 获取用户的预测列表
 export async function GET(request: NextRequest) {

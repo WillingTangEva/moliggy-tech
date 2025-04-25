@@ -1,6 +1,6 @@
 'use client';
 
-import { ForecastDetail } from '../../../lib/types';
+import { ForecastDetail } from '../../../api/utils/types';
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
