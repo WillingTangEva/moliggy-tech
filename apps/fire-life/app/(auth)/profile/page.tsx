@@ -9,7 +9,6 @@ import { Textarea } from '@workspace/ui/components/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Loader2, Save, User } from 'lucide-react';
-import { getCurrentUser } from '@/app/api/user';
 import { supabase } from '@/app/utils/supabase/client';
 
 interface Profile {
@@ -33,6 +32,38 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
+
+  /**
+   * 获取当前用户信息
+   * @returns 返回用户信息或null
+   */
+  const getCurrentUser = async () => {
+    try {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error || !data.user) {
+        console.log('获取用户信息失败:', error?.message);
+        return null;
+      }
+
+      // 处理用户数据
+      const userData = {
+        id: data.user.id,
+        email: data.user.email || '未设置邮箱',
+        name: data.user.user_metadata?.name,
+        first_name: data.user.user_metadata?.first_name,
+        last_name: data.user.user_metadata?.last_name,
+        avatar_url: data.user.user_metadata?.avatar_url,
+        bio: data.user.user_metadata?.bio || '',
+        created_at: data.user.created_at,
+      };
+
+      return userData;
+    } catch (error) {
+      console.error('获取用户信息出错:', error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     async function loadProfile() {

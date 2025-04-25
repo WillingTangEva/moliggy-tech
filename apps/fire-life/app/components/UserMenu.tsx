@@ -14,8 +14,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { User, Settings, LogOut, GemIcon } from 'lucide-react';
-import { getCurrentUser, signOut } from '../api/user';
 import { useAuth, triggerAuthStateChange, AUTH_STATE_CHANGE_EVENT } from '../api/utils/auth-context';
+import { supabase } from '@/app/utils/supabase/client';
 
 export type UserData = {
   id: string;
@@ -31,11 +31,43 @@ export function UserMenu() {
   const pathname = usePathname();
   const { refreshAuthState } = useAuth(); // 使用认证上下文
 
+  /**
+   * 获取当前用户信息
+   * @returns 返回用户信息或null
+   */
+  const getCurrentUser = async () => {
+    try {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error || !data.user) {
+        console.log('获取用户信息失败:', error?.message);
+        return null;
+      }
+
+      // 处理用户数据
+      const userData = {
+        id: data.user.id,
+        email: data.user.email || '未设置邮箱',
+        name: data.user.user_metadata?.name,
+        first_name: data.user.user_metadata?.first_name,
+        last_name: data.user.user_metadata?.last_name,
+        avatar_url: data.user.user_metadata?.avatar_url,
+        bio: data.user.user_metadata?.bio || '',
+        created_at: data.user.created_at,
+      };
+
+      return userData;
+    } catch (error) {
+      console.error('获取用户信息出错:', error);
+      return null;
+    }
+  };
+
   const loadUserData = async () => {
     console.log('加载用户数据...');
     setIsLoading(true);
     try {
-      // 使用新的统一方法获取用户信息
+      // 使用内部方法获取用户信息
       const userData = await getCurrentUser();
 
       if (!userData) {
@@ -97,14 +129,23 @@ export function UserMenu() {
     };
   }, []);
 
+  /**
+   * 用户退出登录
+   */
   const handleLogout = async () => {
     try {
-      await signOut();
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('退出登录失败:', error.message);
+        return;
+      }
+      
       setUser(null); // 立即更新状态
       triggerAuthStateChange(); // 触发认证状态变化事件
       router.push('/');
     } catch (error) {
-      console.error('退出登录失败:', error);
+      console.error('退出登录时出错:', error);
     }
   };
 
