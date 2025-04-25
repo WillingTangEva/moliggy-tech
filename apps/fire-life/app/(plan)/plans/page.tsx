@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Badge } from '@workspace/ui/components/badge';
 import { Plus, BarChart4, FileEdit, Trash2, Loader2 } from 'lucide-react';
-import { planAPI } from '@/app/api/plans';
+import { getPlans, deletePlan } from '@/app/api';
 import { FinancialPlan } from '@/app/api/utils/types';
 
 export default function PlansOverview() {
@@ -22,7 +22,7 @@ export default function PlansOverview() {
     async function fetchPlans() {
       try {
         setLoading(true);
-        const data = await planAPI.getPlans();
+        const data = await getPlans();
         setPlans(data);
       } catch (err) {
         console.error('获取计划列表失败:', err);
@@ -42,8 +42,13 @@ export default function PlansOverview() {
 
     try {
       setDeletingId(id);
-      await planAPI.deletePlan(id);
-      setPlans(plans.filter((plan) => plan.id !== id));
+      const result = await deletePlan(id);
+      
+      if (result) {
+        setPlans(plans.filter((plan) => plan.id !== id));
+      } else {
+        alert('删除计划失败，请稍后重试');
+      }
     } catch (err) {
       console.error('删除计划失败:', err);
       alert('删除计划失败，请稍后重试');

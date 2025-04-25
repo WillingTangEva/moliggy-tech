@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { assetAPI } from '@/app/api';
+import { getAssets, createAsset, updateAsset, deleteAsset } from '@/app/api';
 import { Asset, AssetType, Currency } from '@/app/api/utils/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
@@ -63,7 +63,7 @@ export default function AssetsPage() {
       try {
         setLoading(true);
         setError(null);
-        const data = await assetAPI.getAssets();
+        const data = await getAssets();
         setAssets(data);
       } catch (err) {
         console.error('获取资产失败:', err);
@@ -128,10 +128,14 @@ export default function AssetsPage() {
   const handleAddAsset = async () => {
     try {
       setSubmitting(true);
-      const newAsset = await assetAPI.createAsset(formData as Omit<Asset, 'id' | 'created_at' | 'updated_at'>);
-      setAssets([...assets, newAsset]);
-      setIsAddDialogOpen(false);
-      resetForm();
+      const newAsset = await createAsset(formData as Omit<Asset, 'id' | 'created_at' | 'updated_at'>);
+      if (newAsset) {
+        setAssets([...assets, newAsset]);
+        setIsAddDialogOpen(false);
+        resetForm();
+      } else {
+        setError('添加资产失败，请重试');
+      }
     } catch (err) {
       console.error('添加资产失败:', err);
       setError('添加资产失败，请重试');
@@ -146,13 +150,18 @@ export default function AssetsPage() {
 
     try {
       setSubmitting(true);
-      const updatedAsset = await assetAPI.updateAsset(
+      const updatedAsset = await updateAsset(
         currentAsset.id,
         formData as Partial<Omit<Asset, 'id' | 'user_id' | 'created_at'>>
       );
-      setAssets(assets.map((asset) => (asset.id === updatedAsset.id ? updatedAsset : asset)));
-      setIsEditDialogOpen(false);
-      resetForm();
+      
+      if (updatedAsset) {
+        setAssets(assets.map((asset) => (asset.id === updatedAsset.id ? updatedAsset : asset)));
+        setIsEditDialogOpen(false);
+        resetForm();
+      } else {
+        setError('更新资产失败，请重试');
+      }
     } catch (err) {
       console.error('更新资产失败:', err);
       setError('更新资产失败，请重试');
@@ -167,10 +176,15 @@ export default function AssetsPage() {
 
     try {
       setSubmitting(true);
-      await assetAPI.deleteAsset(currentAsset.id);
-      setAssets(assets.filter((asset) => asset.id !== currentAsset.id));
-      setIsDeleteDialogOpen(false);
-      resetForm();
+      const result = await deleteAsset(currentAsset.id);
+      
+      if (result) {
+        setAssets(assets.filter((asset) => asset.id !== currentAsset.id));
+        setIsDeleteDialogOpen(false);
+        resetForm();
+      } else {
+        setError('删除资产失败，请重试');
+      }
     } catch (err) {
       console.error('删除资产失败:', err);
       setError('删除资产失败，请重试');

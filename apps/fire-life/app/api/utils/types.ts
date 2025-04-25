@@ -22,6 +22,30 @@ export type AssetType = 'cash' | 'stock' | 'bond' | 'property' | 'insurance' | '
 // 货币类型
 export type Currency = 'CNY' | 'USD' | 'EUR' | 'GBP' | 'JPY';
 
+// 目标类型
+export type GoalType = 'retirement' | 'education' | 'housing' | 'travel' | 'emergency' | 'debt' | 'other';
+
+// 目标状态
+export type GoalStatus = 'active' | 'completed' | 'abandoned';
+
+// 目标实体
+export interface Goal {
+  id: string;
+  user_id: string;
+  plan_id?: string;
+  name: string;
+  description?: string;
+  type: GoalType;
+  status: GoalStatus;
+  target_amount: number;
+  current_amount: number;
+  target_date: string;
+  priority: number; // 1-10，1最低，10最高
+  currency: Currency;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // 资产实体
 export interface Asset {
   id: string;
@@ -116,6 +140,7 @@ export enum Tables {
   Forecasts = 'forecasts',
   ForecastDetails = 'forecast_details',
   UserSettings = 'user_settings',
+  Goals = 'goals',
 }
 
 export interface RetirementResult {

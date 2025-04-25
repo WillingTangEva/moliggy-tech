@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@work
 import { Button } from '@workspace/ui/components/button';
 import { PlusCircle, TrendingUp, Calendar, Wallet, CreditCard, PieChart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { assetAPI, planAPI, forecastAPI } from '@/app/api';
+import { getAssets, getPlans, getForecasts } from '@/app/api';
 import { Asset, FinancialPlan, Forecast } from '@/app/api/utils/types';
 import { useRouter } from 'next/navigation';
 
@@ -31,9 +31,9 @@ export default function Dashboard() {
       try {
         setLoading(true);
         const [assetsData, plansData, forecastsData] = await Promise.all([
-          assetAPI.getAssets(),
-          planAPI.getPlans(),
-          forecastAPI.getForecasts(),
+          getAssets(),
+          getPlans(),
+          getForecasts(),
         ]);
 
         setAssets(assetsData);

@@ -8,8 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { ArrowLeft, ArrowRight, Loader2, Save } from 'lucide-react';
-import { planAPI } from '@/app/api/plans';
-import { assetAPI } from '@/app/api';
+import { getAssets, getPlan, createPlan, updatePlan } from '@/app/api';
 
 const steps = [
   { id: 1, name: '基本信息' },
@@ -114,7 +113,7 @@ function PlanForm() {
       try {
         setAssetLoading(true);
         setAssetError(null);
-        const assets = await assetAPI.getAssets();
+        const assets = await getAssets();
 
         // 计算总资产价值
         const total = assets.reduce((sum, asset) => sum + asset.value, 0);
@@ -141,7 +140,7 @@ function PlanForm() {
         setIsEditing(true);
         setPageTitle('编辑退休规划');
 
-        const planData = await planAPI.getPlan(planId);
+        const planData = await getPlan(planId);
 
         if (planData) {
           console.log('加载计划数据进行编辑:', planData);
@@ -264,58 +263,49 @@ function PlanForm() {
 
   // 提交表单
   const handleSubmit = async () => {
+    const allValid = validateCurrentStep();
+    if (!allValid) return;
+
     try {
       setIsSubmitting(true);
-      console.log('提交表单数据');
 
-      // 准备数据
-      const annualIncome = parseFloat(formData.monthly_income) * 12;
-      const annualExpenses = parseFloat(formData.current_monthly_expenses) * 12;
-      const retirementExpenses = parseFloat(formData.retirement_monthly_expenses) * 12;
-
-      // 确保risk_tolerance有默认值
-      const riskTolerance = riskToleranceMap[formData.risk_profile] || 5; // 如果映射失败，默认为5
-
-      // 创建计划数据对象，去掉自动生成的字段
+      // 转换表单数据为API所需格式
       const planData = {
-        name: `退休计划 (${formData.target_retirement_age}岁退休)`,
-        description: `${formData.current_age}岁到${formData.target_retirement_age}岁的退休规划`,
+        user_id: '', // 将由服务器端设置
+        name: `${formData.current_age}岁到${formData.target_retirement_age}岁的退休规划`,
+        description: '基于当前收入和资产的退休规划',
         current_age: parseInt(formData.current_age),
         target_retirement_age: parseInt(formData.target_retirement_age),
-        retirement_target_amount: retirementExpenses / 0.04, // 简单计算: 25倍年支出
-        annual_income: annualIncome,
-        annual_expenses: annualExpenses,
-        retirement_income: retirementExpenses * 0.7, // 默认退休收入是退休支出的70%
-        retirement_expenses: retirementExpenses,
-        expected_return_rate:
-          formData.risk_profile === 'conservative' ? 0.05 : formData.risk_profile === 'moderate' ? 0.07 : 0.1,
+        annual_income: parseInt(formData.monthly_income) * 12,
+        annual_expenses: parseInt(formData.current_monthly_expenses) * 12,
+        retirement_income: 0, // 将通过计算得出
+        retirement_expenses: parseInt(formData.retirement_monthly_expenses) * 12,
+        expected_return_rate: formData.risk_profile === 'conservative' ? 0.04 : formData.risk_profile === 'moderate' ? 0.07 : 0.1,
         inflation_rate: 0.03,
-        risk_tolerance: riskTolerance,
-        user_id: 'auto', // 占位符，服务器端会自动设置为当前用户ID
+        risk_tolerance: riskToleranceMap[formData.risk_profile] || 5, // 默认值为5，避免undefined
       };
 
       let response;
       if (isEditing && planId) {
         // 更新现有计划
-        // 更新时不需要user_id，从类型定义可以看出updatePlan不接受user_id字段
-        const { user_id, ...updateData } = planData;
-        response = await planAPI.updatePlan(planId, updateData);
-        console.log('计划更新成功:', response);
+        const updateData = { ...planData };
+        delete (updateData as any).user_id; // 不能更新user_id
+        
+        response = await updatePlan(planId, updateData);
       } else {
         // 创建新计划
-        response = await planAPI.createPlan(planData);
-        console.log('计划创建成功:', response);
+        response = await createPlan(planData);
       }
 
-      // 成功后跳转到计划详情页
-      if (response && response.id) {
-        router.push(`/plan/${response.id}`);
+      if (response) {
+        alert('计划保存成功!');
+        router.push('/plans');
       } else {
-        throw new Error('服务器返回的数据缺少ID');
+        alert('保存计划失败，请重试');
       }
     } catch (error) {
-      console.error('保存计划失败:', error);
-      alert(`保存计划失败: ${error instanceof Error ? error.message : '未知错误'}`);
+      console.error('提交计划失败:', error);
+      alert('提交计划失败，请重试');
     } finally {
       setIsSubmitting(false);
     }

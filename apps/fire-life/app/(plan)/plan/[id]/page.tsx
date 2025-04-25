@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { ArrowLeft } from 'lucide-react';
-import { planAPI } from '@/app/api/plans';
+import { getPlan } from '@/app/api';
 import { FinancialPlan } from '@/app/api/utils/types';
 
 export default function PlanDetail(props: { params: Promise<{ id: string }> }) {
@@ -19,7 +19,7 @@ export default function PlanDetail(props: { params: Promise<{ id: string }> }) {
     async function fetchPlan() {
       try {
         setLoading(true);
-        const data = await planAPI.getPlan(params.id);
+        const data = await getPlan(params.id);
         setPlan(data);
       } catch (err) {
         console.error('获取计划失败:', err);

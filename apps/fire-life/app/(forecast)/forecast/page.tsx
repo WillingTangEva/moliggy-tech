@@ -9,7 +9,7 @@ import { Label } from '@workspace/ui/components/label';
 import { Download, Share2, RefreshCw, AlertTriangle, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
-import { forecastAPI, planAPI, assetAPI } from '@/app/api';
+import { getAssets, getPlans, getForecasts, calculateRetirement, createForecast, updatePlan } from '@/app/api';
 import { FinancialPlan, RetirementResult, Forecast, ForecastDetail } from '@/app/api/utils/types';
 import ForecastChart from './components/ForecastChart';
 import RetirementReadinessCard from './components/RetirementReadinessCard';
@@ -41,7 +41,7 @@ export default function ForecastPage() {
         // 先获取计划数据
         let plansData: FinancialPlan[] = [];
         try {
-          plansData = await planAPI.getPlans();
+          plansData = await getPlans();
           console.log('获取到计划数据:', plansData);
           setPlans(plansData);
         } catch (err) {
@@ -51,7 +51,7 @@ export default function ForecastPage() {
 
         // 获取资产和预测数据
         try {
-          const [assetsData, forecastsData] = await Promise.all([assetAPI.getAssets(), forecastAPI.getForecasts()]);
+          const [assetsData, forecastsData] = await Promise.all([getAssets(), getForecasts()]);
           setForecasts(forecastsData);
 
           // 计算总资产
@@ -93,23 +93,27 @@ export default function ForecastPage() {
 
   // 当用户选择计划时，重新计算退休结果
   useEffect(() => {
-    async function calculateRetirement() {
+    async function calculateRetirementResult() {
       if (!selectedPlanId || !currentAssets) return;
 
       try {
         setCalculating(true);
-        // 使用forecastAPI，访问正确的端点
-        const result = await forecastAPI.calculateRetirement(selectedPlanId, currentAssets);
+        // 使用Server Action
+        const result = await calculateRetirement(selectedPlanId, currentAssets);
 
-        console.log('计算结果:', result);
-        setRetirementResult(result);
+        if (result) {
+          console.log('计算结果:', result);
+          setRetirementResult(result);
 
-        // 设置模拟器参数为当前计划的参数
-        const selectedPlan = plans.find((p) => p.id === selectedPlanId);
-        if (selectedPlan) {
-          setInflationRate((selectedPlan.inflation_rate || 0.03) * 100);
-          setReturnRate((selectedPlan.expected_return_rate || 0.07) * 100);
-          setRetirementAge(selectedPlan.target_retirement_age || 55);
+          // 设置模拟器参数为当前计划的参数
+          const selectedPlan = plans.find((p) => p.id === selectedPlanId);
+          if (selectedPlan) {
+            setInflationRate((selectedPlan.inflation_rate || 0.03) * 100);
+            setReturnRate((selectedPlan.expected_return_rate || 0.07) * 100);
+            setRetirementAge(selectedPlan.target_retirement_age || 55);
+          }
+        } else {
+          setError('计算退休结果失败，请重试');
         }
       } catch (err) {
         console.error('计算退休结果失败:', err);
@@ -120,7 +124,7 @@ export default function ForecastPage() {
     }
 
     if (selectedPlanId) {
-      calculateRetirement();
+      calculateRetirementResult();
     }
   }, [selectedPlanId, currentAssets, plans]);
 
@@ -133,13 +137,13 @@ export default function ForecastPage() {
 
     try {
       setCalculating(true);
-      // 使用forecastAPI，访问正确的端点
-      const result = await forecastAPI.createForecast(selectedPlanId, currentAssets);
+      // 使用Server Action
+      const result = await createForecast(selectedPlanId, currentAssets);
 
-      console.log('创建预测结果:', result);
-
-      // 更新预测列表
       if (result.forecast) {
+        console.log('创建预测结果:', result);
+
+        // 更新预测列表
         setForecasts([result.forecast, ...forecasts]);
         setRetirementResult({
           targetRetirementAge: result.forecast.retirement_age,
@@ -149,9 +153,11 @@ export default function ForecastPage() {
           readinessScore: result.forecast.readiness_score || 0,
           yearlyDetails: result.details || [],
         });
+        
+        alert('预测已创建/更新');
+      } else {
+        setError('创建预测失败，请重试');
       }
-
-      alert('预测已创建/更新');
     } catch (err) {
       console.error('创建预测失败:', err);
       setError('创建预测失败，请重试');
@@ -171,17 +177,29 @@ export default function ForecastPage() {
       setCalculating(true);
 
       // 更新计划参数
-      await planAPI.updatePlan(selectedPlanId, {
+      const updatedPlan = await updatePlan(selectedPlanId, {
         inflation_rate: inflationRate / 100,
         expected_return_rate: returnRate / 100,
         target_retirement_age: retirementAge,
       });
 
-      // 重新计算
-      const result = await forecastAPI.calculateRetirement(selectedPlanId, currentAssets);
-      setRetirementResult(result);
-
-      alert('参数已更新，预测已重新计算');
+      if (updatedPlan) {
+        // 更新本地计划数据
+        setPlans(plans.map(plan => 
+          plan.id === selectedPlanId ? updatedPlan : plan
+        ));
+        
+        // 重新计算
+        const result = await calculateRetirement(selectedPlanId, currentAssets);
+        if (result) {
+          setRetirementResult(result);
+          alert('参数已更新，预测已重新计算');
+        } else {
+          setError('重新计算失败，请重试');
+        }
+      } else {
+        setError('更新计划参数失败，请重试');
+      }
     } catch (err) {
       console.error('应用参数变更失败:', err);
       setError('应用参数变更失败，请重试');
