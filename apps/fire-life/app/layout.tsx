@@ -4,6 +4,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { ThemeProvider } from '@workspace/ui/components/theme-provider';
 import { Navbar } from './components/Navbar';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { AuthProvider } from './api/utils/auth-context';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -27,11 +28,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="zh-CN" suppressHydrationWarning>
       <body className={cn('bg-background min-h-screen font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-          </div>
-          <SpeedInsights />
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+            </div>
+            <SpeedInsights />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

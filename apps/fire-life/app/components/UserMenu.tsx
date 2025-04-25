@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/av
 import { Button } from '@workspace/ui/components/button';
 import { User, Settings, LogOut, GemIcon } from 'lucide-react';
 import { getCurrentUser, signOut } from '../api/user';
-import { listenToAuthStateChange, triggerAuthStateChange } from '../utils/events';
+import { useAuth, triggerAuthStateChange, AUTH_STATE_CHANGE_EVENT } from '../api/utils/auth-context';
 
 export type UserData = {
   id: string;
@@ -29,6 +29,7 @@ export function UserMenu() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const { refreshAuthState } = useAuth(); // 使用认证上下文
 
   const loadUserData = async () => {
     console.log('加载用户数据...');
@@ -74,12 +75,26 @@ export function UserMenu() {
 
   // 监听自定义的认证状态变化事件
   useEffect(() => {
-    const cleanup = listenToAuthStateChange(() => {
+    const handleAuthStateChange = () => {
       console.log('检测到认证状态变化，重新加载用户数据');
       loadUserData();
+    };
+
+    window.addEventListener(AUTH_STATE_CHANGE_EVENT, handleAuthStateChange);
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'auth_state_updated') {
+        handleAuthStateChange();
+      }
     });
 
-    return cleanup;
+    return () => {
+      window.removeEventListener(AUTH_STATE_CHANGE_EVENT, handleAuthStateChange);
+      window.removeEventListener('storage', (event) => {
+        if (event.key === 'auth_state_updated') {
+          handleAuthStateChange();
+        }
+      });
+    };
   }, []);
 
   const handleLogout = async () => {

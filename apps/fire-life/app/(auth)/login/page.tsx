@@ -10,7 +10,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { Alert, AlertDescription } from '@workspace/ui/components/alert';
 import { supabase } from '@/app/utils/supabase/client';
-import { triggerAuthStateChange } from '@/app/utils/events';
+import { triggerAuthStateChange } from '@/app/api/utils/auth-context';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
