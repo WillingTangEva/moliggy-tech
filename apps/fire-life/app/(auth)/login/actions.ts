@@ -15,16 +15,14 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   };
 
-  const returnUrl = (formData.get('returnUrl') as string) || '/dashboard';
-
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    return { error: error.message };
+    redirect('/error');
   }
 
-  revalidatePath('/', 'layout');
-  redirect(returnUrl);
+  revalidatePath('/dashboard', 'layout');
+  redirect('/');
 }
 
 export async function signup(formData: FormData) {
@@ -37,15 +35,12 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   };
 
-  const returnUrl = (formData.get('returnUrl') as string) || '/dashboard';
-
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    return { error: error.message };
+    redirect('/error');
   }
 
-  return {
-    message: '注册成功！请检查您的邮箱完成验证。验证后将自动登录。',
-  };
+  revalidatePath('/dashboard', 'layout');
+  redirect('/');
 }
