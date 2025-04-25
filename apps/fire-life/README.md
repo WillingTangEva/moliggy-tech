@@ -10,6 +10,59 @@ FIRE.Life是一个帮助用户实现财务独立、提早退休（Financial Inde
 - **Supabase** - 后端服务和认证系统
 - **Tailwind CSS** - 原子化CSS框架
 - **Radix UI** - 无障碍的UI组件库基础
+- **Recharts** - 强大的图表组件库
+- **Motion** - 动画库
+- **Lucide React** - 图标库
+
+## 项目结构
+
+```
+fire-life/
+├── app/                  # Next.js 15 App Router入口
+│   ├── (auth)/           # 认证相关路由 (分组路由)
+│   ├── (assets)/         # 资产管理相关路由 (分组路由)
+│   ├── (dashboard)/      # 仪表盘相关路由 (分组路由)
+│   ├── (forecast)/       # 预测相关路由 (分组路由)
+│   ├── (plan)/           # 规划相关路由 (分组路由)
+│   ├── (setting)/        # 设置相关路由 (分组路由)
+│   ├── (user)/           # 用户相关路由 (分组路由)
+│   ├── api/              # API路由处理程序
+│   ├── components/       # 共享UI组件
+│   │   ├── Navbar.tsx    # 导航栏组件
+│   │   ├── Hero.tsx      # 首页英雄区域组件
+│   │   ├── Benefits.tsx  # 功能亮点展示组件
+│   │   ├── Features.tsx  # 核心特性展示组件
+│   │   ├── Testimonials.tsx # 用户评价展示组件
+│   │   ├── Pricing.tsx   # 定价方案展示组件
+│   │   ├── CTA.tsx       # 行动召唤组件
+│   │   ├── Footer.tsx    # 页脚组件
+│   │   └── UserMenu.tsx  # 用户菜单组件
+│   ├── error/            # 错误处理页面
+│   ├── lib/              # 核心库文件
+│   │   ├── calculations.ts  # 财务计算函数
+│   │   ├── services/     # 服务层
+│   │   ├── types.ts      # 类型定义
+│   │   └── utils.ts      # 通用工具函数
+│   ├── utils/            # 工具函数
+│   │   ├── events.ts     # 事件处理工具
+│   │   └── supabase/     # Supabase客户端工具
+│   │       ├── client.ts    # 浏览器端Supabase客户端
+│   │       ├── middleware.ts # 认证中间件
+│   │       └── server.ts     # 服务器端Supabase客户端
+│   ├── globals.css       # 全局样式
+│   ├── layout.tsx        # 根布局组件
+│   ├── middleware.ts     # Next.js中间件
+│   └── page.tsx          # 首页组件
+├── public/               # 静态资源
+├── .next/                # Next.js构建输出
+├── node_modules/         # 依赖包
+├── components.json       # 组件配置
+├── eslint.config.js      # ESLint配置
+├── next.config.mjs       # Next.js配置
+├── postcss.config.mjs    # PostCSS配置
+├── tsconfig.json         # TypeScript配置
+└── package.json          # 项目依赖和脚本
+```
 
 ## 功能特点
 
@@ -53,12 +106,7 @@ FIRE.Life是一个帮助用户实现财务独立、提早退休（Financial Inde
     - `client.ts` - 客户端Supabase客户端
     - `server.ts` - 服务器端Supabase客户端
     - `middleware.ts` - 认证中间件函数
-- `app/login/` - 登录和注册界面
-- `app/auth/` - 认证相关路由处理
-    - `confirm/` - 邮箱确认处理
-    - `callback/` - OAuth回调处理
-    - `logout/` - 注销处理
-    - `error/` - 认证错误处理
+- `app/(auth)/` - 认证相关路由处理
 
 ## 开发指南
 
@@ -208,46 +256,14 @@ pnpm start
 - `@workspace/eslint-config` - 统一的ESLint配置
 - `@workspace/typescript-config` - 共享TypeScript配置
 
-## 架构变更说明
+## 计算逻辑
 
-### 数据存储
+项目中的财务计算逻辑主要在 `app/lib/calculations.ts` 文件中实现，包括：
 
-本项目使用Supabase作为后端数据存储解决方案。所有数据库操作都通过Supabase客户端进行，相关配置在 `app/lib/supabase.ts` 中。
+- 退休所需资金计算
+- 财务独立时间预测
+- 资产增长模拟
+- 通货膨胀调整
+- 提取率分析
 
-### API交互
-
-所有与后端的交互都通过 `app/lib/api-client.ts` 中定义的API客户端进行，它封装了与以下资源的交互：
-
-- 资产管理 (`assetAPI`)
-- 财务计划管理 (`planAPI`)
-- 退休预测管理 (`forecastAPI`)
-
-### 测试API
-
-为了便于测试API连接，我们提供了一个简单的测试页面：
-
-```
-/test/api
-```
-
-这个页面允许你测试各种API端点的连接，查看返回的数据格式。
-
-### 开发指南
-
-1. 确保已设置Supabase项目并更新环境变量
-2. 在 `.env.local` 文件中添加以下变量：
-
-```
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key (可选，仅用于管理员功能)
-```
-
-3. 安装依赖并启动开发服务器：
-
-```bash
-npm install
-npm run dev
-```
-
-4. 访问 http://localhost:3000/test/api 测试API连接
+这些计算基于用户输入的参数和广泛接受的财务规划原则。

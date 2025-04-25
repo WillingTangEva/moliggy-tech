@@ -1,6 +1,6 @@
 'use client';
 
-import { ForecastDetail } from '../lib/types';
+import { ForecastDetail } from '../../../lib/types';
 import { useState, useEffect, useMemo } from 'react';
 import {
     Card,

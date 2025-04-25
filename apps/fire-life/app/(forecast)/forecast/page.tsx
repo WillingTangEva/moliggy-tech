@@ -32,15 +32,15 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@workspace/ui/components/tooltip';
-import { forecastAPI, planAPI, assetAPI } from '../api';
+import { forecastAPI, planAPI, assetAPI } from '@/app/api';
 import {
     FinancialPlan,
     RetirementResult,
     Forecast,
     ForecastDetail,
-} from '../lib/types';
-import ForecastChart from '../components/ForecastChart';
-import RetirementReadinessCard from '../components/RetirementReadinessCard';
+} from '@/app/lib/types';
+import ForecastChart from './components/ForecastChart';
+import RetirementReadinessCard from './components/RetirementReadinessCard';
 
 export default function ForecastPage() {
     const [plans, setPlans] = useState<FinancialPlan[]>([]);
