@@ -13,7 +13,7 @@ import {
 } from '@workspace/ui/components/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
-import { User, Settings, LogOut } from 'lucide-react';
+import { User, Settings, LogOut, GemIcon } from 'lucide-react';
 import { getCurrentUser, signOut } from '../api/user';
 import { listenToAuthStateChange, triggerAuthStateChange } from '../utils/events';
 
@@ -106,18 +106,31 @@ export function UserMenu() {
 
   // 如果正在加载，显示加载状态
   if (isLoading) {
-    return <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200"></div>;
+    return (
+      <div className="relative h-10 w-10 overflow-hidden rounded-full">
+        <div className="bg-primary/30 absolute inset-0 animate-pulse"></div>
+      </div>
+    );
   }
 
   // 如果没有用户，显示登录和注册按钮
   if (!user) {
     return (
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" asChild>
+      <div className="flex items-center gap-3">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-foreground/70 hover:text-foreground hover:bg-accent/30 transition-colors duration-200"
+          asChild
+        >
           <Link href="/login">登录</Link>
         </Button>
-        <Button size="sm" asChild>
-          <Link href="/signup">注册</Link>
+        <Button
+          size="sm"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-all duration-300 hover:shadow"
+          asChild
+        >
+          <Link href="/signup">免费注册</Link>
         </Button>
       </div>
     );
@@ -127,41 +140,53 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="focus:ring-primary overflow-hidden rounded-full focus:outline-none focus:ring-2">
-          <Avatar>
+        <button className="focus:ring-ring overflow-hidden rounded-full transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2">
+          <Avatar className="border-primary/20 h-10 w-10 border-2">
             <AvatarImage src={user.avatar_url || ''} alt={user.name || user.email} />
-            <AvatarFallback>{getInitials(user.name, user.email)}</AvatarFallback>
+            <AvatarFallback className="bg-primary text-primary-foreground">
+              {getInitials(user.name, user.email)}
+            </AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="border-primary/10 w-64 rounded-xl p-2 shadow-lg">
+        <DropdownMenuLabel className="p-4">
           <div className="flex flex-col space-y-1">
-            <p className="font-medium">{user.name || '用户'}</p>
+            <p className="text-lg font-medium">{user.name || '用户'}</p>
             <p className="text-muted-foreground text-sm">{user.email}</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/profile" className="flex cursor-pointer items-center">
-            <User className="mr-2 h-4 w-4" />
-            <span>个人信息</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/settings" className="flex cursor-pointer items-center">
-            <Settings className="mr-2 h-4 w-4" />
-            <span>设置</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="flex cursor-pointer items-center text-red-600 focus:text-red-600"
-          onClick={handleLogout}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>退出登录</span>
-        </DropdownMenuItem>
+        <DropdownMenuSeparator className="bg-primary/10" />
+        <div className="p-2">
+          <DropdownMenuItem asChild className="hover:bg-accent/70 cursor-pointer rounded-lg py-2 transition-colors">
+            <Link href="/profile" className="flex items-center">
+              <User className="text-primary mr-3 h-4 w-4" />
+              <span>个人信息</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild className="hover:bg-accent/70 cursor-pointer rounded-lg py-2 transition-colors">
+            <Link href="/settings" className="flex items-center">
+              <Settings className="text-primary mr-3 h-4 w-4" />
+              <span>设置</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild className="hover:bg-primary/10 cursor-pointer rounded-lg py-2 transition-colors">
+            <Link href="/subscription" className="flex items-center">
+              <GemIcon className="text-primary mr-3 h-4 w-4" />
+              <span>升级会员</span>
+            </Link>
+          </DropdownMenuItem>
+        </div>
+        <DropdownMenuSeparator className="bg-primary/10" />
+        <div className="p-2">
+          <DropdownMenuItem
+            className="flex cursor-pointer items-center rounded-lg py-2 text-red-500 transition-colors hover:bg-red-500/10"
+            onClick={handleLogout}
+          >
+            <LogOut className="mr-3 h-4 w-4" />
+            <span>退出登录</span>
+          </DropdownMenuItem>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

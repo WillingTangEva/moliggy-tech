@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { assetAPI } from '../api';
-import { Asset, AssetType, Currency } from '../lib/types';
+import { assetAPI } from '@/app/api';
+import { Asset, AssetType, Currency } from '@/app/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 import { Button } from '@workspace/ui/components/button';
