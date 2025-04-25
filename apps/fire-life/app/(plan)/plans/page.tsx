@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Badge } from '@workspace/ui/components/badge';
 import { Plus, BarChart4, FileEdit, Trash2, Loader2 } from 'lucide-react';
-import { planAPI } from '../api/plans';
-import { FinancialPlan } from '../lib/types';
+import { planAPI } from '@/app/api/plans';
+import { FinancialPlan } from '@/app/lib/types';
 
 export default function PlansOverview() {
   const router = useRouter();

@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { ArrowLeft, ArrowRight, Loader2, Save } from 'lucide-react';
-import { planAPI } from '../../api/plans';
-import { assetAPI } from '../../api';
+import { planAPI } from '@/app/api/plans';
+import { assetAPI } from '@/app/api';
 
 const steps = [
   { id: 1, name: '基本信息' },

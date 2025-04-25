@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '../utils/supabase/server';
+import { createClient } from '@/app/utils/supabase/server';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Input } from '@workspace/ui/components/input';

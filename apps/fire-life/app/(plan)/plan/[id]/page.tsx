@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { ArrowLeft } from 'lucide-react';
-import { planAPI } from '../../api/plans';
-import { FinancialPlan } from '../../lib/types';
+import { planAPI } from '@/app/api/plans';
+import { FinancialPlan } from '@/app/lib/types';
 
 export default function PlanDetail(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
