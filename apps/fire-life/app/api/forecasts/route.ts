@@ -7,16 +7,18 @@ import { getPlanById } from '../../lib/services/plan-service';
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log('用户未认证，返回示例预测数据');
       // 如果用户未登录，返回一些测试数据用于演示
       return NextResponse.json([
         {
-          id: "test-forecast-1",
-          user_id: "test-user-123",
-          plan_id: "test-plan-1",
+          id: 'test-forecast-1',
+          user_id: 'test-user-123',
+          plan_id: 'test-plan-1',
           retirement_age: 60,
           retirement_year: 2045,
           retirement_assets: 5000000,
@@ -25,8 +27,8 @@ export async function GET(request: NextRequest) {
           years_forecasted: 30,
           monthly_income: 20000,
           readiness_score: 80,
-          created_at: new Date().toISOString()
-        }
+          created_at: new Date().toISOString(),
+        },
       ]);
     }
 
@@ -35,10 +37,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(forecasts);
   } catch (error) {
     console.error('获取预测列表失败:', error);
-    return NextResponse.json(
-      { error: '获取预测列表失败' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '获取预测列表失败' }, { status: 500 });
   }
 }
 
@@ -46,59 +45,43 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { planId, initialAssets } = await request.json();
-    
+
     if (!planId) {
-      return NextResponse.json(
-        { error: '请提供计划ID' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: '请提供计划ID' }, { status: 400 });
     }
 
     // 获取计划详情并验证所有权
     const plan = await getPlanById(planId);
     if (!plan) {
-      return NextResponse.json(
-        { error: '计划不存在' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: '计划不存在' }, { status: 404 });
     }
-    
+
     if (plan.user_id !== user.id) {
-      return NextResponse.json(
-        { error: '无权访问此计划' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: '无权访问此计划' }, { status: 403 });
     }
 
     // 生成预测
     const forecast = await generateForecast(user.id, planId);
-    
+
     if (!forecast) {
-      return NextResponse.json(
-        { error: '创建预测失败' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: '创建预测失败' }, { status: 500 });
     }
-    
+
     // 获取完整的预测信息（包含详情）
     const fullForecast = await getFullForecast(forecast.id);
-    
+
     return NextResponse.json(fullForecast);
   } catch (error) {
     console.error('创建预测失败:', error);
-    return NextResponse.json(
-      { error: '创建预测失败' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '创建预测失败' }, { status: 500 });
   }
-} 
+}

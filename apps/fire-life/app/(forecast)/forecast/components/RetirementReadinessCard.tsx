@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Badge } from '@workspace/ui/components/badge';
 import { Lightbulb, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
 
@@ -23,7 +17,6 @@ export default function RetirementReadinessCard({
   targetRetirementAge,
   actualRetirementAge,
 }: RetirementReadinessCardProps) {
-  
   // 计算状态和建议
   const getStatusAndTips = () => {
     if (readinessScore >= 90) {
@@ -42,11 +35,7 @@ export default function RetirementReadinessCard({
         status: '良好',
         color: 'bg-blue-100 text-blue-800 border-blue-300',
         icon: <TrendingUp className="h-5 w-5 text-blue-600" />,
-        tips: [
-          '你的退休计划进展顺利',
-          '可以考虑适度增加投资或储蓄比例',
-          '定期审视资产配置，确保风险适度',
-        ],
+        tips: ['你的退休计划进展顺利', '可以考虑适度增加投资或储蓄比例', '定期审视资产配置，确保风险适度'],
       };
     } else if (readinessScore >= 40) {
       return {
@@ -74,44 +63,46 @@ export default function RetirementReadinessCard({
   };
 
   const { status, color, icon, tips } = getStatusAndTips();
-  
+
   // 计算距离退休还有多少年
   const yearsToRetirement = actualRetirementAge - currentAge;
   const yearsDifference = actualRetirementAge - targetRetirementAge;
-  
+
   return (
     <Card>
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <CardTitle>退休准备状态</CardTitle>
           <Badge className={`font-medium ${color}`}>
             {icon}
             <span className="ml-1">{status}</span>
           </Badge>
         </div>
-        <CardDescription>
-          基于您当前的财务状况和退休计划评估
-        </CardDescription>
+        <CardDescription>基于您当前的财务状况和退休计划评估</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div>
-            <div className="flex justify-between mb-1">
+            <div className="mb-1 flex justify-between">
               <span className="text-sm font-medium">退休准备度</span>
               <span className="text-sm font-medium">{readinessScore}%</span>
             </div>
-            <div className="w-full h-2 bg-gray-200 rounded-full">
-              <div 
+            <div className="h-2 w-full rounded-full bg-gray-200">
+              <div
                 className={`h-2 rounded-full ${
-                  readinessScore >= 90 ? 'bg-green-500' : 
-                  readinessScore >= 70 ? 'bg-blue-500' :
-                  readinessScore >= 40 ? 'bg-amber-500' : 'bg-red-500'
-                }`} 
-                style={{ width: `${readinessScore}%` }} 
+                  readinessScore >= 90
+                    ? 'bg-green-500'
+                    : readinessScore >= 70
+                      ? 'bg-blue-500'
+                      : readinessScore >= 40
+                        ? 'bg-amber-500'
+                        : 'bg-red-500'
+                }`}
+                style={{ width: `${readinessScore}%` }}
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-muted-foreground">距离退休</p>
@@ -119,19 +110,25 @@ export default function RetirementReadinessCard({
             </div>
             <div>
               <p className="text-muted-foreground">相对目标</p>
-              <p className={`font-medium ${yearsDifference > 0 ? 'text-red-600' : yearsDifference < 0 ? 'text-green-600' : ''}`}>
-                {yearsDifference > 0 ? `晚 ${yearsDifference} 年` : 
-                 yearsDifference < 0 ? `提前 ${Math.abs(yearsDifference)} 年` : 
-                 '符合目标'}
+              <p
+                className={`font-medium ${yearsDifference > 0 ? 'text-red-600' : yearsDifference < 0 ? 'text-green-600' : ''}`}
+              >
+                {yearsDifference > 0
+                  ? `晚 ${yearsDifference} 年`
+                  : yearsDifference < 0
+                    ? `提前 ${Math.abs(yearsDifference)} 年`
+                    : '符合目标'}
               </p>
             </div>
           </div>
-          
+
           <div className="pt-2">
-            <h4 className="font-medium mb-2">改进建议</h4>
-            <ul className="list-disc pl-5 space-y-1 text-sm">
+            <h4 className="mb-2 font-medium">改进建议</h4>
+            <ul className="list-disc space-y-1 pl-5 text-sm">
               {tips.map((tip, index) => (
-                <li key={index} className="text-muted-foreground">{tip}</li>
+                <li key={index} className="text-muted-foreground">
+                  {tip}
+                </li>
               ))}
             </ul>
           </div>
@@ -139,4 +136,4 @@ export default function RetirementReadinessCard({
       </CardContent>
     </Card>
   );
-} 
+}

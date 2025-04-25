@@ -18,12 +18,12 @@
 
 ```json
 {
-    "extends": "@workspace/typescript-config/nextjs.json",
-    "compilerOptions": {
-        "plugins": [{ "name": "next" }]
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
+  "extends": "@workspace/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
 ```
 

@@ -14,7 +14,7 @@ export function triggerAuthStateChange() {
     // 创建自定义事件
     const event = new CustomEvent(AUTH_STATE_CHANGE_EVENT);
     window.dispatchEvent(event);
-    
+
     // 同时存储一个值到localStorage，以便在不同标签页间同步
     localStorage.setItem('auth_state_updated', Date.now().toString());
   }
@@ -29,22 +29,22 @@ export function listenToAuthStateChange(callback: () => void): () => void {
   if (typeof window === 'undefined') {
     return () => {};
   }
-  
+
   // 监听自定义事件
   window.addEventListener(AUTH_STATE_CHANGE_EVENT, callback);
-  
+
   // 监听localStorage变化，以处理跨标签页的状态同步
   const handleStorageChange = (event: StorageEvent) => {
     if (event.key === 'auth_state_updated') {
       callback();
     }
   };
-  
+
   window.addEventListener('storage', handleStorageChange);
-  
+
   // 返回清理函数
   return () => {
     window.removeEventListener(AUTH_STATE_CHANGE_EVENT, callback);
     window.removeEventListener('storage', handleStorageChange);
   };
-} 
+}
